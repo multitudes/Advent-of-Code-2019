@@ -23,13 +23,13 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 * [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1) 
 
 
-
+/*
 | Day  | Part One | Part Two | 
 |---|:---:|:---:|
 | ✔ [Day 1: The Tyranny of the Rocket Equation]()| ||
 | ✔ [Day 2: 1202 Program Alarm]()| | |
 | ✔ [Day 3: Crossed Wires]()| | |
-
+*/
 
 
 
