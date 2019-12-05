@@ -35,5 +35,5 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 
 
 
-If you hit problems or have questions, you're welcome to tweet me [@](https://twitter.com/wrmultitudes) .
+If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes) .
 
