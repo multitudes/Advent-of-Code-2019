@@ -22,17 +22,18 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 ## Progress
 * [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1) 
 
+
+
 | Day  | Part One | Part Two | 
 |---|:---:|:---:|
-| ✔ [Day 1: The Tyranny of the Rocket Equation]()| 🌟| 🌟|
-| ✔ [Day 2: 1202 Program Alarm]()| 🌟| 🌟|
-| ✔ [Day 3: Crossed Wires]()| 🌟| 🌟|
+| ✔ [Day 1: The Tyranny of the Rocket Equation]()| ||
+| ✔ [Day 2: 1202 Program Alarm]()| | |
+| ✔ [Day 3: Crossed Wires]()| | |
 
 
 
 
 
-This is designed to complement my existing article [What’s New in Swift 4.2](https://www.hackingwithswift.com/articles/77/whats-new-in-swift-4-2). You might also want to check out [What's New in Swift 4.1](https://www.hackingwithswift.com/articles/50/whats-new-in-swift-4-1) and its [accompanying playground](https://github.com/twostraws/whats-new-in-swift-4-1). Alternatively, I have a whole website dedicated to tracking [what's new in Swift](https://www.whatsnewinswift.com) – you should check it out at <https://www.whatsnewinswift.com>.
 
 If you hit problems or have questions, you're welcome to tweet me [@](https://twitter.com/wrmultitudes) .
 
