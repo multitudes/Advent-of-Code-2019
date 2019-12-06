@@ -70,11 +70,9 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 
 ###            --- Part Two ---
 
-[See it on github](https://github.com/multitudes/Advent-of-Code-2019)
- 
 During the second Go / No Go poll, the Elf in charge of the Rocket Equation Double-Checker stops the launch sequence. Apparently, you forgot to include additional fuel for the fuel you just added.
-
 Fuel itself requires fuel just like a module - take its mass, divide by three, round down, and subtract 2. However, that fuel also requires fuel, and that fuel requires fuel, and so on. [...]
+
 ```swift
 import UIKit
 
