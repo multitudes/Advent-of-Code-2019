@@ -1,7 +1,7 @@
 //: [Previous](@previous)
 /*:
 # Day 2: 1202 Program Alarm
-###            --- Part Two ---
+
 [See it on github](https://github.com/multitudes/Advent-of-Code-2019)
  On the way to your gravity assist around the Moon, your ship computer beeps angrily about a "1202 program alarm"...
 &nbsp;
@@ -23,14 +23,20 @@ do {
 }
 
 //get the input file as an array into moduleMass
-var program = input.components(separatedBy: ",").compactMap { Int($0) }
+var origProgram = input.components(separatedBy: ",").compactMap { Int($0) }
 
-//before running the program, replace position 1 with the value 12 and replace position 2 with the value 2.
-program[1] = 12
-program[2] = 2
+var solution = 0
+
+outerLoop: for noun in 0...99 {
+    for verb in 0...99 {
+// reset
+var program = origProgram
+
+//before running the program, replace position 1 with the value noun and replace position 2 with the value verb.
+program[1] = noun
+program[2] = verb
 
 var index = 0
-
 // the index will move at intervals of 4. I check everytime for the opcode 99 then I continue on the loop
 while program[index] != 99 {
     // check for the other 2 opcodes
@@ -49,5 +55,12 @@ while program[index] != 99 {
     index += 4
 }
 // exiting the loop and reading the position 0 of the program
-print("the answer is : \(program[0])")
-// the answer is : 4714701
+        if program[0] == 19690720 {
+            solution = 100 * noun + verb
+            break outerLoop
+        }
+    }
+}
+
+print("the solution is : \(solution)")
+
