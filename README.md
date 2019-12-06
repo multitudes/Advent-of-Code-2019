@@ -22,8 +22,6 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 ## Progress
 [Day1](https://github.com/multitudes/Advent-of-Code-2019#Day1)
 
-[#73 Parsing command line arguments using UserDefaults](https://github.com/johnsundell/swifttips#73-parsing-command-line-arguments-using-userdefaults)  
-
 ## Day1: 
 ### The Tyranny of the Rocket Equation
 
