@@ -1,6 +1,6 @@
 # Advent of Code 2019 for Swift
 
-Advent of Code 2019 🎄 Swift Solutions by 
+Advent of Code 2019 ✨🚀 Swift Solutions by 
 `@multitudes` 
 [Blog](https://multitudes.github.io)
 |
@@ -45,6 +45,7 @@ The Fuel Counter-Upper needs to know the total fuel requirement. To find it, ind
 
 What is the sum of the fuel requirements for all of the modules on your spacecraft?
 
+```swift
 
     import UIKit
 
@@ -86,7 +87,7 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 | ✔ [Day 3: Crossed Wires]()| | |
 */
 ---> 
-
+```
 
 
 
