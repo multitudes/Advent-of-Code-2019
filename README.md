@@ -66,8 +66,54 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
     let totalFuel = fuel.reduce(0, +)
 
     print("The answer is : \(totalFuel)")
+```
 
+###            --- Part Two ---
 
+[See it on github](https://github.com/multitudes/Advent-of-Code-2019)
+ 
+During the second Go / No Go poll, the Elf in charge of the Rocket Equation Double-Checker stops the launch sequence. Apparently, you forgot to include additional fuel for the fuel you just added.
+
+Fuel itself requires fuel just like a module - take its mass, divide by three, round down, and subtract 2. However, that fuel also requires fuel, and that fuel requires fuel, and so on. [...]
+```swift
+import UIKit
+
+// declaring the var containing the input
+var input = ""
+
+// this will look in my resources folder for the input.txt file which is still the same
+do {
+    guard let fileUrl = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
+    input = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
+} catch {
+    print(error)
+}
+
+//get the input file as an array into moduleMass
+var moduleMasses = input.components(separatedBy: "\n")
+
+//a little bit of functional programming. the filter() method creates a new array from an existing one, selecting from it only items that match a function you provide
+moduleMasses = moduleMasses.filter { $0 != "" }
+
+// and compactMap transform the elements of an array just like map() does, except once the transformation completes an extra step happens: all optionals get unwrapped, and any nil values get discarded.
+
+var fuel = moduleMasses.compactMap { Int($0) }.map {  (fuel: Int) -> Int in
+    var fuelMass = fuel / 3 - 2
+    var total = fuelMass
+        while (fuelMass / 3 - 2) > 0  {
+            fuelMass = fuelMass / 3 - 2
+            total += fuelMass
+        }
+    return total
+    }
+
+//Reduce allows us to extract one single value from a sequence, by performing a series of operations in the sequence’s elements.
+let totalFuel = fuel.reduce(0, +)
+
+print("The answer is : \(totalFuel)")
+
+// The answer is : 4728317
+```
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes) .
 
