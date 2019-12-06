@@ -33,13 +33,10 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 */
 
 import UIKit
-import PlaygroundSupport
-import XCPlayground
-import Foundation
 
-// https://stackoverflow.com/questions/24245916/how-can-i-read-a-file-in-a-swift-playground
 // declaring the var containing the input
 var input = ""
+
 // this will look in my resources folder for the input.txt file
 do {
     guard let fileUrl = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
@@ -49,9 +46,18 @@ do {
     print(error)
 }
 
-//get the array
-let moduleMass = input.components(separatedBy: CharacterSet.alphanumerics.inverted)
-print(moduleMass)
+//get the input file as an array into moduleMass
+var moduleMasses = input.components(separatedBy: "\n")
+print(moduleMasses)
 
-// casting the String to Int
-//let myInt2 = Int(moduleMass) ?? 0
+//a little bit of functional programming. the filter() method creates a new array from an existing one, selecting from it only items that match a function you provide
+moduleMasses = moduleMasses.filter { $0 != "" }
+// and compactMap transform the elements of an array just like map() does, except once the transformation completes an extra step happens: all optionals get unwrapped, and any nil values get discarded.
+
+var fuel = moduleMasses.compactMap { Int($0) }.map { $0 / 3 - 2}
+print(fuel)
+
+//Reduce allows us to extract one single value from a sequence, by performing a series of operations in the sequence’s elements.
+let totalFuel = fuel.reduce(0, +)
+
+print("The answer is : \(totalFuel)")
