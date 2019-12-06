@@ -1,4 +1,4 @@
-# Advent of Code 2019 for Swift
+# Advent of Code 2019 for Xcode Swift Playgrounds
 
 Advent of Code 2019 ✨🚀 Swift Solutions by 
 `@multitudes` 
