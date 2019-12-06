@@ -8,6 +8,7 @@ Advent of Code 2019 ✨🚀 Swift Solutions by
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes. 
 
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
