@@ -27,7 +27,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 3: Crossed Wires]()| | |
 
 
-## Day 1: The Tyranny of the Rocket Equation
+## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
 The Elves quickly load you into a spacecraft and prepare to launch.
 At the first Go / No Go poll, every Elf is Go until the Fuel Counter-Upper. They haven't determined the amount of fuel required yet.
