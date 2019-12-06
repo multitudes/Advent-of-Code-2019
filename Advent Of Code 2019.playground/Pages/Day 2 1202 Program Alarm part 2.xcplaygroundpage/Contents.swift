@@ -64,3 +64,4 @@ while program[index] != 99 {
 
 print("the solution is : \(solution)")
 
+//the solution is : 5121
