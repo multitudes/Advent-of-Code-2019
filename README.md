@@ -93,17 +93,18 @@ var moduleMasses = input.components(separatedBy: "\n")
 //a little bit of functional programming. the filter() method creates a new array from an existing one, selecting from it only items that match a function you provide
 moduleMasses = moduleMasses.filter { $0 != "" }
 
-// and compactMap transform the elements of an array just like map() does, except once the transformation completes an extra step happens: all optionals get unwrapped, and any nil values get discarded.
+// recursive function to get the total fuel
+func calculateFuel(fuel: Int) -> Int {
+    if fuel <= 0 { return 0 }
+    return fuel + calculateFuel(fuel: fuel / 3 - 2)
+}
 
+// compactMap transform the elements of an array just like map() does, except once the transformation completes an extra step happens: all optionals get unwrapped, and any nil values get discarded.
+
+// some functional programming
 var fuel = moduleMasses.compactMap { Int($0) }.map {  (fuel: Int) -> Int in
-    var fuelMass = fuel / 3 - 2
-    var total = fuelMass
-        while (fuelMass / 3 - 2) > 0  {
-            fuelMass = fuelMass / 3 - 2
-            total += fuelMass
-        }
-    return total
-    }
+                                                    let fuelmass = fuel / 3 - 2
+                                                    return  calculateFuel(fuel: fuelmass)}
 
 //Reduce allows us to extract one single value from a sequence, by performing a series of operations in the sequence’s elements.
 let totalFuel = fuel.reduce(0, +)
