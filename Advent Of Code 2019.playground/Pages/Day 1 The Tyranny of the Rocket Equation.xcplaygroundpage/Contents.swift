@@ -1,7 +1,8 @@
 /*:
 # Day 1: The Tyranny of the Rocket Equation
 
-[github](https://github.com/multitudes/Advent-of-Code-2019)
+[See it on github](https://github.com/multitudes/Advent-of-Code-2019)
+ 
 Santa has become stranded at the edge of the Solar System while delivering presents to other planets! To accurately calculate his position in space, safely align his warp drive, and return to Earth in time to save Christmas, he needs you to bring him measurements from fifty stars.
 
 Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
@@ -24,11 +25,6 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 
 &nbsp;
 
- 
- 
- 
- 
- 
 [Next >](@next)
 */
 
@@ -61,3 +57,5 @@ print(fuel)
 let totalFuel = fuel.reduce(0, +)
 
 print("The answer is : \(totalFuel)")
+
+// The answer is : 3154112
