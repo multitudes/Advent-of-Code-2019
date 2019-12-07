@@ -25,7 +25,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 |---|:---:|:---:|
 | ✔ [Day 1: The Tyranny of the Rocket Equation](https://github.com/multitudes/Advent-of-Code-2019#Day-1-The-Tyranny-of-the-Rocket-Equation)|⭐️|⭐️|
 | ✔ [Day 2: 1202 Program Alarm](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202-Program-Alarm)|⭐️|⭐️ |
-| ✔ [Day 3: Crossed Wires]()| | |
+| ✔ [Day 3: Crossed Wires](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202Day-3-Crossed-Wires)| | |
 
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
@@ -233,6 +233,6 @@ print("the solution is : \(solution)")
 
 //the solution is : 5121
 ```
-
+## [Day 3: Crossed Wires ](https://adventofcode.com/2019/day/3)
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes) .
 
