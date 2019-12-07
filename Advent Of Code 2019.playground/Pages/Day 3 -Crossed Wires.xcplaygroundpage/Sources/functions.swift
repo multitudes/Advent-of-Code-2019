@@ -49,3 +49,14 @@ extension Array  {
         return contains { $0.0 == tuple.0 && $0.1 == tuple.1 }
     }
 }
+
+extension Array  {
+    func contains<E1, E2>(_ tuple: (E1, E2)) -> Bool where E1: Equatable, E2: Equatable, Element == (x: E1, y: E2) {
+        return contains { $0.0 == tuple.0 && $0.1 == tuple.1 }
+    }
+}
+extension Array  {
+    func contains<E1, E2>(_ tuple: (E1, E2)) -> Bool where E1: Hashable, E2: Hashable, Element == (x: E1, y: E2) {
+        return contains { $0.0 == tuple.0 && $0.1 == tuple.1 }
+    }
+}

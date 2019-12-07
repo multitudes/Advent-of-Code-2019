@@ -10,9 +10,6 @@
 */
 import UIKit
 
-
-
-// declaring the var containing the input
 // declaring the var containing the input
 var input = ""
 // I want to convert the input from an array of strings to an array of tuples: ("L", 627), ("U", 273), ("R", 226),..
@@ -46,48 +43,23 @@ wireTuples[i] = wire.map {  (str: String) -> (String, Int) in
                             let b = Int(str[range])
                             return  (String(a), b ?? 0)}
                             }
+// got my two wires - the tuples are like ("U", 732), ("L", 444)
 redWire = wireTuples[0]
 blueWire = wireTuples[1]
-//print(redWire)
-//print(blueWire)
 
-// now need to imagine to plot the arrays
-// From each Tuple in redWire and BlueWire I create arrays of tuples containing the coordinates and sill see where they cross
-// initialise the array of coordinates - coordinates are a tuple x and y
+// From each Tuple in redWire and BlueWire I create arrays of points containing the coordinates
+// and will see where they cross
+// initialise the array of coordinates - coordinates are x and y values in a struct called Point declared in sources folder
 var redPath:[Point] = []
 var bluePath:[Point] = []
 
-//var redPath:[(x: Int, y: Int)] = []
-//var bluePath:[(x: Int, y: Int)] = []
 // fill the coordinates array with the instructions in the wire array - function drawpath is in the playground included
+// in the sources folder. Arrays are struct and passed by value in Swift so I need to pass by reference
 drawPath(path: &redPath, wire: redWire)
 drawPath(path: &bluePath, wire: blueWire)
-
-
-print(bluePath)
-
-// find the common points
-
-
-extension Array  {
-    func contains<E1, E2>(_ tuple: (E1, E2)) -> Bool where E1: Equatable, E2: Equatable, Element == (x: E1, y: E2) {
-        return contains { $0.0 == tuple.0 && $0.1 == tuple.1 }
-    }
-}
-extension Array  {
-    func contains<E1, E2>(_ tuple: (E1, E2)) -> Bool where E1: Hashable, E2: Hashable, Element == (x: E1, y: E2) {
-        return contains { $0.0 == tuple.0 && $0.1 == tuple.1 }
-    }
-}
-
-//You can use the filter method to return all elements of findList which are not in list:
-let a = [(1, "a"), (2, "b")]
-//print(a.contains((1, "a")))
-
-//var intersections = bluePath.contains((x: 5177, y: -7313))
-//var intersections = bluePath.filter( { redPath.contains($0) == true } )
-
-
+// convert the array to set and get the intersection
 let commonElements = Array(Set(bluePath).intersection(Set(redPath)))
-let manhattan = commonElements.map { abs($0.x) + abs($0.y) }.min()
-print(manhattan!)
+// The manhattan distance is the sum of the abs of coordinates. I look for the smallest
+let manhattan = commonElements.compactMap { abs($0.x) + abs($0.y) }.min()
+print("the answer is : \(manhattan!)")
+// manhattan = 5319
