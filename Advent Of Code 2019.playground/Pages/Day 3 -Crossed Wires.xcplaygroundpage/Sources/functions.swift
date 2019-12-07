@@ -10,37 +10,37 @@ public func drawPath(path: inout [Point], wire: [(String, Int)]) {
     for i in 0..<wire.count {
         switch wire[i].0 {
         case "R":
-            print("R")
-            print(wire[i].1)
+            //print("R")
+            //print(wire[i].1)
             for _ in 0..<wire[i].1 {
                 positionX = positionX + 1
                 path.append(Point(x: positionX, y: positionY))
             }
             
         case "L":
-            print("L")
-            print(wire[i].1)
+            //print("L")
+            //print(wire[i].1)
             for _ in 0..<wire[i].1 {
                 positionX = positionX - 1
                 path.append(Point(x: positionX, y: positionY))
             }
         case "U":
-            print("U")
-            print(wire[i].1)
+            //print("U")
+            //print(wire[i].1)
             for _ in 0..<wire[i].1 {
                 positionY = positionY + 1
                 path.append(Point(x: positionX, y: positionY))
             }
         case "D":
-            print("D")
-            print(wire[i].1)
+            //print("D")
+            //print(wire[i].1)
             for _ in 0..<wire[i].1 {
                 positionY = positionY - 1
                 path.append(Point(x: positionX, y: positionY))
             }
             
         default:
-            print("def")
+            print("should not be possible!")
         }
         }
 }

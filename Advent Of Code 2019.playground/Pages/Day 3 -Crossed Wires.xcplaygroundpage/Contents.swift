@@ -35,7 +35,7 @@ for i in 0..<2 {
 let wire = wires[i].components(separatedBy: ",") // get two arrays of [String] like ["D323",...]
     // get two arrays of tuples wireTuples[0] is
 wireTuples[i] = wire.map {  (str: String) -> (String, Int) in
-                            let firstIndex = str.startIndex
+                            let firstIndex = str.startIndex 
                             let a = str[firstIndex]
                             let secondIndex = str.index(after: str.startIndex)
                             let lastIndex = str.endIndex
