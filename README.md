@@ -303,45 +303,8 @@ print("the answer is : \(manhattan!)")
 ```swift
 import UIKit
 
-// declaring the var containing the input
-var input = ""
-// I want to convert the input from an array of strings to an array of tuples: ("L", 627), ("U", 273), ("R", 226),..
-var redWire: [(String, Int)]
-var blueWire: [(String, Int)]
+// till here same as part 1.. then add steps as a dictionary storing point and the steps done to get there! 
 
-// this will look in my resources folder for the input.txt file
-do {
-    guard let fileUrl = Bundle.main.url(forResource: "input3", withExtension: "txt") else { fatalError() }
-    input = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
-    //print("input is: \(input)")
-} catch {
-    print(error)
-}
-//get the input file as wire which is two arrays of Strings
-var wires = input.components(separatedBy: "\n")
-// declare wireTuples as two array of tuples
-var wireTuples: [[(String, Int)]] = [[("",0)],[("",0)]]
-// loop twice because wires is the input split in two chunks wires[0] and wires[1]
-//wiretuple also will be in two chunks wireTuple[0] and wireTuple[0] which will be each an array of tuples
-// and assigned to redWire and blueWire
-for i in 0..<2 {
-    let wire = wires[i].components(separatedBy: ",") // get two arrays of [String] like ["D323",...]
-    wireTuples[i] = wire.map {  (str: String) -> (String, Int) in
-                                let firstIndex = str.startIndex
-                                let a = str[firstIndex]
-                                let secondIndex = str.index(after: str.startIndex)
-                                let lastIndex = str.endIndex
-                                let range = secondIndex..<lastIndex
-                                let b = Int(str[range])
-                                return  (String(a), b ?? 0)}
-                                }
-// got my two wires - the tuples are like ("U", 732), ("L", 444)
-redWire = wireTuples[0]
-blueWire = wireTuples[1]
-
-// From each Tuple in redWire and BlueWire I create arrays of points containing the coordinates
-// and will see where they cross
-// initialise the array of coordinates - coordinates are x and y values in a struct called Point declared in sources folder
 var redPath:[Point] = []
 var bluePath:[Point] = []
 var steps = [Point: Int]()
