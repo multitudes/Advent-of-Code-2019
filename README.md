@@ -263,15 +263,15 @@ var wireTuples: [[(String, Int)]] = [[("",0)],[("",0)]]
 // and assigned to redWire and blueWire
 for i in 0..<2 {
     let wire = wires[i].components(separatedBy: ",") // get two arrays of [String] like ["D323",...]
-    // get two arrays of tuples wireTuples[0] is
+    // get two arrays of tuples, from string. Need to get the first character out and keep the rest as int. Swift is a bit special for strings!
     wireTuples[i] = wire.map {  (str: String) -> (String, Int) in
-                            let firstIndex = str.index(str.startIndex, offsetBy: 0)
+                            let firstIndex = str.startIndex
                             let a = str[firstIndex]
                             let secondIndex = str.index(after: str.startIndex)
-                            let lastIndex = str.index(str.endIndex, offsetBy: 0)
+                            let lastIndex = str.endIndex
                             let range = secondIndex..<lastIndex
                             let b = Int(str[range])
-                            return  (String(a), b ?? 0)
+                            return  (String(a), b ?? 0)}
                             }
 }
 // got my two wires - the tuples are like ("U", 732), ("L", 444)
