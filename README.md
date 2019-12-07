@@ -24,8 +24,8 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | Day  | Part One | Part Two | 
 |---|:---:|:---:|
 | ✔ [Day 1: The Tyranny of the Rocket Equation](https://github.com/multitudes/Advent-of-Code-2019#Day-1-The-Tyranny-of-the-Rocket-Equation)|⭐️|⭐️|
-| ✔ [Day 2: 1202 Program Alarm](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202-Program-Alarm)|⭐️| |
-
+| ✔ [Day 2: 1202 Program Alarm](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202-Program-Alarm)|⭐️|⭐️ |
+| ✔ [Day 3: Crossed Wires](https://github.com/multitudes/Advent-of-Code-2019#Day-3-Crossed-Wires)| | |
 
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
@@ -171,6 +171,8 @@ Good, the new computer seems to be working correctly! Keep it nearby during this
 The inputs should still be provided to the program by replacing the values at addresses 1 and 2, just like before. In this program, the value placed in address 1 is called the noun, and the value placed in address 2 is called the verb. Each of the two input values will be between 0 and 99, inclusive.
 Once the program has halted, its output is available at address 0, also just like before. Each time you try a pair of inputs, make sure you first reset the computer's memory to the values in the program (your puzzle input) - in other words, don't reuse memory from a previous attempt.
 Find the input noun and verb that cause the program to produce the output 19690720. 
+What is 100 * noun + verb? (For example, if noun=12 and verb=2, the answer would be 1202.)
+
 
 ```swift
 import UIKit
@@ -194,7 +196,7 @@ var solution = 0
 
 outerLoop: for noun in 0...99 {
     for verb in 0...99 {
-// reset
+// reset. This works because arrays are structs in swift and passed as value not reference!
 var program = origProgram
 
 //before running the program, replace position 1 with the value noun and replace position 2 with the value verb.
@@ -231,6 +233,9 @@ print("the solution is : \(solution)")
 
 //the solution is : 5121
 ```
+## [Day 3: Crossed Wires](https://adventofcode.com/2019/day/3)
 
+Opening the front panel reveals a jumble of wires. Specifically, two wires are connected to a central port and extend outward on a grid. You trace the path each wire takes as it leaves the central port, one wire per line of text (your puzzle input).What is the Manhattan distance from the central port to the closest intersection?
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes) .
 
+###            --- Part Two ---
