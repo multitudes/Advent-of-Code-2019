@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='ios' display-mode='rendered'>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
-        <page name='Day 1 The Tyranny of the Rocket Equation'/>
-        <page name='Day 1 part two The Tyranny of the Rocket Equation'/>
-        <page name='Day 2 1202 Program Alarm'/>
-        <page name='Day 2 1202 Program Alarm part 2'/>
-        <page name='Untitled Page 5'/>
+        <page name='Day 1 - The Tyranny of the Rocket Equation'/>
+        <page name='Day 1 - The Tyranny of the Rocket Equation part two'/>
+        <page name='Day 2 - 1202 Program Alarm'/>
+        <page name='Day 2 - 1202 Program Alarm part 2'/>
+        <page name='Day 3 -Crossed Wires'/>
     </pages>
 </playground>

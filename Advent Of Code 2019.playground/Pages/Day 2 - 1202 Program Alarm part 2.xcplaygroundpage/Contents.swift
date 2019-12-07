@@ -29,7 +29,7 @@ var solution = 0
 
 outerLoop: for noun in 0...99 {
     for verb in 0...99 {
-// reset
+// reset. This works because arrays are structs in swift and passed as value not reference!
 var program = origProgram
 
 //before running the program, replace position 1 with the value noun and replace position 2 with the value verb.
