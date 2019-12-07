@@ -24,7 +24,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | Day  | Part One | Part Two | 
 |---|:---:|:---:|
 | ✔ [Day 1: The Tyranny of the Rocket Equation](https://github.com/multitudes/Advent-of-Code-2019#Day-1-The-Tyranny-of-the-Rocket-Equation)|⭐️|⭐️|
-| ✔ [Day 2: 1202 Program Alarm](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202-Program-Alarm)|⭐️| |
+| ✔ [Day 2: 1202 Program Alarm](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202-Program-Alarm)|⭐️|⭐️ |
 
 
 
