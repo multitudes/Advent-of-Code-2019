@@ -234,5 +234,8 @@ print("the solution is : \(solution)")
 //the solution is : 5121
 ```
 ## [Day 3: Crossed Wires](https://adventofcode.com/2019/day/3)
+
+Opening the front panel reveals a jumble of wires. Specifically, two wires are connected to a central port and extend outward on a grid. You trace the path each wire takes as it leaves the central port, one wire per line of text (your puzzle input).What is the Manhattan distance from the central port to the closest intersection?
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes) .
 
+###            --- Part Two ---
