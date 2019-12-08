@@ -25,7 +25,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 |---|:---:|:---:|
 | ✔ [Day 1: The Tyranny of the Rocket Equation](https://github.com/multitudes/Advent-of-Code-2019#Day-1-The-Tyranny-of-the-Rocket-Equation)|⭐️|⭐️|
 | ✔ [Day 2: 1202 Program Alarm](https://github.com/multitudes/Advent-of-Code-2019#Day-2-1202-Program-Alarm)|⭐️|⭐️ |
-| ✔ [Day 3: Crossed Wires](https://github.com/multitudes/Advent-of-Code-2019#Day-3-Crossed-Wires)|⭐️ | |
+| ✔ [Day 3: Crossed Wires](https://github.com/multitudes/Advent-of-Code-2019#Day-3-Crossed-Wires)|⭐️|⭐️|
 
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
@@ -300,7 +300,41 @@ print("the answer is : \(manhattan!)")
 
 ###            --- Part Two ---
 
+```swift
+import UIKit
 
+// till here same as part 1.. then add steps as a dictionary storing point and the steps done to get there! 
+
+var redPath:[Point] = []
+var bluePath:[Point] = []
+var steps = [Point: Int]()
+ 
+// fill the coordinates array with the instructions in the wire array - function drawpath is in the playground included
+// in the sources folder. Arrays are struct and passed by value in Swift so I need to pass by reference
+drawPath(path: &redPath, wire: redWire)
+drawPath(path: &bluePath, wire: blueWire)
+// convert the array to set and get the intersection
+let commonElements = Array(Set(bluePath).intersection(Set(redPath)))
+//I create two dictionaries for both wires
+var blueSteps = [Point: Int]()
+var redSteps = [Point: Int]()
+
+ // I loop over the commonElements putting the index of redPath and bluePath as value for the points found to intersect
+commonElements.forEach {
+    blueSteps[$0] = bluePath.firstIndex(of: $0)
+    redSteps[$0] = redPath.firstIndex(of: $0)
+    // this is a dic which for every point in the intersection will store the sum of the steps of both wires
+    steps[$0] = blueSteps[$0]! + redSteps[$0]!
+ }
+// just need to find the min value of the dictionary
+let fewestSteps = steps.min { $0.value < $1.value }
+// solution is plus two because I start counting steps for both redPath and bluePath from 0 so the counts are already 1 less
+// adding both I am two steps short which I add at the end
+let solution = fewestSteps!.value + 2
+print("the solution is : \(solution)")
+// is not 122512 but 122514!
+
+```
 
 
 
