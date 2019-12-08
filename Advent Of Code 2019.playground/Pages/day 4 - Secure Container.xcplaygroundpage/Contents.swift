@@ -16,5 +16,22 @@ let boundary = input.components(separatedBy: "-")
 // safe to force unwrap
 let low = Int(boundary[0])!
 let high = Int(boundary[1])!
-print(low, high)
+// declare some vars
+var flag = false; var double = false
+var digits: [Int] = []
+var passwords: [Int] = []
+// loop over my potential passwords
+outerloop: for i in low...high {
+    flag = false ; double = false
+    digits = i.digits
+    for j in 1..<6 {
+        if digits[j] == digits[j-1] { double = true }
+        if digits[j] >= digits[j-1] { flag = true } else { continue outerloop }
+    }
+    if double == false { continue outerloop }
+    print(digits)
+    passwords.append(i)
+}
+print("Solution of part 1 is \(passwords.count)") // 511
 
+// starting part 2
