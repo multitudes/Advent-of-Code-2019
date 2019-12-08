@@ -22,7 +22,7 @@ do {
     print(error)
 }
 
-//get the input file as an array into moduleMass
+//get the input file as an array into program
 var program = input.components(separatedBy: ",").compactMap { Int($0) }
 
 //before running the program, replace position 1 with the value 12 and replace position 2 with the value 2.
