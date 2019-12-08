@@ -370,6 +370,38 @@ outerloop: for i in low...high {
 print("Solution of part 1 is \(passwords.count)") // 511
 
 // starting part 2
+
+var passwordsPart2: [Int] = []
+var count = 0
+outerloop: for i in 0..<solution1 {
+        double = false
+        digits = passwords[i].digits
+        count = 0
+        // I start with the second digit and compare with first in the while
+        var j = 1
+        while j < 6 {
+            while j < 6 && digits[j] == digits[j-1]  {
+                count += 1
+                // if double is already true then this is a secong double - break - dont need
+                if count == 1 && double == true { break }
+                // if count is bigger than one then it means it is bigger than a double! keep on looping but double is false
+                if count > 1 { double = false } else { double = true }
+                j += 1
+                }
+            // if I am here is because the current digit and previous are different so count is reset in case
+            count = 0
+            j += 1
+            
+        }
+        if double == false { continue outerloop }
+        passwordsPart2.append(passwords[i])
+}
+
+
+let solution2 = passwordsPart2.count
+print("Solution of part 2 is \(solution2)")
+//316
+
 ```
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
