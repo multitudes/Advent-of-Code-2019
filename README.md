@@ -404,5 +404,14 @@ print("Solution of part 2 is \(solution2)")
 //316
 
 ```
+## Day 5: Sunny with a Chance of Asteroids
+
+You're starting to sweat as the ship makes its way toward Mercury. The Elves suggest that you get the air conditioner working by upgrading your ship computer to support the Thermal Environment Supervision Terminal.
+[...]
+Finally, the program will output a diagnostic code and immediately halt. This final output isn't an error; an output followed immediately by a halt means the program finished. If all outputs were zero except the diagnostic code, the diagnostic program ran successfully.
+
+After providing 1 to the only input instruction and passing all the tests, what diagnostic code does the program produce?
+
+
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
