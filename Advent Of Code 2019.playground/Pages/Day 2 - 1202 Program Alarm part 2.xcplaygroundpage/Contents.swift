@@ -1,7 +1,7 @@
 //: [Previous](@previous)
 /*:
 # Day 2: 1202 Program Alarm
-
+###            --- Part Two ---
 [See it on github](https://github.com/multitudes/Advent-of-Code-2019)
  On the way to your gravity assist around the Moon, your ship computer beeps angrily about a "1202 program alarm"...
 &nbsp;
