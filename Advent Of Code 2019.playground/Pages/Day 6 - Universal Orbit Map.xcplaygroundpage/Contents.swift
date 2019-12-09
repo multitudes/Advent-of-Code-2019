@@ -14,18 +14,20 @@ import Foundation
 var input = getInput(inputFile: "input6", extension: "txt")
 //get the input file as an array into program
 var map = input.components(separatedBy: "\n").filter { $0 != "" }
-print("map: \(map)")
 
+// class SpaceObject is in separate file. Class contains properties collecting the parent and children of instance
 
-// test let map = ["YY6)PRG"]
+// planet is array of two orbiting bodies like in input a line "H8Y)CGB" gets to planet[0] = "H8Y" and planet[1] is "CGB"
 var planet : [String] = []
-//var allOrbitingObj = Set<SpaceObject>()
+// create a dictionary. key is the planet I got and the value is the object
 var allOrbitingObj = [String : SpaceObject]()
 
+// here I fill all values in my dictionary
 for i in 0..<map.count {
     // planet will be an array of two planets
     planet = map[i].components(separatedBy: ")")
-    // check if child exists in dict, key is planet[..] and if not create and add it
+    // need check if child exists in allOrbitingObj dict, key for the dic is like planet[..] "CGB" and if not create and add it
+    // to add to dic need to do dict[key] = val or allOrbitingObj[planet[1]] = objChild creating the objChild on the line before
     if  allOrbitingObj[planet[1]] == nil {
         let objChild = SpaceObject(value: planet[1])
         allOrbitingObj[planet[1]] = objChild
@@ -39,9 +41,9 @@ for i in 0..<map.count {
     if let objParent = allOrbitingObj[planet[0]], let objChild = allOrbitingObj[planet[1]] {
         objParent.add(orbitingObject: objChild)
     }
-
 }
-print(allOrbitingObj.count)
+
+// this recursive function will look for all parents in my objects!
 func countParent(planet : SpaceObject) -> Int {
     var count = 0
     if let parent = planet.parentObject {
@@ -49,33 +51,9 @@ func countParent(planet : SpaceObject) -> Int {
     }
     return count
 }
+
 var count = 0
 allOrbitingObj.forEach {
     count += countParent(planet: $0.value)
 }
-print(count)
-
-extension SpaceObject: CustomStringConvertible {
-  //This is a computed property. Mapping will be recursive!
-    var description: String {
-        var text = "\(value)"
-        if !orbitingObjects.isEmpty {
-          text += " {" + orbitingObjects.map { $0.description }.joined(separator: ", ") + "} "
-        }
-        return text
-    }
-
-    func search(value: String) -> SpaceObject? {
-        if value == self.value {
-            return self
-        }
-        for orbitingObject in orbitingObjects {
-            if let found = orbitingObject.search(value: value) {
-            return found
-            }
-            }
-        return nil
-    }
-
-}
-
+print("Solution is : \(count)")
