@@ -16,25 +16,7 @@ var input = getInput(inputFile: "input6", extension: "txt")
 var map = input.components(separatedBy: "\n").filter { $0 != "" }
 print("map: \(map)")
 
-class SpaceObject : Hashable {
-    var value: String
-    var orbitingObjects:[SpaceObject] = []
-    weak var parentObject: SpaceObject? // this is the parent. not every object got a parent. weak to avoid retain cycles.
-    init(value: String) {
-        self.value = value
-    }
-    func add(orbitingObject: SpaceObject) {
-        orbitingObjects.append(orbitingObject)
-        orbitingObject.parentObject = self //once I add an orbiting object (child) then I become a center object (parent) of the child
-    }
-    // this is tricking swift to make sets of spaceobjects. The class needs to conform to hashable and equatable.
-    static func == (lhs: SpaceObject, rhs: SpaceObject) -> Bool {
-        return lhs.value == rhs.value
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(value)
-    }
-}
+
 // test let map = ["YY6)PRG"]
 var planet : [String] = []
 //var allOrbitingObj = Set<SpaceObject>()
@@ -72,8 +54,7 @@ allOrbitingObj.forEach {
     count += countParent(planet: $0.value)
 }
 print(count)
-//let formattedResults = allOrbitingObj.mapValues { countParent(planet: $0 )  }
-//print(formattedResults)
+
 extension SpaceObject: CustomStringConvertible {
   //This is a computed property. Mapping will be recursive!
     var description: String {
