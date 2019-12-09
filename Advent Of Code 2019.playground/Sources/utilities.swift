@@ -14,7 +14,6 @@ public func getInput(inputFile: String, extension: String) -> String {
     do {
         guard let fileUrl = Bundle.main.url(forResource: inputFile, withExtension: "txt") else { fatalError() }
         input = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
-        print("input is: \(input)")
     } catch {
         print(error)
     }

@@ -9,7 +9,7 @@
  [Next >](@next)
  */
 
-import UIKit
+import Foundation
 
 // declaring the var containing the input
 var input = ""

@@ -28,7 +28,7 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 [Next >](@next)
 */
 
-import UIKit
+import Foundation
 
 // declaring the var containing the input
 var input = ""
