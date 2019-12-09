@@ -23,6 +23,7 @@ var index = 0
 // the index will move at various intervals. I check everytime for the opcode 99 then I continue on the loop
 while program[index] != 99 {
 //for i in 0..<2 {
+    // func createInstruction is in utilities file and returns an instance of the Instruction struct
     let instruction = createInstruction(program: program , index: index)
     print("instruction: \(program[index])")
     print("index: \(index)")
