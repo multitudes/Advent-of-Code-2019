@@ -413,6 +413,111 @@ You're starting to sweat as the ship makes its way toward Mercury. The Elves sug
 Finally, the program will output a diagnostic code and immediately halt. This final output isn't an error; an output followed immediately by a halt means the program finished. If all outputs were zero except the diagnostic code, the diagnostic program ran successfully.
 After providing 1 to the only input instruction and passing all the tests, what diagnostic code does the program produce?
 
+and part two: 
+The air conditioner comes online! Its cold air feels good for a while, but then the TEST alarms start to go off. Since the air conditioner can't vent its heat anywhere but back into the spacecraft, it's actually making the air inside the ship warmer. [...]
 
+Some structs and enums and some func are in a separate file. Download the playgrounds for a full code experience!
+The inputs are hardcoded because Xcode playgrounds do not support the readLine() method! 
+```swift
+import Foundation
+
+// func getInput is in utilities file
+var input = getInput(inputFile: "input5", extension: "txt")
+//get the input file as an array into program
+var program = input.components(separatedBy: ",").compactMap { Int($0) }
+print("Prog: \(program)")
+var indexProg = 0
+
+// the indexProg will move at various intervals. I check everytime for the opcode 99 then I continue on the loop
+while program[indexProg] != 99 {
+//for i in 0..<2 {
+    let instruction = createInstruction(program: program , index: indexProg)
+    print("instruction: \(program[indexProg])")
+    print("indexProg: \(indexProg)")
+    print("Prog: \(program)")
+    switch instruction.opcode {
+        case .add:
+            print("add! got it")
+            print( instruction.parameters)
+            print("range: \(program[indexProg...indexProg+3])")
+            program[program[indexProg + 3]] = instruction.parameters[0] + instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(program[indexProg + 3])")
+            print("is this right ? \(program[program[indexProg + 3]])\n")
+            indexProg += 4
+        case .multiply:
+            print("multiply ")
+            print( instruction.parameters)
+            print("range: \(program[indexProg...indexProg+3])")
+            program[program[indexProg + 3]] = instruction.parameters[0] * instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(program[indexProg + 3])")
+            print("is this right ? \(program[program[indexProg + 3]])\n")
+            
+            indexProg += 4
+        case .input:
+            print(" TEST Input: 1 ")
+            // readLine does not work in Playgrounds 😅 I will hardcode it to 1
+            program[program[indexProg + 1]] = 5
+            indexProg += 2
+        case .output:
+            print("output got: \(instruction.parameters[0])")
+            indexProg += 2
+            print("continue with \(program[indexProg])\n")
+        case .jumpIfTrue:
+            //Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
+            print("jumpIfTrue")
+            print( instruction.parameters)
+            //print("range: \(program[indexProg...indexProg+2])")
+            if instruction.parameters[0] != 0 {
+                indexProg = instruction.parameters[1]
+                print("jump to \(program[indexProg])\n")
+                } else {
+                indexProg += 3
+                print("continue with \(program[indexProg])\n")
+            }
+            
+        case .jumpIfFalse:
+            //Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
+            print("jumpIfFalse")
+            print( instruction.parameters)
+            //print("range: \(program[indexProg...indexProg+2])")
+            if instruction.parameters[0] == 0 {
+                indexProg = instruction.parameters[1]
+                print("jump to \(program[indexProg])\n")
+                continue
+                } else {
+                indexProg += 3
+                print("continue with \(program[indexProg])\n")
+            }
+            
+        case .lessThan:
+            //Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
+            print("lessThan")
+            print( instruction.parameters)
+            print("range: \(program[indexProg...indexProg+3])")
+            if instruction.parameters[0] < instruction.parameters[1] {
+                program[program[indexProg + 3]] = 1 } else {
+                program[program[indexProg + 3]] = 0
+            }
+            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(program[indexProg + 3])")
+            print("is this right ? \(program[program[indexProg + 3]])\n")
+            indexProg += 4
+        case  .equals:
+            print("equals")
+            print( instruction.parameters)
+            print("range: \(program[indexProg...indexProg+3])")
+            if instruction.parameters[0] == instruction.parameters[1] {
+                program[program[indexProg + 3]] = 1 } else {
+                program[program[indexProg + 3]] = 0
+            }
+            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(program[indexProg + 3])")
+            print("is this right ? \(program[program[indexProg + 3]])\n")
+            indexProg += 4
+        case .halt:
+            print("stop")
+        
+   }
+}
+print("stop")
+```
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
