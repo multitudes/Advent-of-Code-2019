@@ -531,7 +531,7 @@ var map = input.components(separatedBy: "\n").filter { $0 != "" }
 
 // planet is array of two orbiting bodies like in input a line "H8Y)CGB" gets to planet[0] = "H8Y" and planet[1] is "CGB"
 var planet : [String] = []
-// create a dictionary. key is the planet I got and the value is the object
+// create a dictionary. key is the string planet I got and the value is the object instance of SpaceObject class
 var allOrbitingObj = [String : SpaceObject]()
 
 // here I fill all values in my dictionary
