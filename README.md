@@ -8,7 +8,8 @@ Advent of Code 2019 ✨🚀 Swift Solutions by
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes. 
+This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes.
+The code below is missing some parts of the code refactored in utilities files which are included in the playgrounds.
 
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
@@ -112,8 +113,6 @@ let totalFuel = fuel.reduce(0, +)
 
 print("The answer is : \(totalFuel)")
 
-// The answer is : 4728317
-
 ```
 
 ## [Day 2: 1202 Program Alarm](https://adventofcode.com/2019/day/2)
@@ -164,7 +163,6 @@ while program[index] != 99 {
 }
 // exiting the loop and reading the position 0 of the program
 print("the answer is : \(program[0])")
-// the answer is : 4714701
 ```
 
 ###            --- Part Two ---
@@ -233,7 +231,6 @@ while program[index] != 99 {
 
 print("the solution is : \(solution)")
 
-//the solution is : 5121
 ```
 ## [Day 3: Crossed Wires](https://adventofcode.com/2019/day/3)
 
@@ -286,8 +283,7 @@ blueWire = wireTuples[1]
 var redPath:[Point] = []
 var bluePath:[Point] = []
 
-// fill the coordinates array from the instructions in the wireTuples array - function drawpath is in the playground included
-// in the sources folder. Arrays are struct and passed by value in Swift so I need to pass by reference
+// fill the coordinates array from the instructions in the wireTuples array - function drawpath is in the playground included in the sources folder. Arrays are struct and passed by value in Swift so I need to pass by reference
 drawPath(path: &redPath, wire: redWire)
 drawPath(path: &bluePath, wire: blueWire)
 // convert the array to set and get the intersection. Set is better that using contains() for large data
@@ -295,8 +291,6 @@ let commonElements = Array(Set(bluePath).intersection(Set(redPath)))
 // The manhattan distance is the sum of the abs of coordinates. I look for the smallest
 let manhattan = commonElements.compactMap { abs($0.x) + abs($0.y) }.min()
 print("the answer is : \(manhattan!)")
-// manhattan = 5319
-
 ```
 
 
@@ -334,8 +328,6 @@ let fewestSteps = steps.min { $0.value < $1.value }
 // adding both I am two steps short which I add at the end
 let solution = fewestSteps!.value + 2
 print("the solution is : \(solution)")
-// is not 122512 but 122514!
-
 ```
 
 ## [Day 4: Secure Container](https://adventofcode.com/2019/day/4)
@@ -368,7 +360,7 @@ outerloop: for i in low...high {
     print(digits)
     passwords.append(i)
 }
-print("Solution of part 1 is \(passwords.count)") // 511
+print("Solution of part 1 is \(passwords.count)") 
 
 // starting part 2
 
@@ -401,8 +393,6 @@ outerloop: for i in 0..<solution1 {
 
 let solution2 = passwordsPart2.count
 print("Solution of part 2 is \(solution2)")
-//316
-
 ```
 ## [Day 5: Sunny with a Chance of Asteroids](https://adventofcode.com/2019/day/5)
 
@@ -418,7 +408,11 @@ The air conditioner comes online! Its cold air feels good for a while, but then 
 
 Some structs and enums and some func are in a separate file. Download the playgrounds for a full code experience!
 The inputs are hardcoded because Xcode playgrounds do not support the readLine() method! 
+
+I had to put a lot of print instructions for the debugging..
+
 ```swift
+
 import Foundation
 
 // func getInput is in utilities file
@@ -426,98 +420,100 @@ var input = getInput(inputFile: "input5", extension: "txt")
 //get the input file as an array into program
 var program = input.components(separatedBy: ",").compactMap { Int($0) }
 print("Prog: \(program)")
-var indexProg = 0
+var index = 0
 
-// the indexProg will move at various intervals. I check everytime for the opcode 99 then I continue on the loop
-while program[indexProg] != 99 {
+// the index will move at various intervals. I check everytime for the opcode 99 then I continue on the loop
+while program[index] != 99 {
 //for i in 0..<2 {
-    let instruction = createInstruction(program: program , index: indexProg)
-    print("instruction: \(program[indexProg])")
-    print("indexProg: \(indexProg)")
+    // func createInstruction is in utilities file and returns an instance of the Instruction struct
+    let instruction = createInstruction(program: program , index: index)
+    print("instruction: \(program[index])")
+    print("index: \(index)")
     print("Prog: \(program)")
     switch instruction.opcode {
         case .add:
             print("add! got it")
             print( instruction.parameters)
-            print("range: \(program[indexProg...indexProg+3])")
-            program[program[indexProg + 3]] = instruction.parameters[0] + instruction.parameters[1]
-            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(program[indexProg + 3])")
-            print("is this right ? \(program[program[indexProg + 3]])\n")
-            indexProg += 4
+            print("range: \(program[index...index+3])")
+            program[program[index + 3]] = instruction.parameters[0] + instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(program[index + 3])")
+            print("is this right ? \(program[program[index + 3]])\n")
+            index += 4
         case .multiply:
             print("multiply ")
             print( instruction.parameters)
-            print("range: \(program[indexProg...indexProg+3])")
-            program[program[indexProg + 3]] = instruction.parameters[0] * instruction.parameters[1]
-            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(program[indexProg + 3])")
-            print("is this right ? \(program[program[indexProg + 3]])\n")
+            print("range: \(program[index...index+3])")
+            program[program[index + 3]] = instruction.parameters[0] * instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(program[index + 3])")
+            print("is this right ? \(program[program[index + 3]])\n")
             
-            indexProg += 4
+            index += 4
         case .input:
             print(" TEST Input: 1 ")
             // readLine does not work in Playgrounds 😅 I will hardcode it to 1
-            program[program[indexProg + 1]] = 5
-            indexProg += 2
+            program[program[index + 1]] = 5
+            index += 2
         case .output:
             print("output got: \(instruction.parameters[0])")
-            indexProg += 2
-            print("continue with \(program[indexProg])\n")
+            index += 2
+            print("continue with \(program[index])\n")
         case .jumpIfTrue:
             //Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
             print("jumpIfTrue")
             print( instruction.parameters)
-            //print("range: \(program[indexProg...indexProg+2])")
+            //print("range: \(program[index...index+2])")
             if instruction.parameters[0] != 0 {
-                indexProg = instruction.parameters[1]
-                print("jump to \(program[indexProg])\n")
+                index = instruction.parameters[1]
+                print("jump to \(program[index])\n")
                 } else {
-                indexProg += 3
-                print("continue with \(program[indexProg])\n")
+                index += 3
+                print("continue with \(program[index])\n")
             }
             
         case .jumpIfFalse:
             //Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
             print("jumpIfFalse")
             print( instruction.parameters)
-            //print("range: \(program[indexProg...indexProg+2])")
+            //print("range: \(program[index...index+2])")
             if instruction.parameters[0] == 0 {
-                indexProg = instruction.parameters[1]
-                print("jump to \(program[indexProg])\n")
+                index = instruction.parameters[1]
+                print("jump to \(program[index])\n")
                 continue
                 } else {
-                indexProg += 3
-                print("continue with \(program[indexProg])\n")
+                index += 3
+                print("continue with \(program[index])\n")
             }
             
         case .lessThan:
             //Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
             print("lessThan")
             print( instruction.parameters)
-            print("range: \(program[indexProg...indexProg+3])")
+            print("range: \(program[index...index+3])")
             if instruction.parameters[0] < instruction.parameters[1] {
-                program[program[indexProg + 3]] = 1 } else {
-                program[program[indexProg + 3]] = 0
+                program[program[index + 3]] = 1 } else {
+                program[program[index + 3]] = 0
             }
-            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(program[indexProg + 3])")
-            print("is this right ? \(program[program[indexProg + 3]])\n")
-            indexProg += 4
+            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(program[index + 3])")
+            print("is this right ? \(program[program[index + 3]])\n")
+            index += 4
         case  .equals:
             print("equals")
             print( instruction.parameters)
-            print("range: \(program[indexProg...indexProg+3])")
+            print("range: \(program[index...index+3])")
             if instruction.parameters[0] == instruction.parameters[1] {
-                program[program[indexProg + 3]] = 1 } else {
-                program[program[indexProg + 3]] = 0
+                program[program[index + 3]] = 1 } else {
+                program[program[index + 3]] = 0
             }
-            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(program[indexProg + 3])")
-            print("is this right ? \(program[program[indexProg + 3]])\n")
-            indexProg += 4
+            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(program[index + 3])")
+            print("is this right ? \(program[program[index + 3]])\n")
+            index += 4
         case .halt:
             print("stop")
         
    }
 }
 print("stop")
+
 ```
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
