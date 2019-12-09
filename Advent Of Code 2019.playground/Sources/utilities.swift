@@ -26,7 +26,7 @@ public func createInstruction(program: [Int], index: Int) -> Instruction {
     let modes = [ Mode(rawValue: program[index] % 1000 / 100)!, Mode(rawValue: program[index] / 1000)! ]
     let firstParam: Int; let secondParam: Int; var parameters: [Int] = []
     switch opcode {
-        case .add, .multiply:
+    case .add, .multiply, .equals, .lessThan, .jumpIfTrue, .jumpIfFalse:
             if modes[0] == .position {
                            firstParam = program[program[index + 1]]
                         } else {
@@ -52,16 +52,8 @@ public func createInstruction(program: [Int], index: Int) -> Instruction {
                              firstParam = program[index + 1]
                         }
             parameters = [firstParam]
-        case .jumpIfTrue:
-            print("stop")
-        case .jumpIfFalse:
-            print("stop")
-        case .lessThan:
-            print("stop")
-        case  .equals:
-            print("stop")
-        case .halt:
-            print("stop")
-    }
+    case .halt:
+        print("stop")
+        }
     return Instruction(opcode: opcode, parameters: parameters, modes: modes)
 }
