@@ -8,7 +8,8 @@ Advent of Code 2019 ✨🚀 Swift Solutions by
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes. 
+This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes.
+The code below is missing some parts of the code refactored in utilities files which are included in the playgrounds.
 
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
@@ -112,8 +113,6 @@ let totalFuel = fuel.reduce(0, +)
 
 print("The answer is : \(totalFuel)")
 
-// The answer is : 4728317
-
 ```
 
 ## [Day 2: 1202 Program Alarm](https://adventofcode.com/2019/day/2)
@@ -164,7 +163,6 @@ while program[index] != 99 {
 }
 // exiting the loop and reading the position 0 of the program
 print("the answer is : \(program[0])")
-// the answer is : 4714701
 ```
 
 ###            --- Part Two ---
@@ -233,7 +231,6 @@ while program[index] != 99 {
 
 print("the solution is : \(solution)")
 
-//the solution is : 5121
 ```
 ## [Day 3: Crossed Wires](https://adventofcode.com/2019/day/3)
 
@@ -286,8 +283,7 @@ blueWire = wireTuples[1]
 var redPath:[Point] = []
 var bluePath:[Point] = []
 
-// fill the coordinates array from the instructions in the wireTuples array - function drawpath is in the playground included
-// in the sources folder. Arrays are struct and passed by value in Swift so I need to pass by reference
+// fill the coordinates array from the instructions in the wireTuples array - function drawpath is in the playground included in the sources folder. Arrays are struct and passed by value in Swift so I need to pass by reference
 drawPath(path: &redPath, wire: redWire)
 drawPath(path: &bluePath, wire: blueWire)
 // convert the array to set and get the intersection. Set is better that using contains() for large data
@@ -295,8 +291,6 @@ let commonElements = Array(Set(bluePath).intersection(Set(redPath)))
 // The manhattan distance is the sum of the abs of coordinates. I look for the smallest
 let manhattan = commonElements.compactMap { abs($0.x) + abs($0.y) }.min()
 print("the answer is : \(manhattan!)")
-// manhattan = 5319
-
 ```
 
 
@@ -334,8 +328,6 @@ let fewestSteps = steps.min { $0.value < $1.value }
 // adding both I am two steps short which I add at the end
 let solution = fewestSteps!.value + 2
 print("the solution is : \(solution)")
-// is not 122512 but 122514!
-
 ```
 
 ## [Day 4: Secure Container](https://adventofcode.com/2019/day/4)
@@ -368,7 +360,7 @@ outerloop: for i in low...high {
     print(digits)
     passwords.append(i)
 }
-print("Solution of part 1 is \(passwords.count)") // 511
+print("Solution of part 1 is \(passwords.count)") 
 
 // starting part 2
 
@@ -401,8 +393,6 @@ outerloop: for i in 0..<solution1 {
 
 let solution2 = passwordsPart2.count
 print("Solution of part 2 is \(solution2)")
-//316
-
 ```
 ## [Day 5: Sunny with a Chance of Asteroids](https://adventofcode.com/2019/day/5)
 
@@ -418,6 +408,9 @@ The air conditioner comes online! Its cold air feels good for a while, but then 
 
 Some structs and enums and some func are in a separate file. Download the playgrounds for a full code experience!
 The inputs are hardcoded because Xcode playgrounds do not support the readLine() method! 
+
+I had to put a lot of print instructions for the debugging..
+
 ```swift
 
 import Foundation
