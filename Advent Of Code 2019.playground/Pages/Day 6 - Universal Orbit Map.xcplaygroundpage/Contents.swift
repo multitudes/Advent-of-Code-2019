@@ -51,7 +51,7 @@ func countParent(planet : SpaceObject) -> Int {
     }
     return count
 }
-
+// this is calling the function and providing the solution
 var count = 0
 allOrbitingObj.forEach {
     count += countParent(planet: $0.value)
