@@ -52,29 +52,72 @@ public func writeInput(input: Int, location: Int) {
 }
 var inputParam = 0
 var index = 0
+var writeTo = 0
+var firstParam = 0
+var secondParam = 0
 //
 // the index will move at various intervals. I check everytime for the opcode 99 then I continue on the loop
-//while program[index] != 99 {
-
+while program[index] != 99 {
+//for i in 0..<6{
+    var mode = Mode(rawValue: 0)
     var instruction = Instruction(opcode: Opcode(rawValue: program[index] % 100)!, parameters: [])
-switch instruction.opcode {
+    instruction.parameters = [ (program[index] % 1000 / 100), program[index] / 1000 ]
+    print("instruction: \(program[index])")
+    switch instruction.opcode {
         case .add:
-            print("got it")
+            print("add! got it")
+            mode = Mode(rawValue: 0)
+            print( instruction.parameters)
+            print("range: \(program[index...index+3])")
+            if instruction.parameters[0] == 0 {
+                firstParam = program[program[index + 1]]
+            } else {
+                firstParam = program[index + 1]
+            }
+            if instruction.parameters[1] == 0 {
+                secondParam = program[program[index + 2]]
+            } else {
+                secondParam = program[index + 2]
+            }
+            writeTo = program[index + 3]
+            program[writeTo] = firstParam + secondParam
+            print("value: \(firstParam) + \(secondParam) = \(firstParam + secondParam) written to \(program[index + 3])")
+            print("is this right ? \(program[program[index + 3]])\n")
+            index += 4
         case .multiply:
-            print("got it")
+            print("multiply ")
+            print( instruction.parameters)
+            print("range: \(program[index...index+3])")
+            if instruction.parameters[0] == 0 {
+                firstParam = program[program[index + 1]]
+            } else {
+                firstParam = program[index + 1]
+            }
+            if instruction.parameters[1] == 0 {
+                secondParam = program[program[index + 2]]
+            } else {
+                secondParam = program[index + 2]
+            }
+            program[program[index + 3]] = firstParam * secondParam
+            print("value: \(firstParam) * \(secondParam) = \(firstParam * secondParam) written to \(program[index + 3])\n")
+            index += 4
         case .input:
-            print("Provide TEST Input: ", terminator: "")
+            print(" TEST Input: 1 ")
             // readLine does not work in Playgrounds 😅 I will hardcode it to 1
-            instruction.parameters = [program[index + 1]]
-            writeInput(input: 1, location: instruction.parameters[0])
+            writeInput(input: 1, location: program[index + 1])
+            index += 2
         case .output:
-            print("got it")
+            var firstParam:Int {return instruction.parameters[0] == 0 ? program[program[index + 1]] : program[index + 1]}
+            print("output got: \(firstParam)")
+            index += 2
         case .halt:
             print("stop")
         
     }
-index += instruction.length
-
+    //print("instruction: \(program[index])")
+    
+    
+    }
 //    // check for the other 2 opcodes
 //    switch program[index] {
 //    case 1:
@@ -90,4 +133,4 @@ index += instruction.length
 //    // update the index for the next opcode
 //    index += 4
 //}
-print(program[225])
+
