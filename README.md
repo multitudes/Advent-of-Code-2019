@@ -29,7 +29,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 3: Crossed Wires](https://github.com/multitudes/Advent-of-Code-2019#Day-3-Crossed-Wires)|⭐️|⭐️|
 | ✔ [Day 4: Secure Container](https://github.com/multitudes/Advent-of-Code-2019#Day-4-Secure-Container)|⭐️|⭐️|
 | ✔ [Day 5: Sunny with a Chance of Asteroids](https://github.com/multitudes/Advent-of-Code-2019#Day-5-Sunny-with-a-Chance-of-Asteroids)|⭐️|⭐️|
-| ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️||
+| ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️|⭐️|
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
