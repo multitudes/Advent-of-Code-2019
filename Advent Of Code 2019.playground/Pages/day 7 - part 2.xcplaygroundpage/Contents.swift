@@ -21,38 +21,33 @@ import Foundation
 var phases = [0,1,2,3,4] // This can be any array
 var phasesFeedback = [9,8,7,6,5] // this is for part 2
 var phaseSettings = [[Int]]()
+// declare empty array
 var phaseSettingsFeedback = [[Int]]() // this is for part 2
-
 // phasePermutation is in the util functions
-//phasePermutation(phases: &phases) { result in phaseSettings.append(result) }
-//print(phaseSettings) // now an array of phases [[0, 1, 2, 3, 4], [1, 0, 2, 3, 4], [2, 0, 1, 3, 4]]
 phasePermutation(phases: &phasesFeedback) { result in phaseSettingsFeedback.append(result) } // for part 2
 // func getInput is in utilities file
 var input = getInput(inputFile: "input7", extension: "txt")
-//print(input)
 //get the input file as an array into program
 var program = input.components(separatedBy: ",").compactMap { Int($0) }
-print(program)
 
 
-    let maxSignal2: Int = phaseSettingsFeedback.map { combo in
-        var amplifiers = combo.map { Computer(program: program, inputs: [$0]) }
-        var nextInput = 0 // starting input
-        // while no amplifers are halted, continually loop over all amplifiers,
-        // passing the last output we've seen in as the next input
-        while !amplifiers.contains { $0.isHalted } {
-            for i in 0...4 {
-                amplifiers[i].inputs.append(nextInput)
-                if let next = amplifiers[i].runProgramUntilNextOutput() {
-                    nextInput = next
-                } else {
-                    // an amplifer halted; we are done
-                    break
-                }
+
+let amplifiedOutput: Int = phaseSettingsFeedback.map { phases in
+    var amplifiers = phases.map { Computer(program: program, inputs: [$0]) }
+    var input = 0
+    // loop over the amplifiers until one halts
+    while !amplifiers.contains { $0.isHalted } {
+        for i in 0...4 {
+            amplifiers[i].inputs.append(input)
+            if let output = amplifiers[i].runProgramUntilNextOutput() {
+                input = output
+            } else {
+                break
             }
         }
-        return nextInput
-    }.max()!
+    }
+    return input
+}.max()!
 
-    print("Part 2: \(maxSignal2)")
+   print("Solution Part 2: \(amplifiedOutput)")
 
