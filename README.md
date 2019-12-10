@@ -30,7 +30,8 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 4: Secure Container](https://github.com/multitudes/Advent-of-Code-2019#Day-4-Secure-Container)|⭐️|⭐️|
 | ✔ [Day 5: Sunny with a Chance of Asteroids](https://github.com/multitudes/Advent-of-Code-2019#Day-5-Sunny-with-a-Chance-of-Asteroids)|⭐️|⭐️|
 | ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️|⭐️|
-| ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|||
+| ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|⭐️||
+| ✔ [Day 8: Space Image Format](https://github.com/multitudes/Advent-of-Code-2019#Day-8-Space-Image-Format)|⭐️||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -625,7 +626,7 @@ phasePermutation(phases: &phases) { result in phaseSettings.append(result) }
 print(phaseSettings)
 // will be continued
 ```
-
+## [Day 8: Space Image Format](https://adventofcode.com/2019/day/8)
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
 
