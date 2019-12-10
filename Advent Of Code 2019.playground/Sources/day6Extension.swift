@@ -2,19 +2,19 @@
 extension SpaceObject: CustomStringConvertible {
   //This is a computed property. Mapping will be recursive!
     public var description: String {
-        var text = "\(value)"
+        var text = "\(name)"
         if !orbitingObjects.isEmpty {
           text += " {" + orbitingObjects.map { $0.description }.joined(separator: ", ") + "} "
         }
         return text
     }
-
-    func search(value: String) -> SpaceObject? {
-        if value == self.value {
+    // this will search for the object name and return the object or one of its children
+    public func search(name: String) -> SpaceObject? {
+        if name == self.name {
             return self
         }
         for orbitingObject in orbitingObjects {
-            if let found = orbitingObject.search(value: value) {
+            if let found = orbitingObject.search(name: name) {
             return found
             }
             }
@@ -24,11 +24,11 @@ extension SpaceObject: CustomStringConvertible {
 }
 
 public class SpaceObject : Hashable {
-    public var value: String
+    public var name: String
     public var orbitingObjects:[SpaceObject] = []
     public weak var parentObject: SpaceObject? // this is the parent. not every object got a parent. weak to avoid retain cycles.
-    public init(value: String) {
-        self.value = value
+    public init(name: String) {
+        self.name = name
     }
     public func add(orbitingObject: SpaceObject) {
         orbitingObjects.append(orbitingObject)
@@ -36,9 +36,9 @@ public class SpaceObject : Hashable {
     }
     // this is tricking swift to make sets of spaceobjects. The class needs to conform to hashable and equatable.
     public static func == (lhs: SpaceObject, rhs: SpaceObject) -> Bool {
-        return lhs.value == rhs.value
+        return lhs.name == rhs.name
     }
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(value)
+        hasher.combine(name)
     }
 }
