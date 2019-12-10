@@ -9,7 +9,7 @@ Advent of Code 2019 ✨🚀 Swift Solutions by
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes.
-The code below is missing some parts of the code refactored in utilities files which are included in the playgrounds.
+The code below is missing some parts of the code refactored in utilities files which are included in main the playground file. Please download the playground and run on a mac in Xcode. It is divided into days and easy to paginate through.
 
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
@@ -30,6 +30,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 4: Secure Container](https://github.com/multitudes/Advent-of-Code-2019#Day-4-Secure-Container)|⭐️|⭐️|
 | ✔ [Day 5: Sunny with a Chance of Asteroids](https://github.com/multitudes/Advent-of-Code-2019#Day-5-Sunny-with-a-Chance-of-Asteroids)|⭐️|⭐️|
 | ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️|⭐️|
+| ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -602,5 +603,5 @@ minNumTransfers(allOrbitingObj: allOrbitingObj, from: "YOU", to: "SAN")
 
 ```
 
-
+## [Day 7: Amplification Circuit](https://adventofcode.com/2019/day/7)
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
