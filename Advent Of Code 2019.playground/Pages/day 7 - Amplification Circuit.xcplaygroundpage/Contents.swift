@@ -38,8 +38,8 @@ let amplifiedOutput: Int = phaseSettings.map { phases in
 // loop over the program until one of the computer gets to opcode 99
     for i in 0...4 {
        var computer = Computer(program: program, inputs: [phases[i], input])
-       computer.runProgramUntilComplete()
-       input = computer.takeOutput()
+       computer.runProgramUntilEnd()
+       input = computer.getOutput()
     }
     // return what would be the last output
     return input

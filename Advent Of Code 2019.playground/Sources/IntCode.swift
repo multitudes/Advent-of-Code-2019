@@ -41,7 +41,7 @@ public struct Computer {
     }
 
     // Takes an output of the program (FIFO).
-    public mutating func takeOutput() -> Int {
+    public mutating func getOutput() -> Int {
         return self.outputs.removeFirst()
     }
 
@@ -135,11 +135,11 @@ public struct Computer {
         while self.iP < self.program.count && !self.isHalted && self.outputs.count == 0 {
             self.step()
         }
-        return self.outputs.count > 0 ? self.takeOutput() : nil
+        return self.outputs.count > 0 ? self.getOutput() : nil
     }
 
     // Runs the program until it halts.
-    public mutating func runProgramUntilComplete() {
+    public mutating func runProgramUntilEnd() {
         // iterate
         while self.iP < self.program.count && !self.isHalted {
             self.step()
