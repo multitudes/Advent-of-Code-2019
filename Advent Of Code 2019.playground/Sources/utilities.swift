@@ -57,6 +57,12 @@ public func createInstruction(program: [Int], index: Int) -> Instruction {
     return Instruction(opcode: opcode, parameters: parameters, modes: modes)
 }
 
+/*
+ Generates all possible permutations of `data` using Heap's Algorithm
+ - parameters:
+   - phases: The data to permute
+   - output: A closure called with each permutation of the data
+ */
 public func phasePermutation<T>(phases: inout Array<T>, output: (Array<T>) -> Void) {
     generate(n: phases.count, phases: &phases, output: output)
 }
