@@ -639,8 +639,8 @@ let amplifiedOutput: Int = phaseSettings.map { phases in
 // loop over the program until one of the computer gets to opcode 99
     for i in 0...4 {
        var computer = Computer(program: program, inputs: [phases[i], input])
-       computer.runProgramUntilComplete()
-       input = computer.takeOutput()
+       computer.runProgramUntilEnd()
+       input = computer.getOutput()
     }
     // return what would be the last output
     return input
@@ -672,7 +672,7 @@ let amplifiedOutput: Int = phaseSettingsFeedback.map { phases in
             // for amplifier 0 the input will be 0
             amplifiers[i].inputs.append(input)
             // after the first amplifier input will be the output of the previous
-            if let output = amplifiers[i].runProgramUntilNextOutput() {
+            if let output = amplifiers[i].runProgram() {
                 input = output
             } else {
                 break
