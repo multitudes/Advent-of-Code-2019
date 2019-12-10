@@ -29,25 +29,33 @@ phasePermutation(phases: &phasesFeedback) { result in phaseSettingsFeedback.appe
 var input = getInput(inputFile: "input7", extension: "txt")
 //get the input file as an array into program
 var program = input.components(separatedBy: ",").compactMap { Int($0) }
-
-
-
+// for each array in phaseSettingsFeedback I get a variable phases like [9,8,7,6,5]
 let amplifiedOutput: Int = phaseSettingsFeedback.map { phases in
-    var amplifiers = phases.map { Computer(program: program, inputs: [$0]) }
+    // computed property inside closure. Phases again map. for every value I create a Computer running his own version of the program
+    // taking one phase each as input 9, 8, 7, 6, 5
+    var amplifiers = phases.map {
+        Computer(program: program, inputs: [$0])
+        }
+    // start
     var input = 0
-    // loop over the amplifiers until one halts
+    // loop over the amplifiers until one of them  gets to opcode 99
     while !amplifiers.contains { $0.isHalted } {
         for i in 0...4 {
+            // for amplifier 0 the input will be 0
             amplifiers[i].inputs.append(input)
+            // after the first amplifier input will be the output of the previous
             if let output = amplifiers[i].runProgramUntilNextOutput() {
                 input = output
             } else {
                 break
             }
-        }
+            
+        } // after finishing the for loop 0...4 I start again.. the output will go to the input of the first amp
     }
+    // this is the last output when one of the amps did halt
     return input
+// the closure ends here. each result has been mapped and I take the max
 }.max()!
 
-   print("Solution Part 2: \(amplifiedOutput)")
+print("Solution Part 2: \(amplifiedOutput)")
 
