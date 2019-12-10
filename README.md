@@ -30,7 +30,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 4: Secure Container](https://github.com/multitudes/Advent-of-Code-2019#Day-4-Secure-Container)|⭐️|⭐️|
 | ✔ [Day 5: Sunny with a Chance of Asteroids](https://github.com/multitudes/Advent-of-Code-2019#Day-5-Sunny-with-a-Chance-of-Asteroids)|⭐️|⭐️|
 | ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️|⭐️|
-| ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|⭐️||
+| ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|⭐️|⭐️|
 | ✔ [Day 8: Space Image Format](https://github.com/multitudes/Advent-of-Code-2019#Day-8-Space-Image-Format)|||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
@@ -621,10 +621,73 @@ import Foundation
 
 var phases = [0,1,2,3,4] // This can be any array
 var phaseSettings = [[Int]]()
+
 // phasePermutation is in the util functions
 phasePermutation(phases: &phases) { result in phaseSettings.append(result) }
-print(phaseSettings)
-// will be continued
+
+// func getInput is in utilities file
+var input = getInput(inputFile: "input7", extension: "txt")
+
+//get the input file as an array into program
+var program = input.components(separatedBy: ",").compactMap { Int($0) }
+
+// map! for each array in phaseSettingsFeedback I get a variable phases like [2, 0, 1, 3, 4]
+let amplifiedOutput: Int = phaseSettings.map { phases in
+    // computed property inside the closure. again with map. for every value in phases I create a Computer running his own version of the program taking one phase each as input 2, 0, 1, 3, 4
+    // start
+    var input = 0
+// loop over the program until one of the computer gets to opcode 99
+    for i in 0...4 {
+       var computer = Computer(program: program, inputs: [phases[i], input])
+       computer.runProgramUntilComplete()
+       input = computer.takeOutput()
+    }
+    // return what would be the last output
+    return input
+// get the max out of all values
+}.max()!
+
+// part 2
+var phasesFeedback = [9,8,7,6,5] // this is for part 2
+// declare empty array
+var phaseSettingsFeedback = [[Int]]() // this is for part 2
+// phasePermutation is in the util functions
+phasePermutation(phases: &phasesFeedback) { result in phaseSettingsFeedback.append(result) } // for part 2
+// func getInput is in utilities file
+var input = getInput(inputFile: "input7", extension: "txt")
+//get the input file as an array into program
+var program = input.components(separatedBy: ",").compactMap { Int($0) }
+// for each array in phaseSettingsFeedback I get a variable phases like [9,8,7,6,5]
+let amplifiedOutput: Int = phaseSettingsFeedback.map { phases in
+    // computed property inside closure. Phases again map. for every value I create a Computer running his own version of the program
+    // taking one phase each as input 9, 8, 7, 6, 5
+    var amplifiers = phases.map {
+        Computer(program: program, inputs: [$0])
+        }
+    // start
+    var input = 0
+    // loop over the amplifiers until one of them  gets to opcode 99
+    while !amplifiers.contains { $0.isHalted } {
+        for i in 0...4 {
+            // for amplifier 0 the input will be 0
+            amplifiers[i].inputs.append(input)
+            // after the first amplifier input will be the output of the previous
+            if let output = amplifiers[i].runProgramUntilNextOutput() {
+                input = output
+            } else {
+                break
+            }
+            
+        } // after finishing the for loop 0...4 I start again.. the output will go to the input of the first amp
+    }
+    // this is the last output when one of the amps did halt
+    return input
+// the closure ends here. each result has been mapped and I take the max
+}.max()!
+
+print("Solution Part 2: \(amplifiedOutput)")
+
+
 ```
 ## [Day 8: Space Image Format](https://adventofcode.com/2019/day/8)
 
