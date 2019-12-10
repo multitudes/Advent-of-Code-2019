@@ -9,7 +9,7 @@ Advent of Code 2019 ✨🚀 Swift Solutions by
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes.
-The code below is missing some parts of the code refactored in utilities files which are included in the playgrounds.
+The code below will be missing some parts which have been refactored in utility files. The playground file however includes everything. Please download the playground and run on a mac in Xcode. It is divided into days and easy to paginate through.
 
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
@@ -30,6 +30,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 4: Secure Container](https://github.com/multitudes/Advent-of-Code-2019#Day-4-Secure-Container)|⭐️|⭐️|
 | ✔ [Day 5: Sunny with a Chance of Asteroids](https://github.com/multitudes/Advent-of-Code-2019#Day-5-Sunny-with-a-Chance-of-Asteroids)|⭐️|⭐️|
 | ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️|⭐️|
+| ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -530,27 +531,27 @@ var map = input.components(separatedBy: "\n").filter { $0 != "" }
 // class SpaceObject is in separate file. Class contains properties collecting the parent and children of instance
 
 // planet is array of two orbiting bodies like in input a line "H8Y)CGB" gets to planet[0] = "H8Y" and planet[1] is "CGB"
-var planet : [String] = []
-// create a dictionary. key is the string planet I got and the value is the object instance of SpaceObject class
+var planets : [String] = []
+// create a dictionary. key is the planet I got and the value is the object
 var allOrbitingObj = [String : SpaceObject]()
 
-// here I fill all values in my dictionary
+// here I fill all values in my dictionary. I choose a dict because it lets me insert easily new elements checking if they are already there without overwrite them
 for i in 0..<map.count {
     // planet will be an array of two planets
-    planet = map[i].components(separatedBy: ")")
+    planets = map[i].components(separatedBy: ")")
     // need check if child exists in allOrbitingObj dict, key for the dic is like planet[..] "CGB" and if not create and add it
     // to add to dic need to do dict[key] = val or allOrbitingObj[planet[1]] = objChild creating the objChild on the line before
-    if  allOrbitingObj[planet[1]] == nil {
-        let objChild = SpaceObject(value: planet[1])
-        allOrbitingObj[planet[1]] = objChild
+    if  allOrbitingObj[planets[1]] == nil {
+        let objChild = SpaceObject(name: planets[1])
+        allOrbitingObj[planets[1]] = objChild
     }
     // check if parent exists and if not create it
-    if  allOrbitingObj[planet[0]] == nil {
-        let objParent = SpaceObject(value: planet[0])
-        allOrbitingObj[planet[0]] = objParent
+    if  allOrbitingObj[planets[0]] == nil {
+        let objParent = SpaceObject(name: planets[0])
+        allOrbitingObj[planets[0]] = objParent
     }
     // check if parent exists and if so add the child
-    if let objParent = allOrbitingObj[planet[0]], let objChild = allOrbitingObj[planet[1]] {
+    if let objParent = allOrbitingObj[planets[0]], let objChild = allOrbitingObj[planets[1]] {
         objParent.add(orbitingObject: objChild)
     }
 }
@@ -563,13 +564,44 @@ func countParent(planet : SpaceObject) -> Int {
     }
     return count
 }
-
+// this is calling the function and providing the solution
 var count = 0
 allOrbitingObj.forEach {
     count += countParent(planet: $0.value)
 }
-print("Solution is : \(count)")
+print("Solution Day 6 part 1 is : \(count)")
+
+// Day 6: Universal Orbit Map part 2
+// create my minimum counting orbits func. The .value here in the func is because of accessing the SpaceObject from the dic 
+// allOrbitingObj is a dic with key : String and value: SpaceObject. Search function is in utilities file.
+func minNumTransfers(allOrbitingObj: [String : SpaceObject], from: String, to: String) -> Int {
+    var commonParents: [SpaceObject] = []
+    allOrbitingObj.forEach { spaceObject in
+        if spaceObject.value.search(name: "YOU") != nil && spaceObject.value.search(name: "SAN") != nil {
+                commonParents.append(spaceObject.value)
+        }
+    }
+    let minOrbits: Int = commonParents.map {
+        countOrbits(spaceObject: $0, child: allOrbitingObj[from]!) + countOrbits(spaceObject: $0, child: allOrbitingObj[to]!)
+    }.min()!
+    print("Solution Day 6 part 2 is \(minOrbits)")
+    return 0
+}
+// create a utility counting orbits func 
+func countOrbits(spaceObject: SpaceObject, child: SpaceObject) -> Int {
+    var count = 0
+    if let a = child.parentObject  {
+        if a != spaceObject {
+        count = 1 + countOrbits(spaceObject: spaceObject, child: a)
+        }
+    }
+    return count
+}
+
+// this call will give the solution to part 2
+minNumTransfers(allOrbitingObj: allOrbitingObj, from: "YOU", to: "SAN")
+
 ```
 
-
+## [Day 7: Amplification Circuit](https://adventofcode.com/2019/day/7)
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
