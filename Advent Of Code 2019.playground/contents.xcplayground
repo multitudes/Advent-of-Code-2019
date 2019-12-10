@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='macos' display-mode='raw'>
+<playground version='6.0' target-platform='macos' display-mode='rendered'>
     <pages>
         <page name='Day 1 - The Tyranny of the Rocket Equation'/>
         <page name='Day 1 - The Tyranny of the Rocket Equation part two'/>
@@ -10,5 +10,6 @@
         <page name='day 4 - Secure Container'/>
         <page name='Day 5 - Sunny with a Chance of Asteroids'/>
         <page name='Day 6 - Universal Orbit Map'/>
+        <page name='day 7 - Amplification Circuit'/>
     </pages>
 </playground>

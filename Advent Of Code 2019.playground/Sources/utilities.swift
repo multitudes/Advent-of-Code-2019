@@ -56,3 +56,22 @@ public func createInstruction(program: [Int], index: Int) -> Instruction {
         }
     return Instruction(opcode: opcode, parameters: parameters, modes: modes)
 }
+
+public func phasePermutation<T>(phases: inout Array<T>, output: (Array<T>) -> Void) {
+    generate(n: phases.count, phases: &phases, output: output)
+}
+
+public func generate<T>(n: Int, phases: inout Array<T>, output: (Array<T>) -> Void) {
+    if n == 1 {
+        output(phases)
+    } else {
+        for i in 0 ..< n {
+            generate(n: n - 1, phases: &phases, output: output)
+            if n % 2 == 0 {
+                phases.swapAt(i, n - 1)
+            } else {
+                phases.swapAt(0, n - 1)
+            }
+        }
+    }
+}
