@@ -56,28 +56,24 @@ var count = 0
 allOrbitingObj.forEach {
     count += countParent(planet: $0.value)
 }
-print("Solution is : \(count)")
+print("Solution Day 6 part 1 is : \(count)")
 
 
 /*:
 ### Day 6: Universal Orbit Map part 2
 */
 
-// func search(value: String) -> SpaceObject?
-
 func minNumTransfers(allOrbitingObj: [String : SpaceObject], from: String, to: String) -> Int {
     var commonParents: [SpaceObject] = []
     allOrbitingObj.forEach { spaceObject in
         if spaceObject.value.search(name: "YOU") != nil && spaceObject.value.search(name: "SAN") != nil {
-             print(spaceObject)
                 commonParents.append(spaceObject.value)
         }
     }
     let minOrbits: Int = commonParents.map {
         countOrbits(spaceObject: $0, child: allOrbitingObj[from]!) + countOrbits(spaceObject: $0, child: allOrbitingObj[to]!)
     }.min()!
-    print(commonParents)
-    print(minOrbits)
+    print("Solution Day 6 part 2 is \(minOrbits)")
     return 0
 }
 
@@ -88,13 +84,8 @@ func countOrbits(spaceObject: SpaceObject, child: SpaceObject) -> Int {
         count = 1 + countOrbits(spaceObject: spaceObject, child: a)
         }
     }
-//    if !spaceObject.orbitingObjects.isEmpty {
-//        count += 1
-//        countOrbits
-//        if spaceObject.orbitingObjects.contains(child){
-//        return count
-//        }
-//    }
     return count
 }
+
+// this call will give the solution to part 2
 minNumTransfers(allOrbitingObj: allOrbitingObj, from: "YOU", to: "SAN")
