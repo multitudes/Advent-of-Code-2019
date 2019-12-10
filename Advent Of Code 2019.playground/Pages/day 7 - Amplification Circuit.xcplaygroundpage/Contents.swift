@@ -19,38 +19,36 @@ The Elves have sent you some Amplifier Controller Software (your puzzle input), 
 import Foundation
 
 var phases = [0,1,2,3,4] // This can be any array
-var phasesFeedback = [9,8,7,6,5] // this is for part 2
 var phaseSettings = [[Int]]()
-var phaseSettingsFeedback = [[Int]]() // this is for part 2
 
 // phasePermutation is in the util functions
 phasePermutation(phases: &phases) { result in phaseSettings.append(result) }
-//print(phaseSettings) // now an array of phases [[0, 1, 2, 3, 4], [1, 0, 2, 3, 4], [2, 0, 1, 3, 4]]
-phasePermutation(phases: &phases) { result in phaseSettingsFeedback.append(result) } // for part 2
+
 // func getInput is in utilities file
 var input = getInput(inputFile: "input7", extension: "txt")
-//print(input)
+
 //get the input file as an array into program
 var program = input.components(separatedBy: ",").compactMap { Int($0) }
-print(program)
 
+// map! for each array in phaseSettingsFeedback I get a variable phases like [2, 0, 1, 3, 4]
+let amplifiedOutput: Int = phaseSettings.map { phases in
+    // computed property inside the closure. again with map. for every value in phases I create a Computer running his own version of the program taking one phase each as input 2, 0, 1, 3, 4
+    // start
+    var input = 0
+// loop over the program until one of the computer gets to opcode 99
+    for i in 0...4 {
+       var computer = Computer(program: program, inputs: [phases[i], input])
+       computer.runProgramUntilComplete()
+       input = computer.takeOutput()
+    }
+    // return what would be the last output
+    return input
+// get the max out of all values
+}.max()!
 
-// part 1
-  
-   let amplifiedOutput: Int = phaseSettings.map { combo in
-       var nextInput = 0
-       for i in 0...4 {
-           var computer = Computer(program: program, inputs: [combo[i], nextInput])
-           computer.runProgramUntilComplete()
-           nextInput = computer.takeOutput()
-       }
-       return nextInput
-   }.max()!
+print("Solution Part 1: \(amplifiedOutput)")
 
-   print("Solution Part 1: \(amplifiedOutput)")
-
-
-// this used to work.. now that I finished day 7 part two the part 1 doesnt work anymore,.. doing a refoactoring!
+// this used to work.. now that I finished day 7 part two the part 1 doesnt work anymore,.. did a refactoring!
 
 //func amplifier(originalProgram: [Int], phases: [Int]) -> Int {
 //    // output

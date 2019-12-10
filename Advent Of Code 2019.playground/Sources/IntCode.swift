@@ -131,7 +131,7 @@ public struct Computer {
 
     // Runs the program until it next produces output or until the program halts. If an output is produced, returns
     // the output. If the program halts, returns nil.
-    public mutating func runProgramUntilNextOutput() -> Int? {
+    public mutating func runProgram() -> Int? {
         while self.iP < self.program.count && !self.isHalted && self.outputs.count == 0 {
             self.step()
         }

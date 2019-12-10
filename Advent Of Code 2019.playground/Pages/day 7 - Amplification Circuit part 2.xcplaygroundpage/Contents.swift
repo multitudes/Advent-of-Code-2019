@@ -18,9 +18,7 @@ The Elves have sent you some Amplifier Controller Software (your puzzle input), 
 */
 import Foundation
 
-var phases = [0,1,2,3,4] // This can be any array
 var phasesFeedback = [9,8,7,6,5] // this is for part 2
-var phaseSettings = [[Int]]()
 // declare empty array
 var phaseSettingsFeedback = [[Int]]() // this is for part 2
 // phasePermutation is in the util functions
@@ -44,7 +42,7 @@ let amplifiedOutput: Int = phaseSettingsFeedback.map { phases in
             // for amplifier 0 the input will be 0
             amplifiers[i].inputs.append(input)
             // after the first amplifier input will be the output of the previous
-            if let output = amplifiers[i].runProgramUntilNextOutput() {
+            if let output = amplifiers[i].runProgram() {
                 input = output
             } else {
                 break
