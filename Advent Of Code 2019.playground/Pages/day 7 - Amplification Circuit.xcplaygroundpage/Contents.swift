@@ -18,14 +18,6 @@ The Elves have sent you some Amplifier Controller Software (your puzzle input), 
 */
 import Foundation
 
-/**
- Generates all possible permutations of `data` using Heap's Algorithm
- - parameters:
-   - data: The data to permute
-   - output: A closure called with each permutation of the data
- */
-
-
 var phases = [0,1,2,3,4] // This can be any array
 var phaseSettings = [[Int]]()
 // phasePermutation is in the util functions
