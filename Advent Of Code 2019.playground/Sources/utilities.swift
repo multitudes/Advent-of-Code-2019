@@ -20,41 +20,97 @@ public func getInput(inputFile: String, extension: String) -> String {
     return input
 }
 
-public func createInstruction(program: [Int], index: Int) -> Instruction {
-    let opcode: Opcode = Opcode(rawValue: program[index] % 100)!
-    let modes = [ Mode(rawValue: program[index] % 1000 / 100)!, Mode(rawValue: program[index] / 1000)! ]
-    let firstParam: Int; let secondParam: Int; var parameters: [Int] = []
+public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int) -> Instruction {
+    
+    let opcode: Opcode = Opcode(rawValue: program[index]! % 100)!
+    let modes = [ Mode(rawValue: program[index]! % 1000 / 100)!, Mode(rawValue: program[index]! / 1000)! ]
+    var firstParam: Int = 0; var secondParam: Int = 0; var parameters: [Int] = []
+    
     switch opcode {
     case .add, .multiply, .equals, .lessThan, .jumpIfTrue, .jumpIfFalse:
             if modes[0] == .position {
-                           firstParam = program[program[index + 1]]
-                        } else {
-                             firstParam = program[index + 1]
-                        }
+                if let a = program[index + 1] {
+                    if let b = program[a] { firstParam = b } else { firstParam = program[0]! } }
+            } else if modes[0] == .relative {
+            if let a = program[index + 1] {
+                if let b = program[a + relativeBase] { firstParam = b } else {
+                    firstParam = program[0 + relativeBase] ?? 0 } }
+            else {
+                firstParam = program[index + 1] ?? 0
+                }}
             if modes[1] == .position {
-                         secondParam = program[program[index + 2]]
-                        } else {
-                         secondParam = program[index + 2]
-                       }
+                if let a = program[index + 1] {
+                    if let b = program[a] { secondParam = b } else { secondParam = program[0]! } }
+            } else if modes[0] == .relative {
+            if let a = program[index + 1] {
+                if let b = program[a + relativeBase] { secondParam = b } else {
+                    secondParam = program[0 + relativeBase] ?? 0 } }
+            else {
+                firstParam = program[index + 1] ?? 0
+                }}
+        
             parameters = [firstParam, secondParam]
         case .input:
             if modes[0] == .position {
-                           firstParam = program[program[index + 1]]
-                        } else {
-                             firstParam = program[index + 1]
-                        }
+                    if let a = program[index + 1] {
+                        if let b = program[a] {
+                            firstParam = b
+                            }
+                        else {
+                            firstParam = program[0]!
+                        }}}
+            else if modes[0] == .relative {
+                    if let a = program[index + 1] {
+                        if let b = program[a + relativeBase] {
+                            firstParam = b }
+                        else {
+                            firstParam = program[0 + relativeBase] ?? 0 }}}
+                else {
+                    firstParam = program[index + 1] ?? 0
+            }
             parameters = [firstParam]
         case .output:
             if modes[0] == .position {
-                           firstParam = program[program[index + 1]]
-                        } else {
-                             firstParam = program[index + 1]
-                        }
+                    if let a = program[index + 1] {
+                        if let b = program[a] {
+                            firstParam = b
+                            }
+                        else {
+                            firstParam = program[0]!
+                        }}}
+            else if modes[0] == .relative {
+                    if let a = program[index + 1] {
+                        if let b = program[a + relativeBase] {
+                            firstParam = b }
+                        else {
+                            firstParam = program[0 + relativeBase] ?? 0 }}}
+                else {
+                    firstParam = program[index + 1] ?? 0
+            }
             parameters = [firstParam]
-    case .halt:
-        print("stop")
-        }
-    return Instruction(opcode: opcode, parameters: parameters, modes: modes)
+        case .relativeBaseOffset:
+            if modes[0] == .position {
+                    if let a = program[index + 1] {
+                        if let b = program[a] {
+                            firstParam = b
+                            }
+                        else {
+                            firstParam = program[0]!
+                        }}}
+            else if modes[0] == .relative {
+                    if let a = program[index + 1] {
+                        if let b = program[a + relativeBase] {
+                            firstParam = b }
+                        else {
+                            firstParam = program[0 + relativeBase] ?? 0 }}}
+                else {
+                    firstParam = program[index + 1] ?? 0
+            }
+            parameters = [firstParam]
+        case .halt:
+            print("stop")
+    }
+    return Instruction(opcode: opcode, parameters: parameters ,modes: modes)
 }
 
 /*

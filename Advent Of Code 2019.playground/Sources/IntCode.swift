@@ -8,12 +8,14 @@ public enum Opcode: Int {
         jumpIfFalse = 6,
         lessThan = 7,
         equals = 8,
+        relativeBaseOffset = 9,
         halt = 99
 }
 // Possible modes for a parameter
 public enum Mode: Int {
     case position = 0,
-        immediate = 1
+        immediate = 1,
+        relative = 2
 
 }
 // the instruction will be ABCDE the last two digit the opcodes and the rest parameters
@@ -29,11 +31,11 @@ public struct Instruction {
 // My computer. // got some inspiration from Kaitlin Mahar for this. I still have lots to learn!!
 public struct Computer {
     public var program: [Int]
-    public var inputs: [Int]
+    public var inputs = [1]
     public var outputs: [Int] = []
     public var iP: Int = 0
     public var isHalted = false
-    
+    public var relativeBase = 0
     // Initializes a new Computer
     public init(program: [Int], inputs: [Int] = []) {
         self.program = program
@@ -64,6 +66,8 @@ public struct Computer {
                 return self.program[program[idx]]
             case .immediate:
                 return self.program[idx]
+            case .relative:
+                return self.relativeBase + self.program[idx]
             }
         }
     }
@@ -81,9 +85,7 @@ public struct Computer {
         case .jumpIfTrue, .jumpIfFalse:
             let params = self.readParams(count: 2)
             return Instruction(opcode: opcode, parameters: params, modes: [])
-        case .input:
-            return Instruction(opcode: opcode, parameters: [self.program[self.iP + 1]], modes: [])
-        case .output:
+        case .input, .output, .relativeBaseOffset:
             let params = self.readParams(count: 1)
             return Instruction(opcode: opcode, parameters: params, modes: [])
         case .halt:
@@ -122,6 +124,8 @@ public struct Computer {
                 self.iP = params[1]
                 return // return to avoid incrementing iP below
             }
+        case .relativeBaseOffset:
+                self.relativeBase += self.program[params[0]]
         case .halt:
             self.isHalted = true
             return
