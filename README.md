@@ -32,8 +32,8 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 6: Universal Orbit Map](https://github.com/multitudes/Advent-of-Code-2019#Day-6-Universal-Orbit-Map)|⭐️|⭐️|
 | ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|⭐️|⭐️|
 | ✔ [Day 8: Space Image Format](https://github.com/multitudes/Advent-of-Code-2019#Day-8-Space-Image-Format)|⭐️|⭐️|
-| ✔ [Day 9: Sensor Boost](https://github.com/multitudes/Advent-of-Code-2019#Day-9-Sensor-Boost)|||
-
+| ✔ [Day 9: Sensor Boost](https://github.com/multitudes/Advent-of-Code-2019#Day-9-Sensor-Boost)|⭐️|⭐️|
+| ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -820,8 +820,17 @@ printPicture(data: finaldata)
 
 ## [Day 9: Sensor Boost](https://adventofcode.com/2019/day/9)
 
+It has been hard because I had to refactor the input program from array to dict to contain the huge jumps in the program. At the end the code does look horrible though unwrapping all those optionals in dict! I will need to clean up this one further!
 
+```swift
+// I used this to transform the input array into a dict which can be accessed at program[index] 
+// however this is an optional... advantage is that if I save data at index 123456666 it wont be a problem!
+var program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
 
+// the rest is similar to the other intcode challenges and it is in the playground!
+```
+
+## [Day 10: Monitoring Station](https://adventofcode.com/2019/day/10)
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
 
