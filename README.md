@@ -832,6 +832,64 @@ var program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
 
 ## [Day 10: Monitoring Station](https://adventofcode.com/2019/day/10)
 
+The code works but written quiclky and needs some refactoring
+
+```swift
+import Foundation
+// this is to get the character of the string with subscript like string[3] - it would not be possible in swift!
+extension String {
+    subscript(i: Int) -> String {
+        return String(self[index(startIndex, offsetBy: i)])
+    }
+}
+// func getInput is in utilities file
+var input = getInput(inputFile: "input10", extension: "txt")
+//get the input file as an array into program
+var asteroidMap: [String] = input.components(separatedBy: "\n").filter { $0 != "" }
+// print the map for debugging
+for i in 0..<asteroidMap.count {
+    print(asteroidMap[i], terminator: "\n")
+}
+//my universe - 
+struct Universe {
+    var asteroidMap: [String]
+    lazy var xBounds = asteroidMap[0].count
+    lazy var yBounds = asteroidMap.count
+}
+
+func checkAsteroid(coordinates: (xPos: Int, yPos: Int), universe: Universe) -> Set<Double> {
+    var angles = Set<Double>()
+    for y in 0..<space.yBounds {
+        for x in 0..<space.xBounds{
+            if space.asteroidMap[y][x] == "#" {
+            // from rwenderlich For this specific problem, instead of using atan(), it’s simpler to use the function atan2(_:_:), which takes the x and y components as separate parameters, and correctly determines the overall rotation angle.
+            var angle = atan2(Double(y - coordinates.yPos) , Double(x - coordinates.xPos))
+            angles.insert( angle )
+            } else { continue }
+        }
+    }
+    return angles
+}
+
+var space = Universe(asteroidMap: asteroidMap)
+var location: (xPos: Int, yPos: Int) = (xPos : 0, yPos: 0)
+var sightings = 0
+for y in 0..<space.yBounds {
+    for x in 0..<space.xBounds{
+        if space.asteroidMap[y][x] == "#" {
+            let thisAsteroidSightings = checkAsteroid(coordinates: (xPos : x, yPos: y), universe: space).count
+            if thisAsteroidSightings > sightings {
+                sightings = thisAsteroidSightings
+                location = (xPos: x, yPos: y)
+            }
+        } else { continue }
+    }
+}
+print("\nsightings: \(sightings) for asteroid at coordinates \(location)")
+
+```
+
+
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
 
 
