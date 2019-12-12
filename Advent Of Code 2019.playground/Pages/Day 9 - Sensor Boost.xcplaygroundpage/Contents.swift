@@ -36,13 +36,13 @@ outputs = []
     index = 0
 while program[index] != 99 {
 
-    print(program)
+    //print(program)
     if index <= 0 { index = 0 }
     // just in case
     for i in 0..<4 {
         if program[index + i] == nil { program[index + i] == 0 }
     }
-    print("instr range: \(program[index] ?? 0) - \(program[index+1] ?? 0) - \(program[index+2] ?? 0)")
+    print("instr range: \(program[index] ?? 0) - \(program[index+1] ?? 0) - \(program[index+2] ?? 0) - \(program[index+3] ?? 0)")
     print("index: \(index)")
     print("relativeBase: \(relativeBase)")
     //print("Prog: \(program)")
@@ -67,13 +67,11 @@ while program[index] != 99 {
             program[instruction.parameters[2]] = instruction.parameters[0] * instruction.parameters[1]
             print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(instruction.parameters[2])")
             print("is this right ? \(program[instruction.parameters[2]]!)\n")
-            
             index += 4
         case .input:
-            print("\n TEST Input: 1 ")
-            // readLine does not work in Playgrounds 😅 I will hardcode it to 1
-            program[instruction.parameters[0]] = 1
-                       
+            print("\n TEST Input: 2 ")
+            // readLine does not work in Playgrounds 😅 I will hardcode it
+            program[instruction.parameters[0]] = 2
             index += 2
         case .output:
             print("output got: \(instruction.parameters[0])")
@@ -118,6 +116,7 @@ while program[index] != 99 {
             print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(instruction.parameters[2])")
             print("is this right ? \(program[instruction.parameters[2]]!)\n")
             index += 4
+        
         case  .equals:
             print("equals")
             print( instruction.parameters)
