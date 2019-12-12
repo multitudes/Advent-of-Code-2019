@@ -60,12 +60,10 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
         case .input:
             if modes[0] == .position {
                     if let a = program[index + 1] {
-                        if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                        firstParam = a }}
             else if modes[0] == .relative {
                     if let a = program[index + 1] {
-                        if let b = program[a + relativeBase] {
-                            firstParam = b }
-                        else { firstParam = 0 }}}
+                        firstParam = a + relativeBase }}
                 else {
                     print("\n\nerror write cannot have immediate mode 1 \n\n")
             }
