@@ -35,9 +35,25 @@ struct Universe {
     lazy var xBounds = asteroidMap[0].count
     lazy var yBounds = asteroidMap.count
     var monitoringStation = Asteroid()
+    var asteroidsArray = [Asteroid]()
+    mutating func getVisibleAsteroidsFromMonitoringStation(coordinatesMonitoringStation: (xPos: Int, yPos: Int)) -> [Asteroid] {
+        for y in 0..<self.yBounds {
+            for x in 0..<self.xBounds{
+                if self.asteroidMap[y][x] == "#" {
+                // from rwenderlich For this specific problem, instead of using atan(), it’s simpler to use the function atan2(_:_:), which takes the x and y components as separate parameters, and correctly determines the overall rotation angle.
+                    let angle: Double = atan2(Double(y - coordinatesMonitoringStation.yPos) , Double(x - coordinatesMonitoringStation.xPos))
+                    let radius: Double = (Double(y - coordinatesMonitoringStation.yPos) * Double(y - coordinatesMonitoringStation.yPos) * Double(x - coordinatesMonitoringStation.xPos) * Double(x - coordinatesMonitoringStation.xPos) ).squareRoot()
+                    let asteroid = Asteroid(location: (xPos: x, yPos: y), polarCoordinatesFromMonitoringStation: (radius: radius, angle: angle))
+                    asteroidsArray.append(asteroid)
+                } else { continue }
+            }
+        }
+        return asteroidsArray
+    }
 }
 struct Asteroid {
     var location: (xPos: Int, yPos: Int) = (xPos : 0, yPos: 0)
+    var polarCoordinatesFromMonitoringStation: (radius: Double, angle: Double) = (radius: 0, angle: 0)
     //lazy var sightings: Int =
 }
 //enum Position: String {
