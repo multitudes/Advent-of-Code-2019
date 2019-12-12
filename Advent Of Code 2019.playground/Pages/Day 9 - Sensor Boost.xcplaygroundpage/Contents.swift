@@ -38,8 +38,9 @@ while program[index] != 99 {
 
     print(program)
     if index <= 0 { index = 0 }
+    // just in case
     for i in 0..<4 {
-        program[index + i] = program[index + i] ?? 0
+        if program[index + i] == nil { program[index + i] == 0 }
     }
     print("instr range: \(program[index] ?? 0) - \(program[index+1] ?? 0) - \(program[index+2] ?? 0)")
     print("index: \(index)")
@@ -72,10 +73,10 @@ while program[index] != 99 {
             print("\n TEST Input: 1 ")
             // readLine does not work in Playgrounds 😅 I will hardcode it to 1
             if program[index]! / 100 == 2 {
-                program[program[index + 1]! + relativeBase ] = 2
+                program[program[index + 1]! + relativeBase ] = 1
                 
             } else {
-                    program[program[index + 1]!] = 2
+                    program[program[index + 1]!] = 1
             }
             index += 2
         case .output:
