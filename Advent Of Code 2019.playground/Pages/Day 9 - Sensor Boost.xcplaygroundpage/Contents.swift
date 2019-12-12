@@ -46,7 +46,7 @@ while program[index] != 99 {
     print("relativeBase: \(relativeBase)")
     //print("Prog: \(program)")
     
-    if program[index]! / 1000 > 1 {
+    if program[index]! / 10000 > 3 {
         print("\n error opcode =================\n ")
         break
     }
@@ -56,16 +56,16 @@ while program[index] != 99 {
         case .add:
             print("\nadd! got it")
             print("parameters: \(instruction.parameters)")
-            program[program[index + 3] ?? 0] = instruction.parameters[0] + instruction.parameters[1]
-            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(program[index + 3]!)")
-            print("is this right ? \(program[program[index + 3]!]!)\n")
+            program[instruction.parameters[2]] = instruction.parameters[0] + instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(instruction.parameters[2])")
+            print("is this right ? \(program[instruction.parameters[2]]!)\n")
             index += 4
         case .multiply:
             print("multiply ")
             print( instruction.parameters)
-            program[program[index + 3]!] = instruction.parameters[0] * instruction.parameters[1]
-            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(program[index + 3]!)")
-            print("is this right ? \(program[program[index + 3]!]!)\n")
+            program[instruction.parameters[2]] = instruction.parameters[0] * instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(instruction.parameters[2])")
+            print("is this right ? \(program[instruction.parameters[2]]!)\n")
             
             index += 4
         case .input:
@@ -115,21 +115,21 @@ while program[index] != 99 {
             print("lessThan")
             print( instruction.parameters)
             if instruction.parameters[0] < instruction.parameters[1] {
-                program[program[index + 3]!] = 1 } else {
-                program[program[index + 3]!] = 0
+                program[instruction.parameters[2]] = 1 } else {
+                program[instruction.parameters[2]] = 0
             }
-            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(program[index + 3]!)")
-            print("is this right ? \(program[program[index + 3]!]!)\n")
+            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(instruction.parameters[2])")
+            print("is this right ? \(program[instruction.parameters[2]]!)\n")
             index += 4
         case  .equals:
             print("equals")
             print( instruction.parameters)
             if instruction.parameters[0] == instruction.parameters[1] {
-                program[program[index + 3] ?? 0] = 1 } else {
-                program[program[index + 3] ?? 0] = 0
+                program[instruction.parameters[2]] = 1 } else {
+                program[instruction.parameters[2]] = 0
             }
-            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(program[index + 3]!)")
-            print("is this right ? \(program[program[index + 3]!]!)\n")
+            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(instruction.parameters[2])")
+            print("is this right ? \(program[instruction.parameters[2]]!)\n")
             index += 4
         case .relativeBaseOffset:
             print("relativeBaseOffset")
