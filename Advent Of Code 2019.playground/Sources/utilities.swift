@@ -67,7 +67,7 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
                             firstParam = b }
                         else { firstParam = 0 }}}
                 else {
-                    firstParam = program[index + 1] ?? 0
+                    print("\n\nerror write cannot have immediate mode 1 \n\n")
             }
             parameters = [firstParam]
         case .output:

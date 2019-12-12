@@ -72,10 +72,10 @@ while program[index] != 99 {
             print("\n TEST Input: 1 ")
             // readLine does not work in Playgrounds 😅 I will hardcode it to 1
             if program[index]! / 100 == 2 {
-                program[program[index + 1]! + relativeBase ] = 1
+                program[program[index + 1]! + relativeBase ] = 2
                 
             } else {
-                    program[program[index + 1]!] = 1
+                    program[program[index + 1]!] = 2
             }
             index += 2
         case .output:
