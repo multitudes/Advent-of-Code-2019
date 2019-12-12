@@ -33,7 +33,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 7: Amplification Circuit](https://github.com/multitudes/Advent-of-Code-2019#Day-7-Amplification-Circuit)|⭐️|⭐️|
 | ✔ [Day 8: Space Image Format](https://github.com/multitudes/Advent-of-Code-2019#Day-8-Space-Image-Format)|⭐️|⭐️|
 | ✔ [Day 9: Sensor Boost](https://github.com/multitudes/Advent-of-Code-2019#Day-9-Sensor-Boost)|⭐️|⭐️|
-| ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|||
+| ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|⭐️||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
