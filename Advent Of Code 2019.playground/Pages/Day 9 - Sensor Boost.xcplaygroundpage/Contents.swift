@@ -35,35 +35,41 @@ outputs = []
     outputs = []
     index = 0
 while program[index] != 99 {
-//for i in 0..<2 {
-    
-    print("instruction: \(program[index])")
+
+    print(program)
+    if index <= 0 { index = 0 }
+    for i in 0..<4 {
+        program[index + i] = program[index + i] ?? 0
+    }
+    print("instr range: \(program[index] ?? 0) - \(program[index+1] ?? 0) - \(program[index+2] ?? 0)")
     print("index: \(index)")
     print("relativeBase: \(relativeBase)")
     //print("Prog: \(program)")
+    
+    if program[index]! / 1000 > 1 {
+        print("\n error opcode =================\n ")
+        break
+    }
     // func createInstruction is in utilities file and returns an instance of the Instruction struct
     let instruction = createInstruction(program: program , index: index, relativeBase: relativeBase)
     switch instruction.opcode {
         case .add:
-            print("add! got it")
-            print( instruction.parameters)
-            print("range: \(program[index])! - \(program[index+1])! - \(program[index+2])!")
-            program[program[index + 3]!] = instruction.parameters[0] + instruction.parameters[1]
-            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(program[index + 3])")
-            print("is this right ? \(program[program[index + 3]!])\n")
+            print("\nadd! got it")
+            print("parameters: \(instruction.parameters)")
+            program[program[index + 3] ?? 0] = instruction.parameters[0] + instruction.parameters[1]
+            print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(program[index + 3]!)")
+            print("is this right ? \(program[program[index + 3]!]!)\n")
             index += 4
         case .multiply:
             print("multiply ")
             print( instruction.parameters)
-            print("range: \(program[index])! - \(program[index+1])! - \(program[index+2])!")
             program[program[index + 3]!] = instruction.parameters[0] * instruction.parameters[1]
-            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(program[index + 3])")
-            print("is this right ? \(program[program[index + 3]!])\n")
+            print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(program[index + 3]!)")
+            print("is this right ? \(program[program[index + 3]!]!)\n")
             
             index += 4
         case .input:
             print("\n TEST Input: 1 ")
-             print("range: \(program[index])! - \(program[index+1])!")
             // readLine does not work in Playgrounds 😅 I will hardcode it to 1
             if program[index]! / 100 == 2 {
                 program[program[index + 1]! + relativeBase ] = 1
@@ -76,7 +82,7 @@ while program[index] != 99 {
             print("output got: \(instruction.parameters[0])")
             index += 2
             outputs.append(instruction.parameters[0])
-            print("continue with \(program[index])\n")
+            print("continue with \(program[index]!)\n")
         case .jumpIfTrue:
             //Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
             print("jumpIfTrue")
@@ -84,10 +90,10 @@ while program[index] != 99 {
             //print("range: \(program[index...index+2])")
             if instruction.parameters[0] != 0 {
                 index = instruction.parameters[1]
-                print("jump to \(program[index])\n")
+                print("jump to index \(index)\n")
                 } else {
                 index += 3
-                print("continue with \(program[index])\n")
+                print("continue with \(program[index]!)\n")
             }
             
         case .jumpIfFalse:
@@ -97,42 +103,39 @@ while program[index] != 99 {
             //print("range: \(program[index...index+2])")
             if instruction.parameters[0] == 0 {
                 index = instruction.parameters[1]
-                print("jump to \(program[index])\n")
+                print("jump to \(program[index]!)\n")
                 continue
                 } else {
                 index += 3
-                print("continue with \(program[index])\n")
+                print("continue with \(program[index]!)\n")
             }
             
         case .lessThan:
             //Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
             print("lessThan")
             print( instruction.parameters)
-            print("range: \(program[index])! - \(program[index+1])! - \(program[index+2])!")
             if instruction.parameters[0] < instruction.parameters[1] {
                 program[program[index + 3]!] = 1 } else {
                 program[program[index + 3]!] = 0
             }
-            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(program[index + 3])")
-            print("is this right ? \(program[program[index + 3]!])\n")
+            print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(program[index + 3]!)")
+            print("is this right ? \(program[program[index + 3]!]!)\n")
             index += 4
         case  .equals:
             print("equals")
             print( instruction.parameters)
-            print("range: \(program[index])! - \(program[index+1])! - \(program[index+2])!")
             if instruction.parameters[0] == instruction.parameters[1] {
-                program[program[index + 3]!] = 1 } else {
-                program[program[index + 3]!] = 0
+                program[program[index + 3] ?? 0] = 1 } else {
+                program[program[index + 3] ?? 0] = 0
             }
-            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(program[index + 3])")
-            print("is this right ? \(program[program[index + 3]!])\n")
+            print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(program[index + 3]!)")
+            print("is this right ? \(program[program[index + 3]!]!)\n")
             index += 4
         case .relativeBaseOffset:
             print("relativeBaseOffset")
             print( instruction.parameters)
-            print("range: \(program[index])! - \(program[index+1])! - \(program[index+2])!")
-            relativeBase = instruction.parameters[0]
-            print("relativeBase is now  = \(relativeBase)")
+            relativeBase += instruction.parameters[0]
+            print("relativeBase is now  = \(relativeBase)\n")
             index += 2
         case .halt:
             print("stop")
