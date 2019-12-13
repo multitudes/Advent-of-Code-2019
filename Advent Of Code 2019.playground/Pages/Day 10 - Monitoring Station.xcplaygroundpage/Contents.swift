@@ -16,7 +16,7 @@ Find the best location for a new monitoring station. How many other asteroids ca
 
 import Foundation
 // this is to get the character of the string with subscript like string[3] - it would not be possible in swift!
-
+// I thought I was being smart but this extension is the most expensive in the whole program! need to refactor this
 extension String {
     subscript(i: Int) -> String {
         return String(self[index(startIndex, offsetBy: i)])
@@ -38,7 +38,7 @@ struct Universe {
     var monitoringStation = Asteroid()
     var asteroidsArray = [Asteroid]()
     
-    mutating func startPulverizingBeam() -> Int {
+    mutating func startPulverizingBeam() {
         var count = 0
         while asteroidsArray.isEmpty == false {
             let a = pulverizeOneAsteroid()
@@ -47,27 +47,28 @@ struct Universe {
             if count == 200 {
                 a.origLocation.xPos
                 print("\n solution is \(a.origLocation.xPos * 100 + a.origLocation.yPos)\n 😀 ")
+                return
             }
            }
-        return count
+        return
     }
-    
+    init(asteroidMap: [String]) {
+        self.asteroidMap = asteroidMap
+        self.setMonitorinStation()
+    }
     mutating func pulverizeOneAsteroid() -> Asteroid {
         if asteroidsArray.isEmpty { return monitoringStation }
         return asteroidsArray.removeFirst()
     }
     mutating func sortAsteroidsArray() {
-        if asteroidsArray.isEmpty {
-            getAsteroidsArrayFrom(coordinatesMonitoringStation: monitoringStation.origLocation)
-        }
-       // this is to sort arrays first time by angle ASC and for same angle by radius ASC
+        if asteroidsArray.isEmpty { getAsteroidsArrayFromMonitoringStation() }
+        // this is to sort arrays first time by angle ASC and for same angle by radius ASC
         asteroidsArray.sort{
             if $0.polarCoordinatesFromMonitoringStation.angle == $1.polarCoordinatesFromMonitoringStation.angle {
                 return $0.polarCoordinatesFromMonitoringStation.radius < $1.polarCoordinatesFromMonitoringStation.radius
             } else {
                 return $0.polarCoordinatesFromMonitoringStation.angle < $1.polarCoordinatesFromMonitoringStation.angle
-            }
-        }
+            } }
         // again sort and assign the orderNumber
         // k is keeping track of how many same elements are at the end of the array. without k there would be an endless loop at the end removing and appending the same element!
         var i = 0; let j = asteroidsArray.count ; var k = 0
@@ -109,7 +110,7 @@ struct Universe {
         self.monitoringStation = Asteroid(origLocation: location, polarCoordinatesFromMonitoringStation: (angle: 0, radius: 0), asteroidNumber: 0)
         return monitoringStation
     }
-    // sometimes I need to set the monitoring station by myself
+    // sometimes I need to set the monitoring station by myself lloking for the big X in the map
     mutating func setMonitorinStation() -> Asteroid {
         for y in 0..<self.yBounds {
             for x in 0..<self.xBounds{
@@ -136,16 +137,14 @@ struct Universe {
         }
         return angles.count
     }
-    mutating func getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: Int, yPos: Int) = (xPos: 11, yPos: 13)) -> [Asteroid]  {
-//        if coordinatesMonitoringStation == (0,0) {
-//            let
-//        }
+    mutating func getAsteroidsArrayFromMonitoringStation() -> [Asteroid]  {
+       
         for y in 0..<self.yBounds {
             for x in 0..<self.xBounds{
                 if self.asteroidMap[y][x] == "#" {
-                    if y == coordinatesMonitoringStation.yPos && x == coordinatesMonitoringStation.xPos { continue }
+                    if y == self.monitoringStation.origLocation.yPos && x == self.monitoringStation.origLocation.xPos { continue }
                 // from rwenderlich For this specific problem, instead of using atan(), it’s simpler to use the function atan2(_:_:), which takes the x and y components as separate parameters, and correctly determines the overall rotation angle.
-                    let (angle, radius): (Double, Double) = convertToPolar(x: Double(x - coordinatesMonitoringStation.xPos) ,y: Double(y - coordinatesMonitoringStation.yPos))
+                    let (angle, radius): (Double, Double) = convertToPolar(x: Double(x - self.monitoringStation.origLocation.xPos) ,y: Double(y - self.monitoringStation.origLocation.yPos))
                     let asteroid = Asteroid(origLocation: (xPos: x, yPos: y), polarCoordinatesFromMonitoringStation: (angle: angle , radius: radius))
                     asteroidsArray.append(asteroid)
                 } else { continue }
@@ -184,78 +183,51 @@ extension Asteroid: CustomStringConvertible {
         return text
     }
 }
-//enum Position: String {
-//    case asteroid = "#", noAsteroid = "."
-//}
 
-//struct coordinates {
-//    let position: (Int, Int)
-//}
-// create polar coordinates for part2
-var polarCoordinates:[(radius: Double, angle :Double)] = []
-func getRadius(_ a: Double, _ b: Double) -> Double {
-    return (a * a + b * b).squareRoot()
-}
+var santaUniverse = Universe(asteroidMap: asteroidMap)
+print("bounds x:\(santaUniverse.xBounds) y:\(santaUniverse.yBounds)")
+santaUniverse.getAsteroidsArrayFromMonitoringStation()
+santaUniverse.sortAsteroidsArray()
+santaUniverse.startPulverizingBeam()
 
-//polarCoordinates.sort(by: {$0.angle < $1.angle})
-//print(polarCoordinates.count)
-//let test = atan2(Double(2) , Double(0))
-
-// this will assume my monitoring station to be in 0,0 and will return the value in radiants given the position of each asteroid relative to my monitoring station y axis pointing down but starting with origin vector pointing up and going clockwise!
-func convertToPolar(x: Double ,y: Double) -> (Double, Double) {
-    let radius: Double = getRadius(x, y)
-    let degreesToRadians = Double(CGFloat.pi / 180)
-        var angle = (-atan2(-y,x) + degreesToRadians * 90)
-        if angle < 0 {
-            angle = angle + 360 * degreesToRadians
-            return (angle, radius)
-        }
-        return (angle, radius)
-}
-
-
-
-var a = Universe(asteroidMap: asteroidMap)
-print("bounds x:\(a.xBounds) y:\(a.yBounds)")
-a.chooseMonitorinStation()
-//a.setMonitorinStation()
-//print(a.monitoringStation.description)
-let b = a.getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: 17, yPos: 22))
-a.sortAsteroidsArray()
-a.startPulverizingBeam()
-
-//a.getAsteroidsArrayFrom()
-//a.asteroidsArray
-////a.checkVisibleAsteroidFrom(coordinates: (xPos: 3, yPos: 4))
-////let b = a.getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: 3, yPos: 4))
-//print(a.monitoringStation.origLocation)
 //
-//print(a.asteroidsArray)
-//a.sortAsteroidsArray()
-//print(a.asteroidsArray)
 //
-//let numberOfAsteroidsPulverized =  a.startPulverizingBeam()
-
-//b[1].polarCoordinatesFromMonitoringStation
-//b[1].origLocation
-
-
-
-
-
-var x: Double = 5.0
-var y: Double = 0.0
-print("\n\ntest\n")
-print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y)) ")
- x  = 2.0
- y = -2.0
-print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
- x  = 0.01
- y = -5.0
-print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
- x  = -0.01
- y = -5.0
-print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
- x  = 0
- y = 5.0
-print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y)) ")
+//var polarCoordinates:[(radius: Double, angle :Double)] = []
+//func getRadius(_ a: Double, _ b: Double) -> Double {
+//    return (a * a + b * b).squareRoot()
+//}
+//
+//
+////polarCoordinates.sort(by: {$0.angle < $1.angle})
+////print(polarCoordinates.count)
+////let test = atan2(Double(2) , Double(0))
+//
+//// this will assume my monitoring station to be in 0,0 and will return the value in radiants given the position of each asteroid relative to my monitoring station y axis pointing down but starting with origin vector pointing up and going clockwise!
+//func convertToPolar(x: Double ,y: Double) -> (Double, Double) {
+//    let radius: Double = getRadius(x, y)
+//    let degreesToRadians = Double(CGFloat.pi / 180)
+//        var angle = (-atan2(-y,x) + degreesToRadians * 90)
+//        if angle < 0 {
+//            angle = angle + 360 * degreesToRadians
+//            return (angle, radius)
+//        }
+//        return (angle, radius)
+//}
+//
+//// this was to test the polar coordinates
+//var x: Double = 5.0
+//var y: Double = 0.0
+//print("\n\ntest\n")
+//print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y)) ")
+// x  = 2.0
+// y = -2.0
+//print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
+// x  = 0.01
+// y = -5.0
+//print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
+// x  = -0.01
+// y = -5.0
+//print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
+// x  = 0
+// y = 5.0
+//print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y)) ")
