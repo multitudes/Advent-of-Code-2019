@@ -43,7 +43,7 @@ struct Universe {
                 // from rwenderlich For this specific problem, instead of using atan(), it’s simpler to use the function atan2(_:_:), which takes the x and y components as separate parameters, and correctly determines the overall rotation angle.
                     let angle: Double = atan2(Double(y - coordinatesMonitoringStation.yPos) , Double(x - coordinatesMonitoringStation.xPos))
                     let radius: Double = (Double(y - coordinatesMonitoringStation.yPos) * Double(y - coordinatesMonitoringStation.yPos) * Double(x - coordinatesMonitoringStation.xPos) * Double(x - coordinatesMonitoringStation.xPos) ).squareRoot()
-                    let asteroid = Asteroid(location: (xPos: x, yPos: y), polarCoordinatesFromMonitoringStation: (radius: radius, angle: angle))
+                    let asteroid = Asteroid(location: (xPos: x, yPos: y), polarCoordinatesFromMonitoringStation: (angle: angle , radius: radius))
                     asteroidsArray.append(asteroid)
                 } else { continue }
             }
@@ -53,7 +53,7 @@ struct Universe {
 }
 struct Asteroid {
     var location: (xPos: Int, yPos: Int) = (xPos : 0, yPos: 0)
-    var polarCoordinatesFromMonitoringStation: (radius: Double, angle: Double) = (radius: 0, angle: 0)
+    var polarCoordinatesFromMonitoringStation: (angle: Double, radius: Double) = (angle: 0 , radius: 0)
     //lazy var sightings: Int =
 }
 //enum Position: String {
@@ -109,4 +109,30 @@ polarCoordinates.sort(by: {$0.angle < $1.angle})
 print(polarCoordinates.count)
 //let test = atan2(Double(2) , Double(0))
 
+// this will assume my monitoring station to be in 0,0 and will return the value in radiants given the position of each asteroid relative to my monitoring station y axis pointing down but starting with origin vector pointing up and going clockwise!
+func convert(x: Double ,y: Double) -> Double {
+        let degreesToRadians = Double(CGFloat.pi / 180)
+        let angle = (-atan2(-y,x) + degreesToRadians * 90)
+        if angle < 0 {
+            return angle + 360 * degreesToRadians
+        }
+        return angle
+}
 
+
+var x: Double = 5.0
+var y: Double = 0.0
+print("\n\ntest\n")
+print("atan for x \(x) ,y \(y) is \(convert(x: x, y: y)) ")
+ x  = 2.0
+ y = -2.0
+print("atan for x \(x) ,y \(y) is \(convert(x: x, y: y))   ")
+ x  = 0.01
+ y = -5.0
+print("atan for x \(x) ,y \(y) is \(convert(x: x, y: y))   ")
+ x  = -0.01
+ y = -5.0
+print("atan for x \(x) ,y \(y) is \(convert(x: x, y: y))   ")
+ x  = 0
+ y = 5.0
+print("atan for x \(x) ,y \(y) is \(convert(x: x, y: y)) ")
