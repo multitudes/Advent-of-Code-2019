@@ -16,13 +16,14 @@ Find the best location for a new monitoring station. How many other asteroids ca
 
 import Foundation
 // this is to get the character of the string with subscript like string[3] - it would not be possible in swift!
+
 extension String {
     subscript(i: Int) -> String {
         return String(self[index(startIndex, offsetBy: i)])
     }
 }
 // func getInput is in utilities file
-var input = getInput(inputFile: "input10a", extension: "txt")
+var input = getInput(inputFile: "input10", extension: "txt")
 //get the input file as an array into program
 var asteroidMap: [String] = input.components(separatedBy: "\n").filter { $0 != "" }
 // print the map for debugging
@@ -37,17 +38,56 @@ struct Universe {
     var monitoringStation = Asteroid()
     var asteroidsArray = [Asteroid]()
     
+    mutating func startPulverizingBeam() -> Int {
+        var count = 0
+        while asteroidsArray.isEmpty == false {
+            let a = pulverizeOneAsteroid()
+            count += 1
+            print("pulverized \(a.description) asteroid number \(count)\n")
+            if count == 200 {
+                a.origLocation.xPos
+                print("\n solution is \(a.origLocation.xPos * 100 + a.origLocation.yPos)\n 😀 ")
+            }
+           }
+        return count
+    }
+    
+    mutating func pulverizeOneAsteroid() -> Asteroid {
+        if asteroidsArray.isEmpty { return monitoringStation }
+        return asteroidsArray.removeFirst()
+    }
     mutating func sortAsteroidsArray() {
         if asteroidsArray.isEmpty {
             getAsteroidsArrayFrom(coordinatesMonitoringStation: monitoringStation.origLocation)
         }
-       // this is to sort arrays
+       // this is to sort arrays first time by angle ASC and for same angle by radius ASC
         asteroidsArray.sort{
             if $0.polarCoordinatesFromMonitoringStation.angle == $1.polarCoordinatesFromMonitoringStation.angle {
                 return $0.polarCoordinatesFromMonitoringStation.radius < $1.polarCoordinatesFromMonitoringStation.radius
             } else {
                 return $0.polarCoordinatesFromMonitoringStation.angle < $1.polarCoordinatesFromMonitoringStation.angle
             }
+        }
+        // again sort and assign the orderNumber
+        // k is keeping track of how many same elements are at the end of the array. without k there would be an endless loop at the end removing and appending the same element!
+        var i = 0; let j = asteroidsArray.count ; var k = 0
+        while i < (j - k) {
+            if i == 0  {
+                asteroidsArray[0].asteroidNumber = 0
+                i = i + 1; continue  }
+            // the twist. everytime I discover a new sameness of angles k needs to start at zero. K will always give me the number of same elements at the very bottom of the array which if it got k times the same elements will not need to be iterated to
+            if asteroidsArray[i].polarCoordinatesFromMonitoringStation.angle == asteroidsArray[i - 1].polarCoordinatesFromMonitoringStation.angle {k = 0}
+            // compare to the previous angle, if same then remove and append as long as needed
+            while asteroidsArray[i].polarCoordinatesFromMonitoringStation.angle == asteroidsArray[i - 1].polarCoordinatesFromMonitoringStation.angle {
+                    let a = asteroidsArray.remove(at: i)
+                    asteroidsArray.append(a)
+                    // I update k to say this has been done a number of time.
+                    k = k + 1
+                    continue
+                }
+            
+            //asteroidsArray[i].asteroidNumber = i
+            i = i + 1
         }
     }
     //looping to every corner of my universe. I check from every asteroid I land which one is the one with the most visible asteroids
@@ -69,6 +109,18 @@ struct Universe {
         self.monitoringStation = Asteroid(origLocation: location, polarCoordinatesFromMonitoringStation: (angle: 0, radius: 0), asteroidNumber: 0)
         return monitoringStation
     }
+    // sometimes I need to set the monitoring station by myself
+    mutating func setMonitorinStation() -> Asteroid {
+        for y in 0..<self.yBounds {
+            for x in 0..<self.xBounds{
+                if self.asteroidMap[y][x] == "X" {
+                    self.monitoringStation = Asteroid(origLocation: (xPos : x, yPos: y), polarCoordinatesFromMonitoringStation: (angle: 0, radius: 0), asteroidNumber: 0)
+                    return monitoringStation
+                }
+            }
+        } // if X not found then I just go down the normal route
+        return chooseMonitorinStation()
+    }
      //from one asteroid at pos xPos yPos , I return the number of unique asteroids(angles) I see and return a set of unique values
     mutating func checkVisibleAsteroidFrom(coordinates: (xPos : Int, yPos: Int)) -> Int{
         var angles = Set<Double>()
@@ -84,7 +136,10 @@ struct Universe {
         }
         return angles.count
     }
-    mutating func getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: Int, yPos: Int)) -> [Asteroid]  {
+    mutating func getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: Int, yPos: Int) = (xPos: 11, yPos: 13)) -> [Asteroid]  {
+//        if coordinatesMonitoringStation == (0,0) {
+//            let
+//        }
         for y in 0..<self.yBounds {
             for x in 0..<self.xBounds{
                 if self.asteroidMap[y][x] == "#" {
@@ -119,6 +174,16 @@ struct Asteroid {
     var asteroidNumber: Int?
     //lazy var sightings: Int =
 }
+extension Asteroid: CustomStringConvertible {
+  //This is a computed property. Mapping will be recursive!
+    public var description: String {
+        var text = ""
+        if let order = asteroidNumber {
+            text = "Asteroid number: \(order) \n" }
+        text += "Polar coordinates \(polarCoordinatesFromMonitoringStation) \n  "
+        return text
+    }
+}
 //enum Position: String {
 //    case asteroid = "#", noAsteroid = "."
 //}
@@ -132,8 +197,8 @@ func getRadius(_ a: Double, _ b: Double) -> Double {
     return (a * a + b * b).squareRoot()
 }
 
-polarCoordinates.sort(by: {$0.angle < $1.angle})
-print(polarCoordinates.count)
+//polarCoordinates.sort(by: {$0.angle < $1.angle})
+//print(polarCoordinates.count)
 //let test = atan2(Double(2) , Double(0))
 
 // this will assume my monitoring station to be in 0,0 and will return the value in radiants given the position of each asteroid relative to my monitoring station y axis pointing down but starting with origin vector pointing up and going clockwise!
@@ -147,6 +212,35 @@ func convertToPolar(x: Double ,y: Double) -> (Double, Double) {
         }
         return (angle, radius)
 }
+
+
+
+var a = Universe(asteroidMap: asteroidMap)
+print("bounds x:\(a.xBounds) y:\(a.yBounds)")
+a.chooseMonitorinStation()
+//a.setMonitorinStation()
+//print(a.monitoringStation.description)
+let b = a.getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: 17, yPos: 22))
+a.sortAsteroidsArray()
+a.startPulverizingBeam()
+
+//a.getAsteroidsArrayFrom()
+//a.asteroidsArray
+////a.checkVisibleAsteroidFrom(coordinates: (xPos: 3, yPos: 4))
+////let b = a.getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: 3, yPos: 4))
+//print(a.monitoringStation.origLocation)
+//
+//print(a.asteroidsArray)
+//a.sortAsteroidsArray()
+//print(a.asteroidsArray)
+//
+//let numberOfAsteroidsPulverized =  a.startPulverizingBeam()
+
+//b[1].polarCoordinatesFromMonitoringStation
+//b[1].origLocation
+
+
+
 
 
 var x: Double = 5.0
@@ -165,29 +259,3 @@ print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y))   ")
  x  = 0
  y = 5.0
 print("atan for x \(x) ,y \(y) is \(convertToPolar(x: x, y: y)) ")
-
-var a = Universe(asteroidMap: asteroidMap)
-a.chooseMonitorinStation()
-a.asteroidsArray
-a.checkVisibleAsteroidFrom(coordinates: (xPos: 3, yPos: 4))
-let b = a.getAsteroidsArrayFrom(coordinatesMonitoringStation: (xPos: 3, yPos: 4))
-a.monitoringStation
-print(a.asteroidsArray)
-a.sortAsteroidsArray()
-print(a.asteroidsArray)
-b[1].polarCoordinatesFromMonitoringStation
-b[1].origLocation
-
-
-
-
-extension Asteroid: CustomStringConvertible {
-  //This is a computed property. Mapping will be recursive!
-    public var description: String {
-        var text = ""
-        if let order = asteroidNumber {
-            text = "Asteroid number: \(order) \n" }
-        text += "Polar coordinates \(polarCoordinatesFromMonitoringStation) \n  "
-        return text
-    }
-}
