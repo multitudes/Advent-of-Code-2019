@@ -3,12 +3,17 @@
    version = "3.0">
    <TimelineItems>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2010%20-%20Monitoring%20Station.xcplaygroundpage#CharacterRangeLen=6014&amp;CharacterRangeLoc=0&amp;EndingColumnNumber=0&amp;EndingLineNumber=138&amp;StartingColumnNumber=0&amp;StartingLineNumber=0&amp;Timestamp=597928955.314765"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2010%20-%20Monitoring%20Station.xcplaygroundpage#CharacterRangeLen=8342&amp;CharacterRangeLoc=0&amp;EndingColumnNumber=0&amp;EndingLineNumber=193&amp;StartingColumnNumber=0&amp;StartingLineNumber=0&amp;Timestamp=597945295.813683"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2010%20-%20Monitoring%20Station.xcplaygroundpage#CharacterRangeLen=6014&amp;CharacterRangeLoc=0&amp;EndingColumnNumber=0&amp;EndingLineNumber=138&amp;StartingColumnNumber=0&amp;StartingLineNumber=0&amp;Timestamp=597928955.3148561"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2010%20-%20Monitoring%20Station.xcplaygroundpage#CharacterRangeLen=8342&amp;CharacterRangeLoc=0&amp;EndingColumnNumber=0&amp;EndingLineNumber=193&amp;StartingColumnNumber=0&amp;StartingLineNumber=0&amp;Timestamp=597945295.813773"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2010%20-%20Monitoring%20Station.xcplaygroundpage#CharacterRangeLen=23&amp;CharacterRangeLoc=7887&amp;EndingColumnNumber=0&amp;EndingLineNumber=177&amp;StartingColumnNumber=1&amp;StartingLineNumber=176&amp;Timestamp=597945295.813841"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>

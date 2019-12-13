@@ -20,7 +20,6 @@ extension SpaceObject: CustomStringConvertible {
             }
         return nil
     }
-
 }
 
 public class SpaceObject : Hashable {
