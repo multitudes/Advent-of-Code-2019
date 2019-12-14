@@ -38,6 +38,11 @@ struct Universe {
     var monitoringStation = Asteroid()
     var asteroidsArray = [Asteroid]()
     
+    init(asteroidMap: [String]) {
+        self.asteroidMap = asteroidMap
+        self.setMonitorinStation()
+    }
+    
     mutating func startPulverizingBeam() {
         var count = 0
         while asteroidsArray.isEmpty == false {
@@ -52,10 +57,7 @@ struct Universe {
            }
         return
     }
-    init(asteroidMap: [String]) {
-        self.asteroidMap = asteroidMap
-        self.setMonitorinStation()
-    }
+    
     mutating func pulverizeOneAsteroid() -> Asteroid {
         if asteroidsArray.isEmpty { return monitoringStation }
         return asteroidsArray.removeFirst()

@@ -16,6 +16,10 @@ public func getInput(inputFile: String, extension: String) -> String {
         input = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
     } catch {
         print(error)
+        // ?
+//        NSSetUncaughtExceptionHandler { exception in
+//            print("💥 Exception thrown: \(exception)")
+//        }
     }
     return input
 }
@@ -122,3 +126,4 @@ public func generate<T>(n: Int, phases: inout Array<T>, output: (Array<T>) -> Vo
         }
     }
 }
+

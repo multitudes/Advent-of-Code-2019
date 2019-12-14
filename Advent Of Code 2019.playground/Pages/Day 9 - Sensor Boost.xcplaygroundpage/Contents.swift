@@ -38,7 +38,7 @@ while program[index] != 99 {
 
     //print(program)
     if index <= 0 { index = 0 }
-    // just in case
+    // just in case initialize some memory here 
     for i in 0..<4 {
         if program[index + i] == nil { program[index + i] == 0 }
     }
