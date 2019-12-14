@@ -36,8 +36,8 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
                 if let a = program[index + 1] {
                     if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
             else if modes[0] == .relative {
-            if let a = program[index + 1] {
-                if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                if let a = program[index + 1] {
+                    if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
             else {
                 firstParam = program[index + 1] ?? 0
                 }
@@ -45,8 +45,8 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
                 if let a = program[index + 2] {
                     if let b = program[a] { secondParam = b } else { secondParam = 0 }}}
             else if modes[1] == .relative {
-            if let a = program[index + 2] {
-                if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
+                if let a = program[index + 2] {
+                    if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
             else {
                 secondParam = program[index + 2] ?? 0
             }
@@ -54,8 +54,8 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
                 if let a = program[index + 3] {
                     thirdParam = a }}
             else if modes[2] == .relative {
-            if let a = program[index + 3] {
-                    thirdParam = a + relativeBase }}
+                if let a = program[index + 3] {
+                        thirdParam = a + relativeBase }}
             else {
                 print("\n\nerror write cannot have immediate mode 1 \n\n")
             }

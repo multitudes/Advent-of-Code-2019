@@ -27,8 +27,8 @@ struct Robot {
     var currentSquare: Square
     //var program: [Instruction]
     init(inputFile: String) {
-        //initialize the current square
-        self.currentSquare = Square(color: .black, coordinatesFromStart: (xPos: 0, yPos: 0))
+        //initialize the current square--- for part two it will start white!
+        self.currentSquare = Square(color: .white, coordinatesFromStart: (xPos: 0, yPos: 0))
         // load the program as dictionary of memory locations
         self.loadProgram(inputFile: inputFile)
     }
@@ -37,7 +37,10 @@ struct Robot {
         //Return Value is (true, newMember) if newMember was not contained in the set. If an element equal to newMember was already contained in the set, the method returns (false, oldMember), where oldMember is the element that was equal to newMember.
         if self.paintedSquares.insert(currentSquare).0 == false {
             print("you have been here before")
+            self.paintedSquares.update(with: currentSquare)
+            print("updated with \(currentSquare.color)\n")
         }
+        print("color is now \(self.currentSquare.color)")
     }
     func returnColorAtCurrentSquare() -> Color {
         return self.currentSquare.color
@@ -47,25 +50,35 @@ struct Robot {
             case .up:
                 print("\nGoing Up")
                 self.currentSquare.coordinatesFromStart.yPos -= 1
-                print("position \(self.currentSquare.coordinatesFromStart) \n")
+                print("position \(self.currentSquare.coordinatesFromStart)")
             case .right:
                 print("\nGoing right")
                 self.currentSquare.coordinatesFromStart.xPos += 1
-                print("position \(self.currentSquare.coordinatesFromStart) \n")
+                print("position \(self.currentSquare.coordinatesFromStart)")
             case .left:
                 print("\nGoing left")
                 self.currentSquare.coordinatesFromStart.xPos -= 1
-                print("position \(self.currentSquare.coordinatesFromStart) \n")
+                print("position \(self.currentSquare.coordinatesFromStart)")
             case .down:
                 print("\nGoing down")
                 self.currentSquare.coordinatesFromStart.yPos += 1
-                print("position \(self.currentSquare.coordinatesFromStart) \n")
+                print("position \(self.currentSquare.coordinatesFromStart)")
             }
+        // need to update currentSquare after moving. if i already visited that square then the color could be white or black. else is black by defaault
+        if let alreadyVisited = self.paintedSquares.first(where: { $0.coordinatesFromStart == self.currentSquare.coordinatesFromStart }) {
+            self.currentSquare.color = alreadyVisited.color
+        } else {
+            self.currentSquare.color = .black
+        }
+        print("currentSquare color \(self.currentSquare.color)")
+        print("number of square visited = \(self.paintedSquares.count) \n\n")
+
     }
     mutating func changeDirection(to: Direction) {
         switch to {
             case .left:
                 self.direction = Direction(rawValue: ((self.direction.rawValue + 4 - 1) % 4) )!
+                
             case .right:
                 self.direction = Direction(rawValue: ((self.direction.rawValue + 4 + 1) % 4) )!
             default: print("\nOnly left or right changes allowed! \n")
@@ -79,7 +92,7 @@ struct Robot {
         let inputProgramArray = input.components(separatedBy: ",").compactMap { Int($0) }
         let progrLength = inputProgramArray.count
         //var programBuffer = [Int](repeating: 0, count: 100000000)
-        print("length : \(progrLength)")
+        print("last two : \(inputProgramArray[progrLength-2]) == \(inputProgramArray[progrLength-1])")
         self.program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
     }
     mutating func runProgram() {
@@ -119,8 +132,8 @@ struct Robot {
                     print("is this right ? \(program[instruction.parameters[2]]!)\n")
                     index += 4
                 case .input:
-                    input = self.returnColorAtCurrentSquare()
-                    print("\n TEST Input is current color of square: \(input) ")
+                    input = self.returnColorAtCurrentSquare().rawValue
+                    print("\n TEST Input is current color of square: \(Color(rawValue: input)!) ")
                     var firstParam = 0
                     if instruction.modes[0] == .position {
                             if let a = program[index + 1] {
@@ -132,13 +145,18 @@ struct Robot {
                             print("\n\nerror write cannot have immediate mode 1 \n\n")
                     }
                     program[firstParam] = input
+                    print("value: \(input)  written to \(firstParam)")
+                    print("is this right ? \(program[firstParam]!)\n")
                     index += 2
                 case .output:
                     print("output got: \(instruction.parameters[0])")
                     outputs.append(instruction.parameters[0])
                     if outputs.count == 2 {
-                        self.paintSquare(color: outputs[0])
-                        self.changeDirection(to: outputs[1])
+                        print("outputs are \(outputs)")
+                        print("painting \(Color(rawValue: outputs[0]) ?? .black) and moving one square")
+                        self.paintSquare(color: Color(rawValue: outputs[0]) ?? .black)
+                        if outputs[1] == 1 { outputs[1] += 1 }// to get turn right}
+                            self.changeDirection(to: Direction(rawValue: outputs[1]) ?? .up)
                         self.moveOneSquare()
                         outputs = []
                     }
@@ -153,6 +171,7 @@ struct Robot {
                     if instruction.parameters[0] != 0 {
                         index = instruction.parameters[1]
                         print("jump to index \(index)\n")
+                        continue
                         } else {
                         index += 3
                         print("continue with \(program[index]!)\n")
@@ -227,10 +246,10 @@ struct Square: Hashable {
     }
     
 }
-enum Direction : Int {
+enum Direction: Int {
     case left, up, right, down
 }
-enum Color {
+enum Color: Int {
     case  black, white
 }
 
