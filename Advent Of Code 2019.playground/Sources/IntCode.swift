@@ -22,7 +22,7 @@ public enum Mode: Int {
 public struct Instruction {
     public let opcode: Opcode
     public var parameters: [Int]
-    var modes: [Mode]
+    public var modes: [Mode]
     // +1 for the opcode
     var length: Int { return parameters.count + 1 }
 }
