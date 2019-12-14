@@ -40,11 +40,27 @@ struct Robot {
                 print("position \(self.currentSquare.coordinatesFromStart) \n")
             case .right:
                 print("\nGoing right")
+                self.currentSquare.coordinatesFromStart.xPos += 1
+                print("position \(self.currentSquare.coordinatesFromStart) \n")
             case .left:
                 print("\nGoing left")
+                self.currentSquare.coordinatesFromStart.xPos -= 1
+                print("position \(self.currentSquare.coordinatesFromStart) \n")
             case .down:
                 print("\nGoing down")
+                self.currentSquare.coordinatesFromStart.yPos += 1
+                print("position \(self.currentSquare.coordinatesFromStart) \n")
             }
+    }
+    mutating func changeDirection(to: Direction) {
+        switch to {
+            case .left:
+                self.direction = Direction(rawValue: ((self.direction.rawValue - 1) % 4) )!
+            case .right:
+                self.direction = Direction(rawValue: ((self.direction.rawValue + 1) % 4) )!
+            default: print("\nOnly left or right changes allowed \n")
+        }
+        self.direction
     }
     mutating func loadProgram(inputFile: String) {
         // func getInput is in utilities file
@@ -68,8 +84,8 @@ struct Square {
     }
     
 }
-enum Direction {
-    case up, right, left, down
+enum Direction : Int {
+    case left, up, right, down
 }
 enum Color {
     case  black, white
@@ -77,4 +93,12 @@ enum Color {
 
 var robot = Robot(inputFile: "input11")
 robot.runProgram()
+robot.moveOneSquare()
+robot.changeDirection(to: .left)
+robot.moveOneSquare()
+robot.changeDirection(to: .up)
+robot.moveOneSquare()
+robot.changeDirection(to: .right)
+robot.moveOneSquare()
+robot.changeDirection(to: .down)
 robot.moveOneSquare()
