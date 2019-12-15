@@ -3,48 +3,48 @@
    version = "3.0">
    <TimelineItems>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=987&amp;CharacterRangeLoc=2186&amp;EndingColumnNumber=2&amp;EndingLineNumber=54&amp;StartingColumnNumber=62&amp;StartingLineNumber=29&amp;Timestamp=598123396.278758"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=2506&amp;CharacterRangeLoc=2186&amp;EndingColumnNumber=2&amp;EndingLineNumber=99&amp;StartingColumnNumber=62&amp;StartingLineNumber=29&amp;Timestamp=598130044.437955"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=51&amp;CharacterRangeLoc=2385&amp;EndingColumnNumber=51&amp;EndingLineNumber=31&amp;StartingColumnNumber=0&amp;StartingLineNumber=31&amp;Timestamp=598123396.278873"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=51&amp;CharacterRangeLoc=2385&amp;EndingColumnNumber=51&amp;EndingLineNumber=31&amp;StartingColumnNumber=0&amp;StartingLineNumber=31&amp;Timestamp=598130044.438044"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=691&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=1&amp;EndingLineNumber=53&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598123396.278973"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=2210&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=1&amp;EndingLineNumber=98&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598130044.4381239"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=0&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=0&amp;EndingLineNumber=32&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598123396.279065"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=0&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=0&amp;EndingLineNumber=32&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598130044.438189"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=691&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=1&amp;EndingLineNumber=53&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598123396.2791359"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=2210&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=1&amp;EndingLineNumber=98&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598130044.4382499"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=691&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=1&amp;EndingLineNumber=53&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598123396.279206"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=2210&amp;CharacterRangeLoc=2437&amp;EndingColumnNumber=1&amp;EndingLineNumber=98&amp;StartingColumnNumber=0&amp;StartingLineNumber=32&amp;Timestamp=598130044.438321"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=12&amp;CharacterRangeLoc=2666&amp;EndingColumnNumber=0&amp;EndingLineNumber=34&amp;StartingColumnNumber=1&amp;StartingLineNumber=33&amp;Timestamp=598123396.279297"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=12&amp;CharacterRangeLoc=2666&amp;EndingColumnNumber=0&amp;EndingLineNumber=34&amp;StartingColumnNumber=1&amp;StartingLineNumber=33&amp;Timestamp=598130044.438382"
          lockedSize = "{403.83984375, 58}"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=5&amp;CharacterRangeLoc=2068&amp;EndingColumnNumber=10&amp;EndingLineNumber=28&amp;StartingColumnNumber=5&amp;StartingLineNumber=28&amp;Timestamp=598123396.279366"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=5&amp;CharacterRangeLoc=2068&amp;EndingColumnNumber=10&amp;EndingLineNumber=28&amp;StartingColumnNumber=5&amp;StartingLineNumber=28&amp;Timestamp=598130044.438448"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
       <LoggerValueHistoryTimelineItem
-         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=8&amp;CharacterRangeLoc=3058&amp;EndingColumnNumber=13&amp;EndingLineNumber=49&amp;StartingColumnNumber=5&amp;StartingLineNumber=49&amp;Timestamp=598123396.279493"
+         documentLocation = "file:///Users/laurentb/Advent-of-Code-2019/Advent%20Of%20Code%202019.playground/Pages/Day%2012%20-%20The%20N-Body%20Problem.xcplaygroundpage#CharacterRangeLen=88&amp;CharacterRangeLoc=4365&amp;EndingColumnNumber=88&amp;EndingLineNumber=90&amp;StartingColumnNumber=0&amp;StartingLineNumber=90&amp;Timestamp=598130044.438518"
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>

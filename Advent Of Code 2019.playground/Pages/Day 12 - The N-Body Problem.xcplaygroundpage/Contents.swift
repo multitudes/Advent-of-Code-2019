@@ -33,23 +33,68 @@ let range = NSRange(input.startIndex..., in: input)
 var moons = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "").split(separator: ">").map{ String($0).split(separator: ",").compactMap { NumberFormatter().number(from: String($0))?.intValue }}
 print(moons)
 
-struct Moon {
+class Moon {
+    var name: String
     var position: [Int] = [Int]()
     var velocity: [Int] = [Int]()
     lazy var potentialEnergy = position.compactMap { abs($0) }.reduce(0, +)
     lazy var kineticEnergy = velocity.compactMap { abs($0) }.reduce(0, +)
-
-    
     lazy var totalEnergy = potentialEnergy * kineticEnergy
-    init(position:[Int]) {
+
+    init(name: String, position:[Int]) {
        self.position = position
-        
+        self.name = name
     }
+//    mutating func step() {}
+    func setVelocity(_ newvelocity: [Int]) {
+        self.velocity = newvelocity
+    }
+    //mutating func updatePosition() {}
 }
 
-var ganymede = Moon(position: moons[0])
-print(ganymede.potentialEnergy)
+struct Jupyter {
+    var moons = [Moon]()
+    init(positions: [[Int]], names: [String]) {
+        for i in 0..<positions.count {
+            var moon = Moon(name: names[i], position: positions[i])
+            self.moons.append(moon)
+        }
+    }
+    
+    mutating func calculateVelocity() {
+        
+        for i in 0..<moons.count {
+            var temp = self.moons
+            var a = temp.remove(at: i)
+            print(a.position)
+            var newVelocity = [0,0,1]
+            for j in 0..<temp.count {
+                for k in 0..<3 {
+                    if a.position[k] > temp[j].position[k] {
+                        newVelocity[k] += 1
+                    } else if a.position[k] < temp[j].position[k] {
+                        newVelocity[k] -= 1
+                    } else { continue }
+                }
+            }
+            moons.first(where: { $0.name == a.name })?.setVelocity(newVelocity)
+            //array.filter {$0.eventID == id}.first?.added = value
+            a.velocity = newVelocity
+            print(a.velocity)
+            print(self.moons)
+        }
+     }
+    
+}
+ 
 
+var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
+jupyter.moons[0].potentialEnergy
+jupyter.moons[1].potentialEnergy
+jupyter.moons[2].potentialEnergy
+jupyter.moons[3].potentialEnergy
+jupyter.moons[3].kineticEnergy
+jupyter.calculateVelocity()
 
  //.map{ $0.components(separatedBy: ", ") }
 //input.replacingCharacters(in: nsRange, with: "<=xyz\n")
