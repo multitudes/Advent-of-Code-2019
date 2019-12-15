@@ -36,13 +36,21 @@ print(moons)
 struct Moon {
     var position: (x: Int, y: Int, z: Int) = (x: 0, y: 0, z: 0)
     var velocity = (x: 0, y: 0, z: 0)
+    var potentialEnergy = 0
+//    {
+//        return abs(self.position.x) + abs(self.position.y) + abs(self.position.z)
+//    }
+    var kineticEnergy = 0
+//        return abs(self.velocity.x) + abs(self.velocity.y) + abs(self.velocity.z)
+    
+    lazy var totalEnergy = potentialEnergy * kineticEnergy
     init(positionArray:[Int]) {
        self.position = (x: (positionArray[0]), y: (positionArray[1]), z: (positionArray[2]))
     }
 }
 
 var ganymede = Moon(positionArray: moons[0])
-
+print(ganymede.kineticEnergy)
 
 
  //.map{ $0.components(separatedBy: ", ") }
