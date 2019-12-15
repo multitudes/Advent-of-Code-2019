@@ -1273,6 +1273,33 @@ Once all gravity has been applied, apply velocity: simply add the velocity of ea
 
 What is the total energy in the system after simulating the moons given in your scan for 1000 steps?
 
+I started by cleaning up the input in a usable way... not so nice in Swift. Python is way easier for that! Anyway..
+
+```swift
+import Foundation
+
+// Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
+// This is my input file
+var input = getInput(inputFile: "input12", extension: "txt")
+// to replace or remove text in a string in swift I could use replacingOccurrences(of:, with:) but in this case Regex is better, however certainly somewhat cumbersome. Not so nice like in python though
+let regex = try! NSRegularExpression(pattern: "[<=xyz\n]")
+let range = NSRange(input.startIndex..., in: input)
+var moons = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "").split(separator: ">").map{ String($0).split(separator: ",").compactMap { NumberFormatter().number(from: String($0))?.intValue }}
+print(moons)
+
+struct Moon {
+    var position: (x: Int, y: Int, z: Int) = (x: 0, y: 0, z: 0)
+    var velocity = (x: 0, y: 0, z: 0)
+    init(positionArray:[Int]) {
+       self.position = (x: (positionArray[0]), y: (positionArray[1]), z: (positionArray[2]))
+    }
+}
+
+var ganymede = Moon(positionArray: moons[0])
+
+
+```
+
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
 
 
