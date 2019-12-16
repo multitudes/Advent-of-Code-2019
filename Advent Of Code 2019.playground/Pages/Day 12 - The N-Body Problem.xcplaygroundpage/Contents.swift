@@ -26,14 +26,14 @@ import Foundation
 
 // Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
 // This is my input file
-var input = getInput(inputFile: "input12", extension: "txt")
+var input = getInput(inputFile: "input12a", extension: "txt")
 // to replace or remove text in a string in swift I could use replacingOccurrences(of:, with:) but in this case Regex is better, however certainly somewhat cumbersome. Not so nice like in python though
 let regex = try! NSRegularExpression(pattern: "[<=xyz\n]")
 let range = NSRange(input.startIndex..., in: input)
 var moons = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "").split(separator: ">").map{ String($0).split(separator: ",").compactMap { NumberFormatter().number(from: String($0))?.intValue }}
 print(moons)
 
-class Moon {
+struct Moon {
     var name: String
     var position: [Int] = [Int]()
     var velocity: [Int] = [Int]()
@@ -45,11 +45,15 @@ class Moon {
        self.position = position
         self.name = name
     }
-//    mutating func step() {}
-    func setVelocity(_ newvelocity: [Int]) {
+    mutating func setVelocity(_ newvelocity: [Int]) {
         self.velocity = newvelocity
     }
-    //mutating func updatePosition() {}
+    mutating func step() {}
+    mutating func updatePosition() {
+        
+        
+        //let newPosition = zip(arrayFirst, arraySecond).map(+)
+    }
 }
 
 struct Jupyter {
@@ -61,32 +65,33 @@ struct Jupyter {
         }
     }
     
+    
+    
     mutating func calculateVelocity() {
-        
         for i in 0..<moons.count {
-            var temp = self.moons
-            var a = temp.remove(at: i)
-            print(a.position)
-            var newVelocity = [0,0,1]
-            for j in 0..<temp.count {
+            var moon = self.moons.removeFirst()
+            print(moon.position)
+            var newVelocity = [0,0,0]
+            for j in 0..<self.moons.count {
                 for k in 0..<3 {
-                    if a.position[k] > temp[j].position[k] {
-                        newVelocity[k] += 1
-                    } else if a.position[k] < temp[j].position[k] {
+                    if moon.position[k] > self.moons[j].position[k] {
                         newVelocity[k] -= 1
+                    } else if moon.position[k] < self.moons[j].position[k] {
+                        newVelocity[k] += 1
                     } else { continue }
                 }
             }
-            moons.first(where: { $0.name == a.name })?.setVelocity(newVelocity)
+            moon.setVelocity(newVelocity)
+            self.moons.append(moon)
             //array.filter {$0.eventID == id}.first?.added = value
-            a.velocity = newVelocity
-            print(a.velocity)
-            print(self.moons)
+            //a.velocity = newVelocity
+            print(newVelocity)
+            
         }
+        print(self.moons)
      }
     
 }
- 
 
 var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
 jupyter.moons[0].potentialEnergy
