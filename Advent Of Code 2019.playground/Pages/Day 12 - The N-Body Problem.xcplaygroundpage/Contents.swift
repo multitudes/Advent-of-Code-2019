@@ -48,11 +48,11 @@ struct Moon {
     mutating func setVelocity(_ newvelocity: [Int]) {
         self.velocity = newvelocity
     }
-    mutating func step() {}
+    
     mutating func updatePosition() {
-        
-        
-        //let newPosition = zip(arrayFirst, arraySecond).map(+)
+        let newPosition = zip(self.position, self.velocity).map(+)
+        print(newPosition)
+        self.position = newPosition
     }
 }
 
@@ -64,9 +64,16 @@ struct Jupyter {
             self.moons.append(moon)
         }
     }
-    
-    
-    
+    mutating func calculatenewPositions() {
+        for i in 0..<moons.count {
+            moons[i].updatePosition()
+        }
+        print(moons)
+    }
+    mutating func step() {
+        calculateVelocity()
+        calculatenewPositions()
+    }
     mutating func calculateVelocity() {
         for i in 0..<moons.count {
             var moon = self.moons.removeFirst()
@@ -89,6 +96,13 @@ struct Jupyter {
             
         }
         print(self.moons)
+        for i in 0..<moons.count {
+            var moon = self.moons.removeFirst()
+            let newPosition = zip(moon.position, moon.velocity).map(+)
+            print(newPosition)
+            moon.position = newPosition
+            self.moons.append(moon)
+        }
      }
     
 }
@@ -100,7 +114,11 @@ jupyter.moons[2].potentialEnergy
 jupyter.moons[3].potentialEnergy
 jupyter.moons[3].kineticEnergy
 jupyter.calculateVelocity()
-
+jupyter.calculatenewPositions()
+//jupyter.step()
+//jupyter.step()
+jupyter.calculateVelocity()
+jupyter.calculatenewPositions()
  //.map{ $0.components(separatedBy: ", ") }
 //input.replacingCharacters(in: nsRange, with: "<=xyz\n")
 //
@@ -116,3 +134,10 @@ jupyter.calculateVelocity()
 //           }
 //  }).slice(0,-1);
 //}
+extension Moon: CustomStringConvertible {
+  //This is a computed property.
+    var description: String {
+        var text = "name: \(name) position \(position) velocity \(velocity)"
+        return text
+    }
+}
