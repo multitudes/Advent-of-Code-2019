@@ -35,7 +35,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 9: Sensor Boost](https://github.com/multitudes/Advent-of-Code-2019#Day-9-Sensor-Boost)|⭐️|⭐️|
 | ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|⭐️|⭐️|
 | ✔ [Day 11: Space Police](https://github.com/multitudes/Advent-of-Code-2019#Day-11-Space-Police)|⭐️|⭐️|
-| ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|||
+| ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|⭐️||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -1287,23 +1287,27 @@ let range = NSRange(input.startIndex..., in: input)
 var moons = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "").split(separator: ">").map{ String($0).split(separator: ",").compactMap { NumberFormatter().number(from: String($0))?.intValue }}
 print(moons)
 
-class Moon {
+struct Moon {
     var name: String
     var position: [Int] = [Int]()
-    var velocity: [Int] = [Int]()
+    var velocity: [Int] = [0,0,0]
     lazy var potentialEnergy = position.compactMap { abs($0) }.reduce(0, +)
     lazy var kineticEnergy = velocity.compactMap { abs($0) }.reduce(0, +)
-    lazy var totalEnergy = potentialEnergy * kineticEnergy
+    lazy var moonTotalEnergy = potentialEnergy * kineticEnergy
 
     init(name: String, position:[Int]) {
        self.position = position
         self.name = name
     }
-//    mutating func step() {}
-    func setVelocity(_ newvelocity: [Int]) {
+    mutating func setVelocity(_ newvelocity: [Int]) {
         self.velocity = newvelocity
     }
-    //mutating func updatePosition() {}
+    
+    mutating func updatePosition() {
+        let newPosition = zip(self.position, self.velocity).map(+)
+        print(newPosition)
+        self.position = newPosition
+    }
 }
 
 struct Jupyter {
@@ -1314,32 +1318,62 @@ struct Jupyter {
             self.moons.append(moon)
         }
     }
-    
-    mutating func calculateVelocity() {        
+
+    mutating func getTotalEnergy() -> Int {
+        var totalEnergy = 0
+        for i in 0..<moons.count  {
+            print(moons[i].potentialEnergy)
+            print(moons[i].kineticEnergy)
+            totalEnergy += moons[i].moonTotalEnergy
+        }
+        return totalEnergy
+    }
+    mutating func step() {
+        //calculateVelocity
         for i in 0..<moons.count {
-            var temp = self.moons
-            var a = temp.remove(at: i)
-            print(a.position)
-            var newVelocity = [0,0,1]
-            for j in 0..<temp.count {
+            var moon = self.moons.removeFirst()
+            print("position \(moon.position)")
+            print("velocity : \(moon.velocity)")
+            var newVelocity = moon.velocity
+            for j in 0..<self.moons.count {
                 for k in 0..<3 {
-                    if a.position[k] > temp[j].position[k] {
-                        newVelocity[k] += 1
-                    } else if a.position[k] < temp[j].position[k] {
+                    if moon.position[k] > self.moons[j].position[k] {
                         newVelocity[k] -= 1
+                    } else if moon.position[k] < self.moons[j].position[k] {
+                        newVelocity[k] += 1
                     } else { continue }
                 }
             }
-            moons.first(where: { $0.name == a.name })?.setVelocity(newVelocity)
+            moon.setVelocity(newVelocity)
+            self.moons.append(moon)
             //array.filter {$0.eventID == id}.first?.added = value
-            a.velocity = newVelocity
-            print(a.velocity)
-            print(self.moons)
+            //a.velocity = newVelocity
+            print("new velocity : \(newVelocity)")
+            
+        }
+        //print(self.moons)
+        for i in 0..<moons.count {
+            var moon = self.moons.removeFirst()
+            let newPosition = zip(moon.position, moon.velocity).map(+)
+            print("\nnew calculated position: \(newPosition)")
+            moon.position = newPosition
+            self.moons.append(moon)
+            print(self.moons[3])
         }
      }
+    mutating func runNumberOf(steps: Int) {
+        for i in 0..<steps  {
+            self.step()
+        }
+        print("Total Energy after \(steps) steps is \(getTotalEnergy())")
+    }
 }
 
 var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
+
+// solution part one is outup of this function
+jupyter.runNumberOf(steps: 1000)
+
 ```
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
