@@ -26,7 +26,7 @@ import Foundation
 
 // Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
 // This is my input file
-var input = getInput(inputFile: "input12", extension: "txt")
+var input = getInput(inputFile: "input12a", extension: "txt")
 // to replace or remove text in a string in swift I could use replacingOccurrences(of:, with:) but in this case Regex is better, however certainly somewhat cumbersome. Not so nice like in python though
 let regex = try! NSRegularExpression(pattern: "[<=xyz\n]")
 let range = NSRange(input.startIndex..., in: input)
@@ -58,9 +58,12 @@ struct Moon {
 
 struct Jupyter {
     var moons = [Moon]()
+    var originalPosition = [[Int]]()
     init(positions: [[Int]], names: [String]) {
         for i in 0..<positions.count {
-            var moon = Moon(name: names[i], position: positions[i])
+            let moon = Moon(name: names[i], position: positions[i])
+            self.originalPosition = positions
+            print(originalPosition)
             self.moons.append(moon)
         }
     }
@@ -74,12 +77,18 @@ struct Jupyter {
         }
         return totalEnergy
     }
-    mutating func step() {
+    mutating func step() -> Bool {
+        var flag  = [Int](repeating: 0, count: moons.count)
         //calculateVelocity
         for i in 0..<moons.count {
             var moon = self.moons.removeFirst()
             print("position \(moon.position)")
             print("velocity : \(moon.velocity)")
+            if moon.position == originalPosition[i] && moon.velocity == [0,0,0] {
+                flag[i] = 1
+            } else {
+                flag[i] = 0
+            }
             var newVelocity = moon.velocity
             for j in 0..<self.moons.count {
                 for k in 0..<3 {
@@ -92,8 +101,6 @@ struct Jupyter {
             }
             moon.setVelocity(newVelocity)
             self.moons.append(moon)
-            //array.filter {$0.eventID == id}.first?.added = value
-            //a.velocity = newVelocity
             print("new velocity : \(newVelocity)")
             
         }
@@ -106,12 +113,22 @@ struct Jupyter {
             self.moons.append(moon)
             print(self.moons[3])
         }
+        return flag.reduce(0, + ) == moons.count
      }
     mutating func runNumberOf(steps: Int) {
         for i in 0..<steps  {
             self.step()
         }
         print("Total Energy after \(steps) steps is \(getTotalEnergy())")
+    }
+    mutating func findNumberOfSteps() {
+        var number = 0
+        var flag = false
+        repeat {
+            flag = step()
+            number += 1
+        } while !flag || number == 1
+        print("number of steps is : \(number - 1 )")
     }
 }
 
@@ -126,8 +143,10 @@ struct Jupyter {
 //jupyter2.runNumberOf(steps: 100)
 
 var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
-// solution part one is outup of this function
-jupyter.runNumberOf(steps: 1000)
+//// solution part one is outup of this function
+//jupyter.runNumberOf(steps: 1000)
+
+jupyter.findNumberOfSteps()
 
 extension Moon: CustomStringConvertible {
   //This is a computed property.
