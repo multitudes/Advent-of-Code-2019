@@ -26,7 +26,7 @@ import Foundation
 
 // Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
 // This is my input file
-var input = getInput(inputFile: "input12a", extension: "txt")
+var input = getInput(inputFile: "input12", extension: "txt")
 // to replace or remove text in a string in swift I could use replacingOccurrences(of:, with:) but in this case Regex is better, however certainly somewhat cumbersome. Not so nice like in python though
 let regex = try! NSRegularExpression(pattern: "[<=xyz\n]")
 let range = NSRange(input.startIndex..., in: input)
@@ -36,10 +36,10 @@ print(moons)
 struct Moon {
     var name: String
     var position: [Int] = [Int]()
-    var velocity: [Int] = [Int]()
+    var velocity: [Int] = [0,0,0]
     lazy var potentialEnergy = position.compactMap { abs($0) }.reduce(0, +)
     lazy var kineticEnergy = velocity.compactMap { abs($0) }.reduce(0, +)
-    lazy var totalEnergy = potentialEnergy * kineticEnergy
+    lazy var moonTotalEnergy = potentialEnergy * kineticEnergy
 
     init(name: String, position:[Int]) {
        self.position = position
@@ -64,22 +64,23 @@ struct Jupyter {
             self.moons.append(moon)
         }
     }
-    mutating func calculatenewPositions() {
-        for i in 0..<moons.count {
-            moons[i].updatePosition()
+
+    mutating func getTotalEnergy() -> Int {
+        var totalEnergy = 0
+        for i in 0..<moons.count  {
+            print(moons[i].potentialEnergy)
+            print(moons[i].kineticEnergy)
+            totalEnergy += moons[i].moonTotalEnergy
         }
-        print(moons)
+        return totalEnergy
     }
     mutating func step() {
-        calculateVelocity()
-        calculatenewPositions()
-    }
-    mutating func calculateVelocity() {
+        //calculateVelocity
         for i in 0..<moons.count {
             var moon = self.moons.removeFirst()
             print("position \(moon.position)")
             print("velocity : \(moon.velocity)")
-            var newVelocity = [0,0,0]
+            var newVelocity = moon.velocity
             for j in 0..<self.moons.count {
                 for k in 0..<3 {
                     if moon.position[k] > self.moons[j].position[k] {
@@ -103,39 +104,31 @@ struct Jupyter {
             print("\nnew calculated position: \(newPosition)")
             moon.position = newPosition
             self.moons.append(moon)
-            print(self.moons[i])
+            print(self.moons[3])
         }
      }
-    
+    mutating func runNumberOf(steps: Int) {
+        for i in 0..<steps  {
+            self.step()
+        }
+        print("Total Energy after \(steps) steps is \(getTotalEnergy())")
+    }
 }
 
-var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
-jupyter.moons[0].potentialEnergy
-jupyter.moons[1].potentialEnergy
-jupyter.moons[2].potentialEnergy
-jupyter.moons[3].potentialEnergy
-jupyter.moons[3].kineticEnergy
-jupyter.calculateVelocity()
-//jupyter.calculatenewPositions()
-//jupyter.step()
-//jupyter.step()
-jupyter.calculateVelocity()
-//jupyter.calculatenewPositions()
- //.map{ $0.components(separatedBy: ", ") }
-//input.replacingCharacters(in: nsRange, with: "<=xyz\n")
+//var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
+
+//// solution part one is outup of this function
+//jupyter.runNumberOf(steps: 10)
+
+// this is for input12b result 1940
+//var jupyter2 = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
 //
-//planets = function(puzzle) {
-//  return puzzle.replace(/[<=xyz\n]/g,'').split('>').map(p => {
-//    const pos = p.split(',').map(Number);
-//    const pE = pos.map(Math.abs).reduce((a,v) => a+v);
-//    return {position: pos,
-//            velocity: [0, 0, 0],
-//            pE: pE,
-//            kE: 0,
-//            tE: 0
-//           }
-//  }).slice(0,-1);
-//}
+//jupyter2.runNumberOf(steps: 100)
+
+var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
+// solution part one is outup of this function
+jupyter.runNumberOf(steps: 1000)
+
 extension Moon: CustomStringConvertible {
   //This is a computed property.
     var description: String {
