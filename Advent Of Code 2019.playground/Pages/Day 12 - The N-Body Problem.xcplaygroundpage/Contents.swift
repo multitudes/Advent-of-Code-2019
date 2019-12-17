@@ -77,7 +77,8 @@ struct Jupyter {
     mutating func calculateVelocity() {
         for i in 0..<moons.count {
             var moon = self.moons.removeFirst()
-            print(moon.position)
+            print("position \(moon.position)")
+            print("velocity : \(moon.velocity)")
             var newVelocity = [0,0,0]
             for j in 0..<self.moons.count {
                 for k in 0..<3 {
@@ -92,16 +93,17 @@ struct Jupyter {
             self.moons.append(moon)
             //array.filter {$0.eventID == id}.first?.added = value
             //a.velocity = newVelocity
-            print(newVelocity)
+            print("new velocity : \(newVelocity)")
             
         }
-        print(self.moons)
+        //print(self.moons)
         for i in 0..<moons.count {
             var moon = self.moons.removeFirst()
             let newPosition = zip(moon.position, moon.velocity).map(+)
-            print(newPosition)
+            print("\nnew calculated position: \(newPosition)")
             moon.position = newPosition
             self.moons.append(moon)
+            print(self.moons[i])
         }
      }
     
@@ -114,11 +116,11 @@ jupyter.moons[2].potentialEnergy
 jupyter.moons[3].potentialEnergy
 jupyter.moons[3].kineticEnergy
 jupyter.calculateVelocity()
-jupyter.calculatenewPositions()
+//jupyter.calculatenewPositions()
 //jupyter.step()
 //jupyter.step()
 jupyter.calculateVelocity()
-jupyter.calculatenewPositions()
+//jupyter.calculatenewPositions()
  //.map{ $0.components(separatedBy: ", ") }
 //input.replacingCharacters(in: nsRange, with: "<=xyz\n")
 //
