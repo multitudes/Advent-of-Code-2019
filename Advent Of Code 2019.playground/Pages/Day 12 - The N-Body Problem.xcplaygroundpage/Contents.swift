@@ -121,6 +121,7 @@ struct Jupyter {
         }
         print("Total Energy after \(steps) steps is \(getTotalEnergy())")
     }
+    // this one is too slow
     mutating func findNumberOfSteps() {
         var number = 0
         var flag = false
@@ -130,7 +131,90 @@ struct Jupyter {
         } while !flag || number == 1
         print("number of steps is : \(number - 1 )")
     }
+    mutating func findNumberOfStepsPerDimension() {
+        var number = 0
+        var flag = false
+        repeat {
+            //flag = stepPerDimension()
+            number += 1
+        } while !flag || number == 1
+        print("number of steps is : \(number - 1 )")
+    }
+    mutating func stepPerDimension(axis: Int){
+        var flag  = [Int](repeating: 0, count: moons.count)
+        let moonCount = moons.count
+        //calculateVelocity
+        // declaring dictionaries for max speed
+        var positionPerDimension = [Int: Int]()
+        var velocityPerDimension = [Int: Int]()
+        //initialize
+        for i in 0..<moonCount{
+            positionPerDimension[i] = moons[i].position[axis]
+            velocityPerDimension[i] = 0
+         }
+        print(positionPerDimension)
+        print(velocityPerDimension)
+        // save the beginning state
+        var origPositionPerDimension = positionPerDimension
+        var origVelocityPerDimension = velocityPerDimension
+        var newPosition = [Int : Int]()
+        var number = 0
+        repeat {
+        for i in 0..<moonCount{
+            number += 1
+            for j in 1..<moonCount {
+                let k = (i + j) % moonCount
+                if positionPerDimension[i]! > positionPerDimension[k]! {
+                    velocityPerDimension[i]! -= 1
+                } else if positionPerDimension[i]! < positionPerDimension[k]! {
+                    velocityPerDimension[i]! += 1
+                }
+            }
+        }
+            print("old position \(positionPerDimension) merging \(velocityPerDimension)")
+            positionPerDimension.merge(velocityPerDimension, uniquingKeysWith: +)
+            print("new position \(positionPerDimension)")
+            
+        } while (positionPerDimension != origPositionPerDimension) || (origVelocityPerDimension != velocityPerDimension)
+        print(number)
+    }
+                
 }
+//        for i in 0..<moons.count {
+//            var moon = self.moons.removeFirst()
+//            print("position \(moon.position)")
+//            print("velocity : \(moon.velocity)")
+//            if moon.position[axis] == originalPosition[i][axis] && moon.velocity[axis] == 0 {
+//                flag[i] = 1
+//            } else {
+//                flag[i] = 0
+//            }
+//            var newVelocity = moon.velocity[axis]
+//            for j in 0..<self.moons.count {
+//
+//                    if moon.position[axis] > self.moons[j].position[axis] {
+//                        newVelocity -= 1
+//                    } else if moon.position[axis] < self.moons[j].position[axis] {
+//                        newVelocity += 1
+//                    } else { continue }
+//
+//            }
+//            moon.setVelocity(newVelocity)
+//            self.moons.append(moon)
+//            print("new velocity : \(newVelocity)")
+//
+//        }
+//        //print(self.moons)
+//        for i in 0..<moons.count {
+//            var moon = self.moons.removeFirst()
+//            let newPosition = zip(moon.position, moon.velocity).map(+)
+//            print("\nnew calculated position: \(newPosition)")
+//            moon.position = newPosition
+//            self.moons.append(moon)
+//            print(self.moons[3])
+//        }
+//        return flag.reduce(0, + ) == moons.count
+
 
 //var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
 
@@ -145,8 +229,8 @@ struct Jupyter {
 var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
 //// solution part one is outup of this function
 //jupyter.runNumberOf(steps: 1000)
-
-jupyter.findNumberOfSteps()
+//jupyter.findNumberOfSteps()
+jupyter.stepPerDimension(axis: 2)
 
 extension Moon: CustomStringConvertible {
   //This is a computed property.
