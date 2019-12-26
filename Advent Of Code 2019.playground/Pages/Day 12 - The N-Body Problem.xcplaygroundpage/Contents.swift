@@ -184,11 +184,14 @@ extension Moon: CustomStringConvertible {
     }
 }
 
+//part 2
+// this solution still take too long howeveer :(
+// will need to optimize this again. Not optimal!
 // for every axis I calculate the number of steps to get to the initial state. In this challenge the axis are indipendent so i do not need to get the initial state of all three axis x, y , z at the same time. Just one at the time and then the total number of steps for the three axis to be in the initial state will be the lowest common multiplier!
 // the lcm algo is in the sources folder. I made a new step per dimension method for part two. paramether is axis x is 0 y is 1 and z is 2
 let a = jupyter.stepPerDimension(axis: 0)
 let b = jupyter.stepPerDimension(axis: 1)
 let c = jupyter.stepPerDimension(axis: 2)
 let solutionPart2 = lcm(a,b,c)
-    
+
 print("\n\nPart two solution! Total number of steps is \(solutionPart2)\n")
