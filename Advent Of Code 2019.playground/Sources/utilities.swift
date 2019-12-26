@@ -31,7 +31,7 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
     var firstParam: Int = 0; var secondParam: Int = 0; var thirdParam: Int = 0; var parameters: [Int] = []
     
     switch opcode {
-    case .add, .multiply, .equals, .lessThan, .jumpIfTrue, .jumpIfFalse:
+    case .add, .multiply, .equals, .lessThan:
             if modes[0] == .position {
                 if let a = program[index + 1] {
                     if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
@@ -85,6 +85,29 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
                     firstParam = program[index + 1] ?? 0
             }
             parameters = [firstParam]
+        
+        case .jumpIfTrue, .jumpIfFalse:
+            if modes[0] == .position {
+                if let a = program[index + 1] {
+                    if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+            else if modes[0] == .relative {
+                if let a = program[index + 1] {
+                    if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+            else {
+                firstParam = program[index + 1] ?? 0
+                }
+            if modes[1] == .position {
+                if let a = program[index + 2] {
+                    if let b = program[a] { secondParam = b } else { secondParam = 0 }}}
+            else if modes[1] == .relative {
+                if let a = program[index + 2] {
+                    if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
+            else {
+                secondParam = program[index + 2] ?? 0
+            }
+            parameters = [firstParam, secondParam]
+
+        
         case .relativeBaseOffset:
             if modes[0] == .position {
                     if let a = program[index + 1] {
@@ -96,6 +119,7 @@ public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int
                     firstParam = program[index + 1] ?? 0
             }
             parameters = [firstParam]
+        
         case .halt:
             print("stop")
     }
