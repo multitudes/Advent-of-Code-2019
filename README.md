@@ -35,7 +35,9 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 9: Sensor Boost](https://github.com/multitudes/Advent-of-Code-2019#Day-9-Sensor-Boost)|⭐️|⭐️|
 | ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|⭐️|⭐️|
 | ✔ [Day 11: Space Police](https://github.com/multitudes/Advent-of-Code-2019#Day-11-Space-Police)|⭐️|⭐️|
-| ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|⭐️||
+| ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|⭐️|⭐️|
+| ✔ [Day 13: Care Package](https://github.com/multitudes/Advent-of-Code-2019#Day-13-Care-Package)|||
+
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -76,26 +78,10 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
     let totalFuel = fuel.reduce(0, +)
 
     print("The answer is : \(totalFuel)")
-```
 
-###            --- Part Two ---
 
-During the second Go / No Go poll, the Elf in charge of the Rocket Equation Double-Checker stops the launch sequence. Apparently, you forgot to include additional fuel for the fuel you just added.
-Fuel itself requires fuel just like a module - take its mass, divide by three, round down, and subtract 2. However, that fuel also requires fuel, and that fuel requires fuel, and so on. [...]
+//           --- Part Two ---
 
-```swift
-import UIKit
-
-// declaring the var containing the input
-var input = ""
-
-// this will look in my resources folder for the input.txt file which is still the same
-do {
-    guard let fileUrl = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
-    input = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
-} catch {
-    print(error)
-}
 
 //get the input file as an array into moduleMass
 var moduleMasses = input.components(separatedBy: "\n")
@@ -169,34 +155,8 @@ while program[index] != 99 {
 }
 // exiting the loop and reading the position 0 of the program
 print("the answer is : \(program[0])")
-```
 
-###            --- Part Two ---
-
-Good, the new computer seems to be working correctly! Keep it nearby during this mission - you'll probably use it again...
-The inputs should still be provided to the program by replacing the values at addresses 1 and 2, just like before. In this program, the value placed in address 1 is called the noun, and the value placed in address 2 is called the verb. Each of the two input values will be between 0 and 99, inclusive.
-Once the program has halted, its output is available at address 0, also just like before. Each time you try a pair of inputs, make sure you first reset the computer's memory to the values in the program (your puzzle input) - in other words, don't reuse memory from a previous attempt.
-Find the input noun and verb that cause the program to produce the output 19690720. 
-What is 100 * noun + verb? (For example, if noun=12 and verb=2, the answer would be 1202.)
-
-
-```swift
-import UIKit
-
-// declaring the var containing the input
-var input = ""
-
-// this will look in my resources folder for the input.txt file
-do {
-    guard let fileUrl = Bundle.main.url(forResource: "input2", withExtension: "txt") else { fatalError() }
-    input = try String(contentsOf: fileUrl, encoding: String.Encoding.utf8)
-    print("input is: \(input)")
-} catch {
-    print(error)
-}
-
-//get the input file as an array into moduleMass
-var origProgram = input.components(separatedBy: ",").compactMap { Int($0) }
+//            --- Part Two ---
 
 var solution = 0
 
@@ -297,14 +257,8 @@ let commonElements = Array(Set(bluePath).intersection(Set(redPath)))
 // The manhattan distance is the sum of the abs of coordinates. I look for the smallest
 let manhattan = commonElements.compactMap { abs($0.x) + abs($0.y) }.min()
 print("the answer is : \(manhattan!)")
-```
 
-
-###            --- Part Two ---
-
-```swift
-import UIKit
-
+//            --- Part Two ---
 // till here same as part 1.. then add steps as a dictionary storing point and the steps done to get there! 
 
 var redPath:[Point] = []
@@ -1276,30 +1230,6 @@ What is the total energy in the system after simulating the moons given in your 
 I started by cleaning up the input in a usable way... not so nice in Swift. Python is way easier for that! Anyway..
 
 ```swift
-//: [Previous](@previous)
-/*:
-# Day 12: The N-Body Problem
-
- [See it on github](https://github.com/multitudes/Advent-of-Code-2019)
-   
-The space near Jupiter is not a very safe place; you need to be careful of a big distracting red spot, extreme radiation, and a whole lot of moons swirling around. You decide to start by tracking the four largest moons: Io, Europa, Ganymede, and Callisto.
-
-After a brief scan, you calculate the position of each moon (your puzzle input). You just need to simulate their motion so you can avoid them.
-
-Each moon has a 3-dimensional position (x, y, and z) and a 3-dimensional velocity. The position of each moon is given in your scan; the x, y, and z velocity of each moon starts at 0.
-
-Simulate the motion of the moons in time steps. Within each time step, first update the velocity of every moon by applying gravity. Then, once all moons' velocities have been updated, update the position of every moon by applying velocity. Time progresses by one step once all of the positions are updated.
-
-To apply gravity, consider every pair of moons. On each axis (x, y, and z), the velocity of each moon changes by exactly +1 or -1 to pull the moons together. For example, if Ganymede has an x position of 3, and Callisto has a x position of 5, then Ganymede's x velocity changes by +1 (because 5 > 3) and Callisto's x velocity changes by -1 (because 3  `<` 5). However, if the positions on a given axis are the same, the velocity on that axis does not change for that pair of moons.
-
-Once all gravity has been applied, apply velocity: simply add the velocity of each moon to its own position. For example, if Europa has a position of x=1, y=2, z=3 and a velocity of x=-2, y=0,z=3, then its new position would be x=-1, y=2, z=6. This process does not modify the velocity of any moon.
-
-What is the total energy in the system after simulating the moons given in your scan for 1000 steps?
- 
- 
-: [Next](@next)
-*/
-
 import Foundation
 
 // Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
@@ -1457,6 +1387,13 @@ print("\n\nPart two solution! Total number of steps is \(solutionPart2)\n")
 
 
 ```
+
+## [Day 13: Care Package](https://adventofcode.com/2019/day/13)
+(click on title to get the full challenge description on aoc website)
+As you ponder the solitude of space and the ever-increasing three-hour roundtrip for messages between you and Earth, you notice that the Space Mail Indicator Light is blinking. To help keep you sane, the Elves have sent you a care package.
+
+
+
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
 
