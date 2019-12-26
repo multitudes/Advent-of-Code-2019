@@ -26,7 +26,7 @@ import Foundation
 
 // Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
 // This is my input file
-var input = getInput(inputFile: "input12b", extension: "txt")
+var input = getInput(inputFile: "input12", extension: "txt")
 // to replace or remove text in a string in swift I could use replacingOccurrences(of:, with:) but in this case Regex is better, however certainly somewhat cumbersome. Not so nice like in python though
 let regex = try! NSRegularExpression(pattern: "[<=xyz\n]")
 let range = NSRange(input.startIndex..., in: input)
