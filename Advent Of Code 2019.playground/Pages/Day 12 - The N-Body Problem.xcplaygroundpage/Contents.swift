@@ -191,4 +191,4 @@ let b = jupyter.stepPerDimension(axis: 1)
 let c = jupyter.stepPerDimension(axis: 2)
 let solutionPart2 = lcm(a,b,c)
     
-print(solutionPart2)
+print("\n\nPart two solution! Total number of steps is \(solutionPart2)\n")
