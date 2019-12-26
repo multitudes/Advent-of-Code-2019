@@ -60,7 +60,6 @@ public struct Tile : Hashable {
 }
 var tiles = Set<Tile>()
 for i in stride(from: 0, to: 3105, by: 3) {
-    print(i, outputs[i + 2] )
     tiles.insert(Tile(coordinates: Coordinate(x: outputs[i], y: outputs[i + 1]), type: TileType(rawValue: outputs[i + 2])!))
     }
 let blockCount = tiles.filter { $0.type == .block }.count
