@@ -1397,9 +1397,9 @@ In this case I put my IntComputer in his own class separate.. then counting the 
 
 ```swift
 
-let a = IntCodeComputer(program: program)
+let arcade = IntCodeComputer(program: program)
 
-let outputs = a.run()
+let outputs = arcade.run()
 
 public enum TileType: Int {
     case empty = 0
