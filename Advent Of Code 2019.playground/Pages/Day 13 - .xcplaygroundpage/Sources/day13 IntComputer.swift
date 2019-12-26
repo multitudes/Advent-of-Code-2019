@@ -1,4 +1,3 @@
-
 public class IntCodeComputer {
     public var index = 0
     public var relativeBase = 0
@@ -118,6 +117,138 @@ public class IntCodeComputer {
         print("Outputs \(outputs)")
         return outputs
     }
+    
+    public func createInstruction(program: [Int: Int], index: Int, relativeBase: Int) -> Instruction {
+        
+        let opcode: Opcode = Opcode(rawValue: program[index]! % 100)!
+        let modes = [ Mode(rawValue: program[index]! % 1000 / 100)!, Mode(rawValue: program[index]! % 10000 / 1000)! , Mode(rawValue: program[index]! / 10000)!]
+        var firstParam: Int = 0; var secondParam: Int = 0; var thirdParam: Int = 0; var parameters: [Int] = []
+        
+        switch opcode {
+        case .add, .multiply, .equals, .lessThan:
+                if modes[0] == .position {
+                    if let a = program[index + 1] {
+                        if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                    if let a = program[index + 1] {
+                        if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                else {
+                    firstParam = program[index + 1] ?? 0
+                    }
+                if modes[1] == .position {
+                    if let a = program[index + 2] {
+                        if let b = program[a] { secondParam = b } else { secondParam = 0 }}}
+                else if modes[1] == .relative {
+                    if let a = program[index + 2] {
+                        if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
+                else {
+                    secondParam = program[index + 2] ?? 0
+                }
+                if modes[2] == .position {
+                    if let a = program[index + 3] {
+                        thirdParam = a }}
+                else if modes[2] == .relative {
+                    if let a = program[index + 3] {
+                            thirdParam = a + relativeBase }}
+                else {
+                    print("\n\nerror write cannot have immediate mode 1 \n\n")
+                }
+                parameters = [firstParam, secondParam, thirdParam]
+            
+            case .input:
+                if modes[0] == .position {
+                        if let a = program[index + 1] {
+                            firstParam = a }}
+                else if modes[0] == .relative {
+                        if let a = program[index + 1] {
+                            firstParam = a + relativeBase }}
+                    else {
+                        print("\n\nerror write cannot have immediate mode 1 \n\n")
+                }
+                parameters = [firstParam]
+            case .output:
+                if modes[0] == .position {
+                        if let a = program[index + 1] {
+                            if let b = program[a] { firstParam = b }  else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                        if let a = program[index + 1] {
+                            if let b = program[a + relativeBase] {
+                                firstParam = b }
+                            else { firstParam =  0 }}}
+                    else {
+                        firstParam = program[index + 1] ?? 0
+                }
+                parameters = [firstParam]
+            
+            case .jumpIfTrue, .jumpIfFalse:
+                if modes[0] == .position {
+                    if let a = program[index + 1] {
+                        if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                    if let a = program[index + 1] {
+                        if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                else {
+                    firstParam = program[index + 1] ?? 0
+                    }
+                if modes[1] == .position {
+                    if let a = program[index + 2] {
+                        if let b = program[a] { secondParam = b } else { secondParam = 0 }}}
+                else if modes[1] == .relative {
+                    if let a = program[index + 2] {
+                        if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
+                else {
+                    secondParam = program[index + 2] ?? 0
+                }
+                parameters = [firstParam, secondParam]
 
+            
+            case .relativeBaseOffset:
+                if modes[0] == .position {
+                        if let a = program[index + 1] {
+                            if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                        if let a = program[index + 1] {
+                            if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                    else {
+                        firstParam = program[index + 1] ?? 0
+                }
+                parameters = [firstParam]
+            
+            case .halt:
+                print("stop")
+        }
+        return Instruction(opcode: opcode, parameters: parameters ,modes: modes)
+    }
+
+
+}
+
+// Possible opcodes
+public enum Opcode: Int {
+    case add = 1,
+        multiply = 2,
+        input = 3,
+        output = 4,
+        jumpIfTrue = 5,
+        jumpIfFalse = 6,
+        lessThan = 7,
+        equals = 8,
+        relativeBaseOffset = 9,
+        halt = 99
+}
+// Possible modes for a parameter
+public enum Mode: Int {
+    case position = 0,
+        immediate = 1,
+        relative = 2
+
+}
+// the instruction will be ABCDE the last two digit the opcodes and the rest parameters
+public struct Instruction {
+    public let opcode: Opcode
+    public var parameters: [Int]
+    public var modes: [Mode]
+    // +1 for the opcode
+    var length: Int { return parameters.count + 1 }
 }
 

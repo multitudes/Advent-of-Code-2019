@@ -40,3 +40,29 @@ var program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
 let a = IntCodeComputer(program: program)
 
 let outputs = a.run()
+
+public enum TileType: Int {
+    case empty = 0
+    case wall
+    case block
+    case horizontalPaddle
+    case ball
+}
+
+struct Coordinate: Hashable {
+    let x: Int
+    let y: Int
+}
+
+public struct Tile : Hashable {
+    var coordinates: Coordinate
+    var type: TileType
+}
+var tiles = Set<Tile>()
+for i in stride(from: 0, to: 3105, by: 3) {
+    print(i, outputs[i + 2] )
+    tiles.insert(Tile(coordinates: Coordinate(x: outputs[i], y: outputs[i + 1]), type: TileType(rawValue: outputs[i + 2])!))
+    }
+let blockCount = tiles.filter { $0.type == .block }.count
+print("Solution part 1 is block count: \(blockCount)")
+
