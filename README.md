@@ -36,7 +36,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|⭐️|⭐️|
 | ✔ [Day 11: Space Police](https://github.com/multitudes/Advent-of-Code-2019#Day-11-Space-Police)|⭐️|⭐️|
 | ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|⭐️|⭐️|
-| ✔ [Day 13: Care Package](https://github.com/multitudes/Advent-of-Code-2019#Day-13-Care-Package)|||
+| ✔ [Day 13: Care Package](https://github.com/multitudes/Advent-of-Code-2019#Day-13-Care-Package)|⭐️||
 
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
@@ -1391,6 +1391,42 @@ print("\n\nPart two solution! Total number of steps is \(solutionPart2)\n")
 ## [Day 13: Care Package](https://adventofcode.com/2019/day/13)
 (click on title to get the full challenge description on aoc website)
 As you ponder the solitude of space and the ever-increasing three-hour roundtrip for messages between you and Earth, you notice that the Space Mail Indicator Light is blinking. To help keep you sane, the Elves have sent you a care package.
+
+From now on I will have to push some files away from the main pplayground for better performance
+In this case I put my IntComputer in his own class separate.. then counting the tiles 
+
+```swift
+
+let a = IntCodeComputer(program: program)
+
+let outputs = a.run()
+
+public enum TileType: Int {
+    case empty = 0
+    case wall
+    case block
+    case horizontalPaddle
+    case ball
+}
+
+struct Coordinate: Hashable {
+    let x: Int
+    let y: Int
+}
+
+public struct Tile : Hashable {
+    var coordinates: Coordinate
+    var type: TileType
+}
+var tiles = Set<Tile>()
+for i in stride(from: 0, to: 3105, by: 3) {
+    print(i, outputs[i + 2] )
+    tiles.insert(Tile(coordinates: Coordinate(x: outputs[i], y: outputs[i + 1]), type: TileType(rawValue: outputs[i + 2])!))
+    }
+let blockCount = tiles.filter { $0.type == .block }.count
+print("Solution part 1 is block count: \(blockCount)")
+
+```
 
 
 
