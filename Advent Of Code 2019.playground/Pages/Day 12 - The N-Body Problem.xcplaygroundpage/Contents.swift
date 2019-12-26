@@ -26,12 +26,12 @@ import Foundation
 
 // Regex in Swift have a slightly clumsy syntax thanks to their Objective-C roots.
 // This is my input file
-var input = getInput(inputFile: "input12a", extension: "txt")
+var input = getInput(inputFile: "input12b", extension: "txt")
 // to replace or remove text in a string in swift I could use replacingOccurrences(of:, with:) but in this case Regex is better, however certainly somewhat cumbersome. Not so nice like in python though
 let regex = try! NSRegularExpression(pattern: "[<=xyz\n]")
 let range = NSRange(input.startIndex..., in: input)
 var moons = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "").split(separator: ">").map{ String($0).split(separator: ",").compactMap { NumberFormatter().number(from: String($0))?.intValue }}
-print(moons)
+//print(moons)
 
 struct Moon {
     var name: String
@@ -40,7 +40,6 @@ struct Moon {
     lazy var potentialEnergy = position.compactMap { abs($0) }.reduce(0, +)
     lazy var kineticEnergy = velocity.compactMap { abs($0) }.reduce(0, +)
     lazy var moonTotalEnergy = potentialEnergy * kineticEnergy
-
     init(name: String, position:[Int]) {
        self.position = position
         self.name = name
@@ -48,7 +47,6 @@ struct Moon {
     mutating func setVelocity(_ newvelocity: [Int]) {
         self.velocity = newvelocity
     }
-    
     mutating func updatePosition() {
         let newPosition = zip(self.position, self.velocity).map(+)
         print(newPosition)
@@ -59,13 +57,14 @@ struct Moon {
 struct Jupyter {
     var moons = [Moon]()
     var originalPosition = [[Int]]()
+    // this init takes the positions of all the moons as in the input file and create the array of moons
     init(positions: [[Int]], names: [String]) {
         for i in 0..<positions.count {
             let moon = Moon(name: names[i], position: positions[i])
             self.originalPosition = positions
-            print(originalPosition)
             self.moons.append(moon)
         }
+        print("originalPosition \(originalPosition)")
     }
 
     mutating func getTotalEnergy() -> Int {
@@ -77,20 +76,18 @@ struct Jupyter {
         }
         return totalEnergy
     }
-    mutating func step() -> Bool {
-        var flag  = [Int](repeating: 0, count: moons.count)
-        //calculateVelocity
-        for i in 0..<moons.count {
+    mutating func step() {
+        //calculateVelocity. Repeating for the number of moons = 4 times
+        for _ in 0..<moons.count {
+            // because I use structs I remove the first element of the array and append at the end to get the updated array
             var moon = self.moons.removeFirst()
+            // this is to crucial debug if I was doing it right!
             print("position \(moon.position)")
             print("velocity : \(moon.velocity)")
-            if moon.position == originalPosition[i] && moon.velocity == [0,0,0] {
-                flag[i] = 1
-            } else {
-                flag[i] = 0
-            }
             var newVelocity = moon.velocity
+            //Repeating for the number of moons now 3 times because I removed the first
             for j in 0..<self.moons.count {
+                // and for each axe I calculate the new velocity
                 for k in 0..<3 {
                     if moon.position[k] > self.moons[j].position[k] {
                         newVelocity[k] -= 1
@@ -99,49 +96,29 @@ struct Jupyter {
                     } else { continue }
                 }
             }
+            // update and append again. After 4 times the array is updated with 4 new moons
             moon.setVelocity(newVelocity)
             self.moons.append(moon)
             print("new velocity : \(newVelocity)")
-            
         }
-        //print(self.moons)
-        for i in 0..<moons.count {
+        // now need to again update the position adding the old position with velocity
+        for _ in 0..<moons.count {
             var moon = self.moons.removeFirst()
             let newPosition = zip(moon.position, moon.velocity).map(+)
             print("\nnew calculated position: \(newPosition)")
             moon.position = newPosition
             self.moons.append(moon)
-            print(self.moons[3])
         }
-        return flag.reduce(0, + ) == moons.count
      }
+    
     mutating func runNumberOf(steps: Int) {
-        for i in 0..<steps  {
+        for _ in 0..<steps  {
             self.step()
         }
-        print("Total Energy after \(steps) steps is \(getTotalEnergy())")
+        print("\n\nPart one solution! Total Energy after \(steps) steps is \(getTotalEnergy())\n")
     }
-    // this one is too slow
-    mutating func findNumberOfSteps() {
-        var number = 0
-        var flag = false
-        repeat {
-            flag = step()
-            number += 1
-        } while !flag || number == 1
-        print("number of steps is : \(number - 1 )")
-    }
-    mutating func findNumberOfStepsPerDimension() {
-        var number = 0
-        var flag = false
-        repeat {
-            //flag = stepPerDimension()
-            number += 1
-        } while !flag || number == 1
-        print("number of steps is : \(number - 1 )")
-    }
-    mutating func stepPerDimension(axis: Int){
-        var flag  = [Int](repeating: 0, count: moons.count)
+
+    mutating func stepPerDimension(axis: Int) -> Int {
         let moonCount = moons.count
         //calculateVelocity
         // declaring dictionaries for max speed
@@ -152,90 +129,66 @@ struct Jupyter {
             positionPerDimension[i] = moons[i].position[axis]
             velocityPerDimension[i] = 0
          }
+        print("initialized!")
         print(positionPerDimension)
         print(velocityPerDimension)
         // save the beginning state
-        var origPositionPerDimension = positionPerDimension
-        var origVelocityPerDimension = velocityPerDimension
-        var newPosition = [Int : Int]()
+        let origPositionPerDimension = positionPerDimension
+        let origVelocityPerDimension = velocityPerDimension
+         
         var number = 0
         repeat {
-        for i in 0..<moonCount{
             number += 1
-            for j in 1..<moonCount {
-                let k = (i + j) % moonCount
-                if positionPerDimension[i]! > positionPerDimension[k]! {
-                    velocityPerDimension[i]! -= 1
-                } else if positionPerDimension[i]! < positionPerDimension[k]! {
-                    velocityPerDimension[i]! += 1
+            for i in 0..<moonCount{
+                
+                for j in 1..<moonCount {
+                    let k = (i + j) % moonCount
+                    if positionPerDimension[i]! > positionPerDimension[k]! {
+                        velocityPerDimension[i]! -= 1
+                    } else if positionPerDimension[i]! < positionPerDimension[k]! {
+                        velocityPerDimension[i]! += 1
+                    }
                 }
             }
-        }
             print("old position \(positionPerDimension) merging \(velocityPerDimension)")
             positionPerDimension.merge(velocityPerDimension, uniquingKeysWith: +)
             print("new position \(positionPerDimension)")
             
         } while (positionPerDimension != origPositionPerDimension) || (origVelocityPerDimension != velocityPerDimension)
         print(number)
+        return number
     }
+    
                 
 }
-//        for i in 0..<moons.count {
-//            var moon = self.moons.removeFirst()
-//            print("position \(moon.position)")
-//            print("velocity : \(moon.velocity)")
-//            if moon.position[axis] == originalPosition[i][axis] && moon.velocity[axis] == 0 {
-//                flag[i] = 1
-//            } else {
-//                flag[i] = 0
-//            }
-//            var newVelocity = moon.velocity[axis]
-//            for j in 0..<self.moons.count {
-//
-//                    if moon.position[axis] > self.moons[j].position[axis] {
-//                        newVelocity -= 1
-//                    } else if moon.position[axis] < self.moons[j].position[axis] {
-//                        newVelocity += 1
-//                    } else { continue }
-//
-//            }
-//            moon.setVelocity(newVelocity)
-//            self.moons.append(moon)
-//            print("new velocity : \(newVelocity)")
-//
-//        }
-//        //print(self.moons)
-//        for i in 0..<moons.count {
-//            var moon = self.moons.removeFirst()
-//            let newPosition = zip(moon.position, moon.velocity).map(+)
-//            print("\nnew calculated position: \(newPosition)")
-//            moon.position = newPosition
-//            self.moons.append(moon)
-//            print(self.moons[3])
-//        }
-//        return flag.reduce(0, + ) == moons.count
 
-
+// Part one!
+// debug
 //var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
-
-//// solution part one is outup of this function
 //jupyter.runNumberOf(steps: 10)
 
 // this is for input12b result 1940
 //var jupyter2 = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
-//
 //jupyter2.runNumberOf(steps: 100)
 
 var jupyter = Jupyter(positions: moons, names: ["Io", "Europa", "Ganymede", "Callisto"])
-//// solution part one is outup of this function
-//jupyter.runNumberOf(steps: 1000)
-//jupyter.findNumberOfSteps()
-jupyter.stepPerDimension(axis: 2)
+// solution part one is outup of this function
+jupyter.runNumberOf(steps: 1000)
+
 
 extension Moon: CustomStringConvertible {
   //This is a computed property.
     var description: String {
-        var text = "name: \(name) position \(position) velocity \(velocity)"
+        let text = "name: \(name) position \(position) velocity \(velocity)"
         return text
     }
 }
+
+// for every axis I calculate the number of steps to get to the initial state. In this challenge the axis are indipendent so i do not need to get the initial state of all three axis x, y , z at the same time. Just one at the time and then the total number of steps for the three axis to be in the initial state will be the lowest common multiplier!
+// the lcm algo is in the sources folder. I made a new step per dimension method for part two. paramether is axis x is 0 y is 1 and z is 2
+let a = jupyter.stepPerDimension(axis: 0)
+let b = jupyter.stepPerDimension(axis: 1)
+let c = jupyter.stepPerDimension(axis: 2)
+let solutionPart2 = lcm(a,b,c)
+    
+print(solutionPart2)

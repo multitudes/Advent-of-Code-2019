@@ -32,9 +32,11 @@ func lcm(_ m: Int, _ n: Int, using gcdAlgorithm: (Int, Int) -> (Int) = gcdIterat
 guard (m & n) != 0 else { throw LCMError.divisionByZero }
 return m / gcdAlgorithm(m, n) * n
 }
+
 do {
-    try lcm(2, 3)   // 6
-    try lcm(10, 8, using: gcdRecursiveEuklid)  // 40
+    try lcm(3, 4)   // 6
+    
+    //try lcm(1, 5, using: gcdRecursiveEuklid)  // 40
 } catch {
     dump(error)
 }
