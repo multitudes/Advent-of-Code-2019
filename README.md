@@ -9,7 +9,10 @@ Advent of Code 2019 ✨🚀 Swift Solutions by
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This is a collection of self contained Swift Playgrounds with the solutions to the advent of code quizzes.
-The code below will be missing some parts which have been refactored in utility files. The playground file however includes everything. Please download the playground and run on a mac in Xcode. It is divided into days and easy to paginate through.
+The code below will be missing some parts which have been refactored in utility files. 
+The playground main file however includes everything. Please download the playground and run on a mac in Xcode. It is divided into days and easy to paginate through.
+
+I am also keeping a [blog](https://multitudes.github.io/2019/12/What-I-learned-from-the-AoC-for-Swift-Playgrounds.html) about the problems I ran coding with the Xcode Playgrounds. This includes performance problems.
 
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
