@@ -39,8 +39,8 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 10: Monitoring Station](https://github.com/multitudes/Advent-of-Code-2019#Day-10-Monitoring-Station)|⭐️|⭐️|
 | ✔ [Day 11: Space Police](https://github.com/multitudes/Advent-of-Code-2019#Day-11-Space-Police)|⭐️|⭐️|
 | ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|⭐️|⭐️|
-| ✔ [Day 13: Care Package](https://github.com/multitudes/Advent-of-Code-2019#Day-13-Care-Package)|⭐️||
-
+| ✔ [Day 13: Care Package](https://github.com/multitudes/Advent-of-Code-2019#Day-13-Care-Package)|⭐️|⭐️|
+| ✔ [Day 14: Space Stoichiometry](https://github.com/multitudes/Advent-of-Code-2019#Day-14-Space Stoichiometry)|||
 
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
@@ -1432,6 +1432,12 @@ print("Solution part 1 is block count: \(blockCount)")
 ```
 
 
+## [Day 14: Space Stoichiometry](https://adventofcode.com/2019/day/14)
+
+As you approach the rings of Saturn, your ship's low fuel indicator turns on. There isn't any fuel here, but the rings have plenty of raw material. Perhaps your ship's Inter-Stellar Refinery Union brand nanofactory can turn these raw materials into fuel..
+
+```swift
+```
 
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
