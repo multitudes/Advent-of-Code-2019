@@ -20,14 +20,7 @@ public class IntCodeComputer {
     //while outputs.count != 1 {
     
         while program[index] != 99 {
-
         if index <= 0 { index = 0 }
-        
-//        print("instr range: \(program[index] ?? 0) - \(program[index+1] ?? 0) - \(program[index+2] ?? 0) - \(program[index+3] ?? 0)")
-//        print("index: \(index)")
-//        print("relativeBase: \(relativeBase)")
-        //print("Prog: \(program)")
-        
         if program[index]! / 10000 > 3 {
             print("\n error opcode =================\n ")
             break
@@ -70,7 +63,7 @@ public class IntCodeComputer {
                         }
                     }
                     output = []
-                    //draw(screen, score: score)
+
                 }
             
             case .jumpIfTrue:
@@ -245,8 +238,6 @@ public struct Instruction {
     public let opcode: Opcode
     public var parameters: [Int]
     public var modes: [Mode]
-    // +1 for the opcode
-    var length: Int { return parameters.count + 1 }
 }
 
     

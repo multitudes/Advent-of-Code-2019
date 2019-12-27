@@ -63,13 +63,16 @@ for i in stride(from: 0, to: 3105, by: 3) {
 let blockCount = tiles.filter { $0.type == .block }.count
 print("Solution part 1 is block count: \(blockCount)")
 
+program[0] = 2
+var arcadePlay = IntCodeComputer(program: program)
+
+let outputsPlay = arcadePlay.run()
+
+
+
 //do {
 //    sleep(4)
 //}
 
 //print("\u{001B}")
 print("\u{001b}")
-program[0] = 2
-var arcadePlay = IntCodeComputer(program: program)
-
-let outputsPlay = arcadePlay.run()
