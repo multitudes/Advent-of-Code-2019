@@ -3,6 +3,11 @@ public class IntCodeComputer {
     public var relativeBase = 0
     public var outputs = [Int]()
     public var program: [Int:Int]
+    // these are for part 2 day 13
+    public var ballPosition = Coordinate.zero
+    public var paddlePosition = Coordinate.zero
+    public var score = 0
+    public var output: [Int] = []
     
     public init(program: [Int:Int]) {
         self.index = 0
@@ -31,90 +36,84 @@ public class IntCodeComputer {
         let instruction = createInstruction(program: program , index: index, relativeBase: relativeBase)
         switch instruction.opcode {
             case .add:
-//                print("\nadd!")
-//                print("parameters: \(instruction.parameters)")
                 program[instruction.parameters[2]] = instruction.parameters[0] + instruction.parameters[1]
-//                print("value: \(instruction.parameters[0]) + \(instruction.parameters[1]) = \(instruction.parameters[0] + instruction.parameters[1]) written to \(instruction.parameters[2])")
-//                print("is this right ? \(program[instruction.parameters[2]]!)\n")
                 index += 4
             case .multiply:
-//                print("multiply ")
-//                print( instruction.parameters)
                 program[instruction.parameters[2]] = instruction.parameters[0] * instruction.parameters[1]
-//                print("value: \(instruction.parameters[0]) * \(instruction.parameters[1]) = \(instruction.parameters[0] * instruction.parameters[1]) written to \(instruction.parameters[2])")
-//                print("is this right ? \(program[instruction.parameters[2]]!)\n")
                 index += 4
             case .input:
-                print("\n TEST Input: 2 ")
+                //print("\n TEST Input: 2 ")
                 // readLine does not work in Playgrounds 😅 I will hardcode it
-                program[instruction.parameters[0]] = 2
+                if ballPosition.x < paddlePosition.x {
+                    program[instruction.parameters[0]] = -1
+                } else if ballPosition.x > paddlePosition.x {
+                    program[instruction.parameters[0]] = 1
+                } else {
+                    program[instruction.parameters[0]] = 0
+                }
                 index += 2
             case .output:
-                print("output got: \(instruction.parameters[0])")
-                index += 2
+                 index += 2
                 outputs.append(instruction.parameters[0])
-//                print("continue with \(program[index]!)\n")
+                output.append(instruction.parameters[0])
+                if output.count == 3 {
+                    if (output[0] == -1) && output[1] == 0 {
+                        score = output[2]
+                    } else {
+                        let coord = Coordinate(x: output[0], y: output[1])
+                        let tile = TileType(rawValue: output[2])!
+                        //screen[coord] = tile
+                        if tile == .ball {
+                            ballPosition = coord
+                        } else if tile == .paddle {
+                            paddlePosition = coord
+                        }
+                    }
+                    output = []
+                    //draw(screen, score: score)
+                }
+            
             case .jumpIfTrue:
-                //Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
-//                print("jumpIfTrue")
-//                print( instruction.parameters)
-                //print("range: \(program[index...index+2])")
                 if instruction.parameters[0] != 0 {
                     index = instruction.parameters[1]
-//                    print("jump to index \(index)\n")
+
                     } else {
                     index += 3
-//                    print("continue with \(program[index]!)\n")
-                }
+               }
                 
             case .jumpIfFalse:
-                //Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
-//                print("jumpIfFalse")
-//                print( instruction.parameters)
-                //print("range: \(program[index...index+2])")
+
                 if instruction.parameters[0] == 0 {
                     index = instruction.parameters[1]
-//                    print("jump to \(program[index]!)\n")
+
                     continue
                     } else {
                     index += 3
-//                    print("continue with \(program[index]!)\n")
+
                 }
                 
             case .lessThan:
-                //Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
-//                print("lessThan")
-//                print( instruction.parameters)
                 if instruction.parameters[0] < instruction.parameters[1] {
                     program[instruction.parameters[2]] = 1 } else {
                     program[instruction.parameters[2]] = 0
                 }
-//                print("value: if \(instruction.parameters[0]) < \(instruction.parameters[1]) then 1 written to \(instruction.parameters[2])")
-//                print("is this right ? \(program[instruction.parameters[2]]!)\n")
                 index += 4
-            
             case  .equals:
-//                print("equals")
-//                print( instruction.parameters)
                 if instruction.parameters[0] == instruction.parameters[1] {
                     program[instruction.parameters[2]] = 1 } else {
                     program[instruction.parameters[2]] = 0
                 }
-//                print("value: if \(instruction.parameters[0]) = \(instruction.parameters[1]) then 1 written to \(instruction.parameters[2])")
-//                print("is this right ? \(program[instruction.parameters[2]]!)\n")
                 index += 4
             case .relativeBaseOffset:
-//                print("relativeBaseOffset")
-//                print( instruction.parameters)
                 relativeBase += instruction.parameters[0]
-//                print("relativeBase is now  = \(relativeBase)\n")
                 index += 2
             case .halt:
                 print("stop")
             }
         }
-        print("stop\n ---------------------------------------------- \n -------------------------------------------------- \n")
-        print("Outputs \(outputs)")
+        if program[0] == 2 {
+            print("Solution part 2 is score: \(score)")
+        }
         return outputs
     }
     
@@ -219,8 +218,6 @@ public class IntCodeComputer {
         }
         return Instruction(opcode: opcode, parameters: parameters ,modes: modes)
     }
-
-
 }
 
 // Possible opcodes
@@ -252,4 +249,4 @@ public struct Instruction {
     var length: Int { return parameters.count + 1 }
 }
 
-
+    
