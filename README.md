@@ -1393,6 +1393,7 @@ print("\n\nPart two solution! Total number of steps is \(solutionPart2)\n")
 
 ## [Day 13: Care Package](https://adventofcode.com/2019/day/13)
 (click on title to get the full challenge description on aoc website)
+
 As you ponder the solitude of space and the ever-increasing three-hour roundtrip for messages between you and Earth, you notice that the Space Mail Indicator Light is blinking. To help keep you sane, the Elves have sent you a care package.
 
 From now on I will have to push some files away from the main pplayground for better performance
@@ -1400,40 +1401,29 @@ In this case I put my IntComputer in his own class separate.. then counting the 
 
 ```swift
 
-let arcade = IntCodeComputer(program: program)
+// I had to move the computation away from main, swift files are in the sources! 
 
-let outputs = arcade.run()
+let arcadeTest = IntCodeComputer(program: program)
 
-public enum TileType: Int {
-    case empty = 0
-    case wall
-    case block
-    case horizontalPaddle
-    case ball
-}
+let outputs = arcadeTest.run()
 
-struct Coordinate: Hashable {
-    let x: Int
-    let y: Int
-}
-
-public struct Tile : Hashable {
-    var coordinates: Coordinate
-    var type: TileType
-}
 var tiles = Set<Tile>()
 for i in stride(from: 0, to: 3105, by: 3) {
-    print(i, outputs[i + 2] )
     tiles.insert(Tile(coordinates: Coordinate(x: outputs[i], y: outputs[i + 1]), type: TileType(rawValue: outputs[i + 2])!))
     }
 let blockCount = tiles.filter { $0.type == .block }.count
 print("Solution part 1 is block count: \(blockCount)")
 
-```
+program[0] = 2
+var arcadePlay = IntCodeComputer(program: program)
 
+let outputsPlay = arcadePlay.run()
+
+```
 
 ## [Day 14: Space Stoichiometry](https://adventofcode.com/2019/day/14)
 
+(click on title to get the full challenge description on aoc website)
 As you approach the rings of Saturn, your ship's low fuel indicator turns on. There isn't any fuel here, but the rings have plenty of raw material. Perhaps your ship's Inter-Stellar Refinery Union brand nanofactory can turn these raw materials into fuel..
 
 ```swift
