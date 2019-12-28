@@ -33,7 +33,17 @@ Beat the game by breaking all the blocks. What is your score after the last bloc
  
  Spoiler: I did not do it with printing on console because the playgrounds have a limited support for clear the screen and it would not look good enough and would take too much time at this stage. And I am doing the playground on the macos plattform. Still wuld be a nice project to make a visualisation for iOS one day!
 
-
+ ### Day 13's winner #1: "untitled poem" by /u/tslater2006
+ 
+They say that I'm fragile
+But that simply can't be
+When the ball comes forth
+It bounces off me!
+ 
+I send it on its way
+Wherever that may be
+longing for the time
+that it comes back to me!
  
 : [Next](@next)
 */
