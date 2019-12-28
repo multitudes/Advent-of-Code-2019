@@ -2,6 +2,7 @@ import Foundation
 
 public class NanoFuelfactory {
         public var reactions: [Reaction]
+        public var requested = [String: Int]()
         public init(input: String) {
             // reactions is an array of Reaction which are separated by newlines.
             // ex of one line : 7 A, 1 B => 1 C
@@ -13,7 +14,7 @@ public class NanoFuelfactory {
         // this function takes as input the string ex "7 A, 1 B => 1 C"
         // parts will be my input string divided by => or , like ["7", "A", "1", "B", "1", "C"]
         let parts = reaction.components(separatedBy: CharacterSet(charactersIn: ", =>")).filter { !$0.isEmpty }
-        //print(parts)
+        ////print(parts)
         // the inputs of the reaction are the all my parts in the array minus the last two which is the result.
         // I organize this into an array. This will take the reaction inputs and put them into a
         // dictionary like ["A": 7, "B": 1]
@@ -21,10 +22,10 @@ public class NanoFuelfactory {
             .reduce(into: [String: Int]()) {
                 $0[parts[$1+1]] = Int(parts[$1])!
         }
-        //print(inputs)
+        ////print(inputs)
         // the output is the last value of the reaction formula , in the case above it will be "C"
         let output = parts.last!
-        //print(output)
+        ////print(output)
         // suffix(_:)
         //Returns a subsequence, up to the given maximum length, containing the final elements of the collection.
         // my amount will be the first of the last 2 elements!
@@ -32,26 +33,27 @@ public class NanoFuelfactory {
         // create the reaction!
         return Reaction(formula: inputs, result: output, amount: amount)
     }
-    public func part1(){
+    public func produce(fuelAmount: Int){
+        
         // dictionary containing quantity and name of chemical
         var leftOversDict = [String: Int]()
         var processingQueue = [String: Int]()
         // this starts with fuel and quantity
-        processingQueue["FUEL"] = 1
+        processingQueue["FUEL"] = 1 * fuelAmount
         // I will not stop this look until processingQueue will be a dictionary with all keys = ORE so converted!
         while !processingQueue.allSatisfy { $0.key == "ORE" } {
-            print("\n new loop")
+            //print("\n new loop")
             //get the first and at first only element
             let request = processingQueue.first { $0.key != "ORE" }!
-            print("request \(request)")
+            //print("request \(request)")
             // first time this will be 1 with the only key Fuel
             let amountRequested = request.value
             // first time this will be - 1 !
             // leftOversDict will be empty so leftOversDict["Fuel"] will be nil defaults to zero
             let actualAmountNeeded = amountRequested - leftOversDict[request.key, default: 0]
-            print("actualAmountNeeded \(actualAmountNeeded)")
-            //print(request)
-            //print(processingQueue)
+            //print("actualAmountNeeded \(actualAmountNeeded)")
+            ////print(request)
+            ////print(processingQueue)
             if actualAmountNeeded <= 0 {
                 leftOversDict[request.key] = abs(actualAmountNeeded)
                 processingQueue.removeValue(forKey: request.key)
@@ -61,7 +63,7 @@ public class NanoFuelfactory {
                 // I take the first reaction producing FUEL as result
                 let reaction = reactions.first { $0.result == request.key }!
                 // the reaction will be formula: ["E": 1, "A": 7] result FUEL amount 1
-                print("reaction : \(reaction)")
+                //print("reaction : \(reaction)")
                 // multiplier will be 1/1 at first which is 1
                 var multiplier = actualAmountNeeded / reaction.amount
                 if multiplier == 0 {
@@ -74,7 +76,7 @@ public class NanoFuelfactory {
                 
                 // here it starts!  ex formula: ["E": 1, "A": 7]  2 inputs
                 for input in reaction.formula {
-                    print(input)
+                    //print(input)
                     // will look in leftOversDict if I got a value, leftOversDict["E"] defaults to 0 if none which it is
                     // because leftOversDict starts empty and subtract 1 which is the value of input with key E * multiplier
                     // which is 1 this makes updatedValue negative -1
@@ -88,8 +90,8 @@ public class NanoFuelfactory {
                         // this is what I need to generate = the updatedValue is -1 so I get 1 E on the processing Queue - basically at the beginning leftover 2 is the value of my input on the processing queue
                         processingQueue[input.key, default: 0] += updatedValue
                     }
-                    print("leftOversDict \(leftOversDict)")
-                    print("processingQueue \(processingQueue)")
+                    //print("leftOversDict \(leftOversDict)")
+                    //print("processingQueue \(processingQueue)")
                 }
                 
                 // first pass in leftOversDict[Fuel] will be 0 and I add (-1) the value of leftover (multiplier is 1)
@@ -110,14 +112,15 @@ public class NanoFuelfactory {
                     }
                 }
             }
-            print("leftOversDictAfter \(leftOversDict)")
-            print("processingQueueAfter \(processingQueue)")
+            //print("leftOversDictAfter \(leftOversDict)")
+            //print("processingQueueAfter \(processingQueue)")
             // for debug                            do {  sleep(3) }
         } // the while loop continues . my processing q will have still no ore at first
         
         leftOversDict = leftOversDict.filter { $0.value != 0 }
-        print("leftOversDict : \(leftOversDict)")
-        print("\n\nSolution part one Ore needed is : \(processingQueue["ORE"] ?? 0)\n")
+        requested = processingQueue
+        //print("leftOversDict : \(leftOversDict)")
+        //print("\n\nSolution part one Ore needed is : \(processingQueue["ORE"] ?? 0)\n")
     }
     public func part2() {
         

@@ -113,7 +113,27 @@ var input = getInput(inputFile: "input14", extension: "txt")
 //NanoFuelFactory is a class in sources
 let chemicalReaction = NanoFuelfactory(input: input)
 // part 1
-//chemicalReaction.part1()
-//part 2
-chemicalReaction.part2()
+chemicalReaction.produce(fuelAmount: 1)
+let solutionPart1 = chemicalReaction.requested["ORE"]!
+print("Solution of part 1 is needed ORE: \(solutionPart1)")
+//part 2 - How much Fuel can I produce max with 1 trilliion
+var oreNeeded: Int
+(oreNeeded = 0)
+// starting with defaults
+var minOreNeeded = 1
+var maxOreNeeded = 1_000_000_000_000
+var guess = Int(ceil((Double(minOreNeeded) + Double(maxOreNeeded)) / 2.0))
+while minOreNeeded != maxOreNeeded {
+    let factory = NanoFuelfactory(input: input)
+    factory.produce(fuelAmount: guess)
+    oreNeeded = factory.requested["ORE"]!
+    if oreNeeded > 1_000_000_000_000 {
+        maxOreNeeded = guess - 1
+    } else {
+        minOreNeeded = guess
+    }
+    guess = Int(ceil((Double(minOreNeeded) + Double(maxOreNeeded)) / 2.0))
+}
+print("Solution of part 2 is: \(minOreNeeded)")
+print("ORE amount was : \(oreNeeded)")
 
