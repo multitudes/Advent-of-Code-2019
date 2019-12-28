@@ -43,7 +43,7 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 14: Space Stoichiometry](https://github.com/multitudes/Advent-of-Code-2019#Day-14-Space-Stoichiometry)|⭐️|⭐️|
 | ✔ [Day 15: Oxygen System](https://github.com/multitudes/Advent-of-Code-2019#Day-15-Oxygen-System)|⭐️||
 
-Day 15: Oxygen System
+
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
 The Elves quickly load you into a spacecraft and prepare to launch.
