@@ -55,34 +55,28 @@ var input = getInput(inputFile: "input13", extension: "txt")
 //get the input file as an array into program
 var inputProgramArray = input.components(separatedBy: ",").compactMap { Int($0) }
 // using the string extension  array
-//var inputProgramArray = input.array(separatedBy: CharacterSet(arrayLiteral: ","),using: Int.init)
 //print(inputProgramArray)
 var progrLength = inputProgramArray.count
-//print("length : \(progrLength)")
+
 // when I load my program in memory it becomes a dict!
 var program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
 
 let arcadeTest = IntCodeComputer(program: program)
-
 let outputs = arcadeTest.run()
-
 var tiles = Set<Tile>()
+// 3105 is the length of my input array. Every third value in the outputs of the program gives me the type of tile
 for i in stride(from: 0, to: 3105, by: 3) {
     tiles.insert(Tile(coordinates: Coordinate(x: outputs[i], y: outputs[i + 1]), type: TileType(rawValue: outputs[i + 2])!))
     }
+// I count the tiles of type block
 let blockCount = tiles.filter { $0.type == .block }.count
 print("Solution part 1 is block count: \(blockCount)")
 
+
+// part 2
 program[0] = 2
 var arcadePlay = IntCodeComputer(program: program)
-
+// thsi will print the solution to part 2
 let outputsPlay = arcadePlay.run()
 
-
-
-//do {
-//    sleep(4)
-//}
-
-//print("\u{001B}")
-print("\u{001b}")
+//print("\u{001b}")

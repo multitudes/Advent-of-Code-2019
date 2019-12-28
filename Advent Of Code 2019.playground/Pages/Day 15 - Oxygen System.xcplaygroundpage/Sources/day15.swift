@@ -1,11 +1,3 @@
-public enum TileType: Int {
-    case empty = 0
-    case wall
-    case block
-    case paddle
-    case ball
-}
-
 public struct Coordinate: Hashable {
     public let x: Int
     public let y: Int
@@ -13,16 +5,7 @@ public struct Coordinate: Hashable {
         self.x = x
         self.y = y
     }
-    static let zero = Coordinate(x: 0, y: 0)
-}
-
-public struct Tile : Hashable {
-    public var coordinates: Coordinate
-    public var type: TileType
-    public init(coordinates: Coordinate, type: TileType){
-        self.coordinates = coordinates
-        self.type = type
-    }
+    public static let zero = Coordinate(x: 0, y: 0)
 }
 
 

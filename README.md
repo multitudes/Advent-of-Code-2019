@@ -1441,7 +1441,7 @@ let chemicalReaction = NanoFuelfactory(input: input)
 chemicalReaction.produce(fuelAmount: 1)
 let solutionPart1 = chemicalReaction.requested["ORE"]!
 print("Solution of part 1 is needed ORE: \(solutionPart1)")
-//part 2 - How much Fuel can I produce max with 1 trilliion
+//part 2 - How much Fuel can I produce max with 1 trilliion ore?
 var oreNeeded: Int
 (oreNeeded = 0)
 // starting with defaults

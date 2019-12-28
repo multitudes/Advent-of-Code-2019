@@ -24,55 +24,9 @@
  0: The repair droid hit a wall. Its position has not changed.
  1: The repair droid has moved one step in the requested direction.
  2: The repair droid has moved one step in the requested direction; its new position is the location of the oxygen system.
- You don't know anything about the area around the repair droid, but you can figure it out by watching the status codes.
 
- For example, we can draw the area using D for the droid, # for walls, . for locations the droid can traverse, and empty space for unexplored locations. Then, the initial state looks like this:
+ [...]
 
-       
-       
-    D
-       
-       
- To make the droid go north, send it 1. If it replies with 0, you know that location is a wall and that the droid didn't move:
-
-       
-    #
-    D
-       
-       
- To move east, send 4; a reply of 1 means the movement was successful:
-
-       
-    #
-    .D
-       
-       
- Then, perhaps attempts to move north (1), south (2), and east (4) are all met with replies of 0:
-
-       
-    ##
-    .D#
-     #
-       
- Now, you know the repair droid is in a dead end. Backtrack with 3 (which you already know will get a reply of 1 because you already know that location is open):
-
-       
-    ##
-    D.#
-     #
-       
- Then, perhaps west (3) gets a reply of 0, south (2) gets a reply of 1, south again (2) gets a reply of 0, and then west (3) gets a reply of 2:
-
-       
-    ##
-   \#..#
-   D.#
-    #
- 
- Now, because of the reply of 2, you know you've found the oxygen system! In this example, it was only 2 moves away from the repair droid's starting position.
-
- What is the fewest number of movement commands required to move the repair droid from its starting position to the location of the oxygen system?
- 
  ## Part 2
  
 : [Next](@next)
@@ -80,6 +34,232 @@
 
 import Foundation
 
+// func getInput is in utilities file
+var input = getInput(inputFile: "input15", extension: "txt")
+//get the input file as an array into program
+var inputProgramArray = input.components(separatedBy: ",").compactMap { Int($0) }
+
+var program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
 
 
 
+
+public class IntCodeComputer {
+    public var instructionPointer = 0
+    public var relativeBase = 0
+    public var outputs = [Int]()
+    public var program: [Int:Int]
+    public var output: [Int] = []
+    
+    public init(program: [Int:Int]) {
+        self.instructionPointer = 0
+        self.outputs = []
+        self.program = program
+    }
+
+    public func run() -> [Int] {
+    // the instructionPointer will move at various intervals. I check everytime for the opcode 99 then I continue on the loop
+    //while outputs.count != 1 {
+        while program[instructionPointer] != 99 {
+        if instructionPointer <= 0 { instructionPointer = 0 }
+        if program[instructionPointer]! / 10000 > 3 {
+            print("\n error opcode =================\n ")
+            break}
+        // func createInstruction is in utilities file and returns an instance of the Instruction struct
+        let instruction = createInstruction(program: program , instructionPointer: instructionPointer, relativeBase: relativeBase)
+        switch instruction.opcode {
+            case .add:
+                program[instruction.parameters[2]] = instruction.parameters[0] + instruction.parameters[1]
+                instructionPointer += 4
+            case .multiply:
+                program[instruction.parameters[2]] = instruction.parameters[0] * instruction.parameters[1]
+                instructionPointer += 4
+            case .input:
+                //print("\n TEST Input: 2 ")
+                // readLine does not work in Playgrounds 😅 I will hardcode it
+               
+                instructionPointer += 2
+            case .output:
+   
+                 instructionPointer += 2
+            case .jumpIfTrue:
+                if instruction.parameters[0] != 0 {
+                    instructionPointer = instruction.parameters[1]
+                    } else {
+                    instructionPointer += 3
+               }
+            case .jumpIfFalse:
+                if instruction.parameters[0] == 0 {
+                    instructionPointer = instruction.parameters[1]
+                    continue
+                    } else {
+                    instructionPointer += 3
+                }
+            case .lessThan:
+                if instruction.parameters[0] < instruction.parameters[1] {
+                    program[instruction.parameters[2]] = 1 } else {
+                    program[instruction.parameters[2]] = 0
+                }
+                instructionPointer += 4
+            case  .equals:
+                if instruction.parameters[0] == instruction.parameters[1] {
+                    program[instruction.parameters[2]] = 1 } else {
+                    program[instruction.parameters[2]] = 0
+                }
+                instructionPointer += 4
+            case .relativeBaseOffset:
+                relativeBase += instruction.parameters[0]
+                instructionPointer += 2
+            case .halt:
+                print("stop")
+            }
+        }
+        return [0]
+    }
+    
+    public func createInstruction(program: [Int: Int], instructionPointer: Int, relativeBase: Int) -> Instruction {
+        let opcode: Opcode = Opcode(rawValue: program[instructionPointer]! % 100)!
+        let modes = [ Mode(rawValue: program[instructionPointer]! % 1000 / 100)!, Mode(rawValue: program[instructionPointer]! % 10000 / 1000)! , Mode(rawValue: program[instructionPointer]! / 10000)!]
+        var firstParam: Int = 0; var secondParam: Int = 0; var thirdParam: Int = 0; var parameters: [Int] = []
+        switch opcode {
+        case .add, .multiply, .equals, .lessThan:
+                if modes[0] == .position {
+                    if let a = program[instructionPointer + 1] {
+                        if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                    if let a = program[instructionPointer + 1] {
+                        if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                else {
+                    firstParam = program[instructionPointer + 1] ?? 0
+                    }
+                if modes[1] == .position {
+                    if let a = program[instructionPointer + 2] {
+                        if let b = program[a] { secondParam = b } else { secondParam = 0 }}}
+                else if modes[1] == .relative {
+                    if let a = program[instructionPointer + 2] {
+                        if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
+                else {
+                    secondParam = program[instructionPointer + 2] ?? 0
+                }
+                if modes[2] == .position {
+                    if let a = program[instructionPointer + 3] {
+                        thirdParam = a }}
+                else if modes[2] == .relative {
+                    if let a = program[instructionPointer + 3] {
+                            thirdParam = a + relativeBase }}
+                else {
+                    print("\n\nerror write cannot have immediate mode 1 \n\n")
+                }
+                parameters = [firstParam, secondParam, thirdParam]
+            
+            case .input:
+                if modes[0] == .position {
+                        if let a = program[instructionPointer + 1] {
+                            firstParam = a }}
+                else if modes[0] == .relative {
+                        if let a = program[instructionPointer + 1] {
+                            firstParam = a + relativeBase }}
+                    else {
+                        print("\n\nerror write cannot have immediate mode 1 \n\n")
+                }
+                parameters = [firstParam]
+            case .output:
+                if modes[0] == .position {
+                        if let a = program[instructionPointer + 1] {
+                            if let b = program[a] { firstParam = b }  else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                        if let a = program[instructionPointer + 1] {
+                            if let b = program[a + relativeBase] {
+                                firstParam = b }
+                            else { firstParam =  0 }}}
+                    else {
+                        firstParam = program[instructionPointer + 1] ?? 0
+                }
+                parameters = [firstParam]
+            
+            case .jumpIfTrue, .jumpIfFalse:
+                if modes[0] == .position {
+                    if let a = program[instructionPointer + 1] {
+                        if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                    if let a = program[instructionPointer + 1] {
+                        if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                else {
+                    firstParam = program[instructionPointer + 1] ?? 0
+                    }
+                if modes[1] == .position {
+                    if let a = program[instructionPointer + 2] {
+                        if let b = program[a] { secondParam = b } else { secondParam = 0 }}}
+                else if modes[1] == .relative {
+                    if let a = program[instructionPointer + 2] {
+                        if let b = program[a + relativeBase] { secondParam = b } else { secondParam = 0 }}}
+                else {
+                    secondParam = program[instructionPointer + 2] ?? 0
+                }
+                parameters = [firstParam, secondParam]
+
+            
+            case .relativeBaseOffset:
+                if modes[0] == .position {
+                        if let a = program[instructionPointer + 1] {
+                            if let b = program[a] { firstParam = b } else { firstParam = 0 }}}
+                else if modes[0] == .relative {
+                        if let a = program[instructionPointer + 1] {
+                            if let b = program[a + relativeBase] { firstParam = b } else { firstParam = 0 }}}
+                    else {
+                        firstParam = program[instructionPointer + 1] ?? 0
+                }
+                parameters = [firstParam]
+            
+            case .halt:
+                print("stop")
+        }
+        return Instruction(opcode: opcode, parameters: parameters ,modes: modes)
+    }
+}
+
+// Possible opcodes
+public enum Opcode: Int {
+    case add = 1,
+        multiply = 2,
+        input = 3,
+        output = 4,
+        jumpIfTrue = 5,
+        jumpIfFalse = 6,
+        lessThan = 7,
+        equals = 8,
+        relativeBaseOffset = 9,
+        halt = 99
+}
+// Possible modes for a parameter
+public enum Mode: Int {
+    case position = 0,
+        immediate = 1,
+        relative = 2
+
+}
+// the instruction will be ABCDE the last two digit the opcodes and the rest parameters
+public struct Instruction {
+    public let opcode: Opcode
+    public var parameters: [Int]
+    public var modes: [Mode]
+}
+public struct Maze {
+    public var nodes: [Node]
+    public init(){
+        self.nodes = [Node(coordinates: .zero, distance: 0, nodeType: .free)]
+    }
+}
+public struct Node {
+    public let coordinates: Coordinate
+    public var distance: Int
+    public var nodeType: NodeType
+    public var freeDirections: [Directions] = [.north, .south, .west, .east]
+}
+public enum NodeType: Int {
+    case wall = 0, free, oxygen, unknown
+}
+
+public enum Directions: Int {
+    case north = 1, south, west, east
+}
