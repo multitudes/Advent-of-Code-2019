@@ -1426,7 +1426,45 @@ let outputsPlay = arcadePlay.run()
 (click on title to get the full challenge description on aoc website)
 As you approach the rings of Saturn, your ship's low fuel indicator turns on. There isn't any fuel here, but the rings have plenty of raw material. Perhaps your ship's Inter-Stellar Refinery Union brand nanofactory can turn these raw materials into fuel..
 
+Moving most of the code in other files for performance reasons..
+
 ```swift
+import Foundation
+
+var input = getInput(inputFile: "input14", extension: "txt")
+
+//NanoFuelFactory is a class in sources
+let chemicalReaction = NanoFuelfactory(input: input)
+// part 1
+chemicalReaction.produce(fuelAmount: 1)
+let solutionPart1 = chemicalReaction.requested["ORE"]!
+print("Solution of part 1 is needed ORE: \(solutionPart1)")
+//part 2 - How much Fuel can I produce max with 1 trilliion
+var oreNeeded: Int
+(oreNeeded = 0)
+// starting with defaults
+var minOreNeeded = 1
+var maxOreNeeded = 1_000_000_000_000
+// guess will be in the middle
+var guess = Int(ceil((Double(minOreNeeded) + Double(maxOreNeeded)) / 2.0))
+// if min amd max are same I exit loop
+while minOreNeeded != maxOreNeeded {
+    let factory = NanoFuelfactory(input: input)
+    factory.produce(fuelAmount: guess)
+    oreNeeded = factory.requested["ORE"]!
+    if oreNeeded > 1_000_000_000_000 {
+        // guess was too high, i adjust it
+        maxOreNeeded = guess - 1
+    } else {
+        // guess was too low, I will compute it again with a higher min
+        minOreNeeded = guess
+    }
+    // recalculate guess
+    guess = Int(ceil((Double(minOreNeeded) + Double(maxOreNeeded)) / 2.0))
+}
+print("Solution of part 2 is: \(minOreNeeded)")
+print("ORE amount was : \(oreNeeded)")
+
 ```
 
 
