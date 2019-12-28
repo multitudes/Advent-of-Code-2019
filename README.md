@@ -40,8 +40,10 @@ The Elves quickly load you into a spacecraft and prepare to launch.
 | ✔ [Day 11: Space Police](https://github.com/multitudes/Advent-of-Code-2019#Day-11-Space-Police)|⭐️|⭐️|
 | ✔ [Day 12: The N-Body Problem](https://github.com/multitudes/Advent-of-Code-2019#Day-12-The-N-Body-Problem)|⭐️|⭐️|
 | ✔ [Day 13: Care Package](https://github.com/multitudes/Advent-of-Code-2019#Day-13-Care-Package)|⭐️|⭐️|
-| ✔ [Day 14: Space Stoichiometry](https://github.com/multitudes/Advent-of-Code-2019#Day-14-Space-Stoichiometry)|⭐️||
+| ✔ [Day 14: Space Stoichiometry](https://github.com/multitudes/Advent-of-Code-2019#Day-14-Space-Stoichiometry)|⭐️|⭐️|
+| ✔ [Day 15: Oxygen System](https://github.com/multitudes/Advent-of-Code-2019#Day-15-Oxygen-System)|⭐️||
 
+Day 15: Oxygen System
 ## [Day 1: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 
 The Elves quickly load you into a spacecraft and prepare to launch.
@@ -1426,9 +1428,59 @@ let outputsPlay = arcadePlay.run()
 (click on title to get the full challenge description on aoc website)
 As you approach the rings of Saturn, your ship's low fuel indicator turns on. There isn't any fuel here, but the rings have plenty of raw material. Perhaps your ship's Inter-Stellar Refinery Union brand nanofactory can turn these raw materials into fuel..
 
+Moving most of the code in other files for performance reasons..
+
 ```swift
+import Foundation
+
+var input = getInput(inputFile: "input14", extension: "txt")
+
+//NanoFuelFactory is a class in sources
+let chemicalReaction = NanoFuelfactory(input: input)
+// part 1
+chemicalReaction.produce(fuelAmount: 1)
+let solutionPart1 = chemicalReaction.requested["ORE"]!
+print("Solution of part 1 is needed ORE: \(solutionPart1)")
+//part 2 - How much Fuel can I produce max with 1 trilliion
+var oreNeeded: Int
+(oreNeeded = 0)
+// starting with defaults
+var minOreNeeded = 1
+var maxOreNeeded = 1_000_000_000_000
+// guess will be in the middle
+var guess = Int(ceil((Double(minOreNeeded) + Double(maxOreNeeded)) / 2.0))
+// if min amd max are same I exit loop
+while minOreNeeded != maxOreNeeded {
+    let factory = NanoFuelfactory(input: input)
+    factory.produce(fuelAmount: guess)
+    oreNeeded = factory.requested["ORE"]!
+    if oreNeeded > 1_000_000_000_000 {
+        // guess was too high, i adjust it
+        maxOreNeeded = guess - 1
+    } else {
+        // guess was too low, I will compute it again with a higher min
+        minOreNeeded = guess
+    }
+    // recalculate guess
+    guess = Int(ceil((Double(minOreNeeded) + Double(maxOreNeeded)) / 2.0))
+}
+print("Solution of part 2 is: \(minOreNeeded)")
+print("ORE amount was : \(oreNeeded)")
+
 ```
 
+## [Day 15: Oxygen System](https://adventofcode.com/2019/day/15)
+
+Out here in deep space, many things can go wrong. Fortunately, many of those things have indicator lights. Unfortunately, one of those lights is lit: the oxygen system for part of the ship has failed!
+
+According to the readouts, the oxygen system must have failed days ago after a rupture in oxygen tank two; that section of the ship was automatically sealed once oxygen levels went dangerously low. A single remotely-operated repair droid is your only option for fixing the oxygen system.
+
+The Elves' care package included an Intcode program (your puzzle input) that you can use to remotely control the repair droid. By running that program, you can direct the repair droid to the oxygen system and fix the problem...
+
+
+```swift
+
+```
 
 If you hit problems or have questions, you're welcome to tweet me [@wrmultitudes](https://twitter.com/wrmultitudes).
 
