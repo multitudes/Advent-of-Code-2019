@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='macos' display-mode='raw'>
+<playground version='6.0' target-platform='macos' display-mode='rendered'>
     <pages>
         <page name='Day 1 - The Tyranny of the Rocket Equation'/>
-        <page name='Day 1 - The Tyranny of the Rocket Equation part two'/>
         <page name='Day 2 - 1202 Program Alarm'/>
-        <page name='Day 2 - 1202 Program Alarm part 2'/>
         <page name='Day 3 -Crossed Wires'/>
         <page name='Day 3 -Crossed Wires part two'/>
         <page name='day 4 - Secure Container'/>

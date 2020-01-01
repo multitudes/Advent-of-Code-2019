@@ -79,4 +79,6 @@ var arcadePlay = IntCodeComputer(program: program)
 // thsi will print the solution to part 2
 let outputsPlay = arcadePlay.run()
 
+// these dont work on terminal
+//print("\u{001b}c")
 //print("\u{001b}")

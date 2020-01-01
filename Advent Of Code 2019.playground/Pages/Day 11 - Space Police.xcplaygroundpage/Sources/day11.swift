@@ -68,7 +68,7 @@ public struct Robot {
         let input = getInput(inputFile: inputFile, extension: "txt")
         //get the input file as an array into program
         let inputProgramArray = input.components(separatedBy: ",").compactMap { Int($0) }
-        let progrLength = inputProgramArray.count
+        
         self.program = Dictionary(uniqueKeysWithValues: zip(0..., inputProgramArray))
     }
     public mutating func runProgram() {

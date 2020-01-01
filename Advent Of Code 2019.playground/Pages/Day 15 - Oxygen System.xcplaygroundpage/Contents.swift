@@ -34,6 +34,7 @@
 
 import Foundation
 
+
 // func getInput is in utilities file
 var input = getInput(inputFile: "input15", extension: "txt")
 //get the input file as an array into program
@@ -244,22 +245,192 @@ public struct Instruction {
     public var parameters: [Int]
     public var modes: [Mode]
 }
-public struct Maze {
-    public var nodes: [Node]
+
+public class Maze {
+    public var board: [Coordinate: Node]
+    public var currentNode: Node
+    public var movingDirection: Direction = .north
+    // init the board will have only one known node which is the currentNode at zero coordinate
     public init(){
-        self.nodes = [Node(coordinates: .zero, distance: 0, nodeType: .free)]
+        self.currentNode = Node(coordinates: .zero, distance: 0, nodeType: .path)
+        self.board = [.zero: currentNode]
+        }
+    // the function move will be on my computer input
+    public func move() -> Int {
+        // check if my move is going to an already known node
+        movingDirection = self.currentNode.freeDirections.randomElement() ?? .north
+        
+        return movingDirection.rawValue
     }
+    // the function move will take my computer output and modify the maze accordingly
+    public func updateMove(with output: Int){
+        let nodeType = NodeType(rawValue: output)
+        switch nodeType {
+            case .wall :
+                // if this is a wall as response to my move then I update my current node and add
+                // the wall as visited node
+                let removed = self.currentNode.freeDirections.remove(movingDirection)
+                // add the wall to the board
+                let newCoordinates = updateCoordinateFrom(direction: movingDirection)
+                    //Coordinate(x: 0, y: 0)
+                let nextNode = Node(coordinates: newCoordinates, distance: (currentNode.distance + 1), nodeType: .wall)
+                self.board[newCoordinates] = nextNode
+                print("removed \(removed!)")
+            case .path:
+                let newCoordinates = updateCoordinateFrom(direction: movingDirection)
+                    //Coordinate(x: 0, y: 0)
+                let nextNode = Node(coordinates: newCoordinates, distance: (currentNode.distance + 1), nodeType: .path)
+                self.board[newCoordinates] = nextNode
+                self.currentNode = nextNode
+                print("moved \(movingDirection)!")
+            case .oxygen:
+                print("bingo")
+                print("distance \(self.currentNode.distance + 1)")
+                let newCoordinates = updateCoordinateFrom(direction: movingDirection)
+                    //Coordinate(x: 0, y: 0)
+                let nextNode = Node(coordinates: newCoordinates, distance: (currentNode.distance + 1), nodeType: .oxygen)
+                self.board[newCoordinates] = nextNode
+                self.currentNode = nextNode
+                default :
+            print("nothing")
+        }
+        
+    }
+    public func updateCoordinateFrom(direction: Direction) -> Coordinate{
+        let newCoordinates : Coordinate
+        switch direction {
+            case .north:
+                newCoordinates = Coordinate(x: (self.currentNode.coordinates.x), y: self.currentNode.coordinates.y - 1)
+            case .south:
+                newCoordinates = Coordinate(x: (self.currentNode.coordinates.x), y: self.currentNode.coordinates.y + 1)
+            case .west:
+                newCoordinates = Coordinate(x: (self.currentNode.coordinates.x + 1), y: self.currentNode.coordinates.y )
+            case .east:
+                newCoordinates = Coordinate(x: (self.currentNode.coordinates.x - 1), y: self.currentNode.coordinates.y)
+        }
+        return newCoordinates
+    }
+//    func candidates(for position: Coordinate, on board: [Coordinate: NodeType]) -> [tuple] {
+//        return [
+//            board[position + north.vector] == nil ? north : nil,
+//            board[position + south.vector] == nil ? south : nil,
+//            board[position + west.vector] == nil ? west : nil,
+//            board[position + east.vector] == nil ? east : nil,
+//            ].compactMap { $0 }
+//    }
 }
 public struct Node {
     public let coordinates: Coordinate
     public var distance: Int
     public var nodeType: NodeType
-    public var freeDirections: [Directions] = [.north, .south, .west, .east]
-}
-public enum NodeType: Int {
-    case wall = 0, free, oxygen, unknown
+    public var freeDirections: Set<Direction> = [.north, .south, .west, .east]
+    public init(coordinates: Coordinate, distance: Int, nodeType: NodeType){
+        self.coordinates = coordinates
+        self.distance = distance
+        self.nodeType = nodeType
+    }
 }
 
-public enum Directions: Int {
-    case north = 1, south, west, east
+public enum NodeType: Int {
+    case wall = 0
+    case path
+    case oxygen
+    case unknown
+}
+
+public enum Direction: Int {
+    //MARK: Hashable
+    public var hashValue: Int {
+              return rawValue.hashValue
+    }
+    case north = 1
+    case south = 2
+    case west = 3
+    case east = 4
+}
+
+public struct Coordinate: Hashable {
+    public let x: Int
+    public let y: Int
+    public init(x: Int, y: Int){
+        self.x = x
+        self.y = y
+    }
+    public static let zero = Coordinate(x: 0, y: 0)
+}
+
+var maze = Maze()
+var direction = maze.move()
+print(direction)
+direction = maze.move()
+maze.updateMove(with: 1)
+direction = maze.move()
+maze.updateMove(with: 1)
+direction = maze.move()
+maze.updateMove(with: 0)
+maze.updateMove(with: 2)
+
+print(maze.currentNode.freeDirections)
+print(maze.board)
+
+
+
+
+extension Direction: CustomStringConvertible {
+  //This is a computed property.
+    public var description: String {
+        switch self {
+            case .north:
+            return "north"
+            case .south:
+             return "south"
+            case .west:
+             return "west"
+            case .east:
+             return "east"
+        }
+    }
+}
+extension NodeType: CustomStringConvertible {
+  //This is a computed property.
+    public var description: String {
+        switch self {
+            case .wall:
+            return "wall"
+            case .path:
+             return "path"
+            case .oxygen:
+             return "oxygen"
+            case .unknown:
+            return "unknown"
+        }
+    }
+}
+extension Coordinate: CustomStringConvertible {
+  //This is a computed property.
+    public var description: String {
+        let text = "x: \(x) y: \(y) "
+        return text
+    }
+}
+
+extension Maze: CustomStringConvertible {
+  //This is a computed property.
+    public var description: String {
+        let text = "board nodes: \(board) current position  \(currentNode) moving to  \(movingDirection)"
+        return text
+    }
+}
+
+extension Collection where Element: Comparable {
+    public func range() -> ClosedRange<Element> {
+        precondition(count > 0)
+        let sorted = self.sorted()
+        return sorted.first! ... sorted.last!
+    }
+}
+
+extension Dictionary where Key == Coordinate {
+    public var xRange: ClosedRange<Int> { keys.map { $0.x }.range() }
+    public var yRange: ClosedRange<Int> { keys.map { $0.y }.range() }
 }
