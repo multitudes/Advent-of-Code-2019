@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='macos' display-mode='rendered'>
+<playground version='6.0' target-platform='macos' display-mode='raw'>
     <pages>
         <page name='Day 1 - The Tyranny of the Rocket Equation'/>
         <page name='Day 2 - 1202 Program Alarm'/>
         <page name='Day 3 -Crossed Wires'/>
-        <page name='Day 3 -Crossed Wires part two'/>
         <page name='day 4 - Secure Container'/>
         <page name='Day 5 - Sunny with a Chance of Asteroids'/>
         <page name='Day 6 - Universal Orbit Map'/>
