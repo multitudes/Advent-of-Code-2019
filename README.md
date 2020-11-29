@@ -2,7 +2,7 @@
 
 Advent of Code 2019 ✨🚀 Swift Solutions by 
 `@multitudes` 
-[Blog](https://multitudes.github.io)
+[Blog](https://laurentbrusa.hashnode.dev)
 |
 [Twitter](https://twitter.com/wrmultitudes)
 
